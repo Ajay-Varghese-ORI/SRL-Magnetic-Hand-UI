@@ -1,13 +1,38 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>srl-maghand-ui</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SRL Hand</title>
+        <link rel="stylesheet" href="./src/style.css" />
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "./node_modules/three/build/three.module.js",
+                    "three/addons/": "./node_modules/three/examples/jsm/"
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="app">
+            <div class="sidebar">
+                <h1>SRL Hand</h1>
+
+                <button id="connectSerialButton">Connect Serial</button>
+                <button id="resetViewButton">Reset View</button>
+                <button id="clearLogButton">Clear Log</button>
+
+                <p>Status: <span id="status">Not connected</span></p>
+
+                <h3>Last Message</h3>
+                <pre id="lastMessage"></pre>
+            </div>
+
+            <div class="viewer" id="viewer"></div>
+        </div>
+
+        <script type="module" src="./src/main.js"></script>
+    </body>
 </html>

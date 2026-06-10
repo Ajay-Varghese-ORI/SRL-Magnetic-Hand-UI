@@ -1,69 +1,157 @@
-const { app, BrowserWindow } = require("electron/main");
+const { app, BrowserWindow, dialog } = require("electron");
 const path = require("node:path");
 
-const isDev = !app.isPackaged;
+function createWindow()
+{
+    const win = new BrowserWindow(
+    {
+        width: 1400,
+        height: 900,
+        title: "SRL Hand",
+        webPreferences:
+        {
+            contextIsolation: true,
+            nodeIntegration: false
+        }
+    });
 
-function createWindow() {
-  const mainWindow = new BrowserWindow({
-    width: 1400,
-    height: 900,
-    title: "SRL Hand",
-    webPreferences: {
-      contextIsolation: true,
-      nodeIntegration: false
-    }
-  });
+    const session = win.webContents.session;
 
-  const session = mainWindow.webContents.session;
+    session.on("select-serial-port", async (event, portList, webContents, callback) =>
+    {
+        event.preventDefault();
 
-  session.on("select-serial-port", (event, portList, webContents, callback) => {
-    event.preventDefault();
+        if (portList.length === 0)
+        {
+            await dialog.showMessageBox(win,
+            {
+                type: "warning",
+                title: "No Serial Ports Found",
+                message: "No serial ports were found.",
+                detail: "Check that the device is plugged in and that no other program is using the port.",
+                buttons:
+                [
+                    "OK"
+                ]
+            });
 
-    console.log("Available serial ports:", portList);
+            callback("");
+            return;
+        }
 
-    if (portList && portList.length > 0) {
-      callback(portList[0].portId);
-    } else {
-      callback("");
-    }
-  });
+        const portLabels = portList.map((port, index) =>
+        {
+            return getSerialPortLabel(port, index);
+        });
 
-  session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
-    if (permission === "serial") {
-      return true;
-    }
+        const buttons =
+        [
+            ...portLabels,
+            "Cancel"
+        ];
 
-    return false;
-  });
+        const result = await dialog.showMessageBox(win,
+        {
+            type: "question",
+            title: "Select Serial Port",
+            message: "Select the COM port to connect to.",
+            detail: "Choose the serial port for the SRL Hand connection.",
+            buttons: buttons,
+            cancelId: buttons.length - 1,
+            defaultId: 0,
+            noLink: true
+        });
 
-  session.setDevicePermissionHandler((details) => {
-    if (details.deviceType === "serial") {
-      return true;
-    }
+        const selectedIndex = result.response;
 
-    return false;
-  });
+        if (selectedIndex < 0 || selectedIndex >= portList.length)
+        {
+            console.log("Serial port selection cancelled.");
+            callback("");
+            return;
+        }
 
-  if (isDev) {
-    mainWindow.loadURL("http://localhost:5173");
-    mainWindow.webContents.openDevTools();
-  } else {
-    mainWindow.loadFile(path.join(__dirname, "dist", "index.html"));
-  }
+        const selectedPort = portList[selectedIndex];
+
+        console.log("Selected serial port:");
+        console.table(selectedPort);
+
+        callback(selectedPort.portId);
+    });
+
+    session.setPermissionCheckHandler((webContents, permission) =>
+    {
+        if (permission === "serial")
+        {
+            return true;
+        }
+
+        return false;
+    });
+
+    session.setDevicePermissionHandler((details) =>
+    {
+        if (details.deviceType === "serial")
+        {
+            return true;
+        }
+
+        return false;
+    });
+
+    win.loadFile(path.join(__dirname, "index.html"));
+
+    // win.webContents.openDevTools();
 }
 
-app.whenReady().then(() => {
-  createWindow();
+function getSerialPortLabel(port, index)
+{
+    const name = port.portName || port.displayName || `Serial Port ${index + 1}`;
+    const vendorId = port.vendorId || port.usbVendorId;
+    const productId = port.productId || port.usbProductId;
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+    let label = name;
+
+    if (vendorId || productId)
+    {
+        label += " ";
+
+        if (vendorId)
+        {
+            label += `VID:${vendorId}`;
+        }
+
+        if (vendorId && productId)
+        {
+            label += " ";
+        }
+
+        if (productId)
+        {
+            label += `PID:${productId}`;
+        }
     }
-  });
+
+    return label;
+}
+
+app.whenReady().then(() =>
+{
+    createWindow();
+
+    app.on("activate", () =>
+    {
+        if (BrowserWindow.getAllWindows().length === 0)
+        {
+            createWindow();
+        }
+    });
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+app.on("window-all-closed", () =>
+{
+    if (process.platform !== "darwin")
+    {
+        app.quit();
+    }
 });
