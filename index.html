@@ -20,11 +20,17 @@
             <div class="sidebar">
                 <h1>SRL Hand</h1>
 
-                <button id="connectSerialButton">Connect Serial</button>
+                <label for="rosbridgeUrlInput">ROS bridge URL</label>
+                <input id="rosbridgeUrlInput" type="text" value="ws://localhost:9090" />
+
+                <button id="connectRosButton">Connect ROS</button>
+                <button id="calibrateButton">Calibrate Untouched</button>
                 <button id="resetViewButton">Reset View</button>
                 <button id="clearLogButton">Clear Log</button>
 
                 <p>Status: <span id="status">Not connected</span></p>
+                <p>Rate: <span id="frameRate">--</span></p>
+                <p>Calibration: <span id="calibrationStatus">Not calibrated</span></p>
 
                 <h3>Last Message</h3>
                 <pre id="lastMessage"></pre>

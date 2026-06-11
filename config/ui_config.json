@@ -1,0 +1,539 @@
+{
+    "rosbridge_url": "ws://localhost:9090",
+    "frame_topic": "/srl_magnetic_hand/frame",
+    "metadata_topic": "/srl_magnetic_hand/metadata",
+    "active_profile": "main_hand",
+    "profiles": {
+        "main_hand": {
+            "display_name": "Main hand CAD model",
+            "model": {
+                "obj_path": "./models/hand.obj",
+                "mtl_path": "./models/hand.mtl",
+                "scale": 1.0
+            },
+            "z_full_scale": 4000.0,
+            "slot_body_map": [
+                {
+                    "slot": 0,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0C",
+                    "body_id": "Body2:4",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 1,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0D",
+                    "body_id": "Body2:4",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 2,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0E",
+                    "body_id": "Body2:4",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 3,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0F",
+                    "body_id": "Body2:4",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 4,
+                    "component": "Thumb",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x10",
+                    "body_id": "Body1:5",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 5,
+                    "component": "Palm",
+                    "pad": "Pad 18",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 6,
+                    "component": "Palm",
+                    "pad": "Pad 18",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 7,
+                    "component": "Palm",
+                    "pad": "Pad 18",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x13",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 8,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0C",
+                    "body_id": "Body2:6",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 9,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0D",
+                    "body_id": "Body2:6",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 10,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0E",
+                    "body_id": "Body2:6",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 11,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0F",
+                    "body_id": "Body2:6",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 12,
+                    "component": "Index Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x10",
+                    "body_id": "Body1:25",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 13,
+                    "component": "Index Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x11",
+                    "body_id": "Body2:5",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 14,
+                    "component": "Index Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x12",
+                    "body_id": "Body2:5",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 15,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0C",
+                    "body_id": "Body2:8",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 16,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0D",
+                    "body_id": "Body2:8",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 17,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0E",
+                    "body_id": "Body2:8",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 18,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0F",
+                    "body_id": "Body2:8",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 19,
+                    "component": "Middle Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x10",
+                    "body_id": "Body1:51",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 20,
+                    "component": "Middle Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x11",
+                    "body_id": "Body2:7",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 21,
+                    "component": "Middle Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x12",
+                    "body_id": "Body2:7",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 22,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0C",
+                    "body_id": "Body2:10",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 23,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0D",
+                    "body_id": "Body2:10",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 24,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0E",
+                    "body_id": "Body2:10",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 25,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0F",
+                    "body_id": "Body2:10",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 26,
+                    "component": "Ring Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x10",
+                    "body_id": "Body1:51",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 27,
+                    "component": "Ring Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x11",
+                    "body_id": "Body2:9",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 28,
+                    "component": "Ring Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x12",
+                    "body_id": "Body2:9",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 29,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0C",
+                    "body_id": "Body2:12",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 30,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0D",
+                    "body_id": "Body2:12",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 31,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0E",
+                    "body_id": "Body2:12",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 32,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0F",
+                    "body_id": "Body2:12",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 33,
+                    "component": "Pinky Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x10",
+                    "body_id": "Body1:103",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 34,
+                    "component": "Pinky Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x11",
+                    "body_id": "Body2:11",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 35,
+                    "component": "Pinky Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 36,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 37,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 38,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 39,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 40,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 41,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 42,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 43,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x13",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 44,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 45,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 46,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 47,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 48,
+                    "component": "Palm",
+                    "pad": "Pad 14",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 49,
+                    "component": "Palm",
+                    "pad": "Pad 14",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                },
+                {
+                    "slot": 50,
+                    "component": "Palm",
+                    "pad": "Pad 14",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "z_full_scale": 4000.0
+                }
+            ]
+        },
+        "alternate_hand": {
+            "display_name": "Alternate CAD model",
+            "model": {
+                "obj_path": "./models/alternate_hand.obj",
+                "mtl_path": "./models/alternate_hand.mtl",
+                "scale": 1.0
+            },
+            "z_full_scale": 4000.0,
+            "slot_body_map": []
+        }
+    }
+}

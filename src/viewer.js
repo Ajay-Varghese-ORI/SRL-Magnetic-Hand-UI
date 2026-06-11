@@ -23,6 +23,20 @@ const activeClickMarkers = [];
 
 const HIGHLIGHT_COLOUR = new THREE.Color(0xff0000);
 const HIGHLIGHT_DURATION_MS = 1200;
+const PAD_ACTIVE_COLOUR = new THREE.Color(0xff0000);
+const DEFAULT_Z_FULL_SCALE = 4000.0;
+const CALIBRATION_STORAGE_KEY = "srlHandUntouchedCalibration";
+
+let slotBodyMap = new Map();
+let mappedBodyIds = new Set();
+let bodyMeshIndex = new Map();
+let latestFrame = null;
+let zFullScale = DEFAULT_Z_FULL_SCALE;
+let calibrationBySlot = new Map();
+let calibrationTimestamp = null;
+let activeProfileName = "legacy";
+let activeModelConfig = null;
+
 
 const CLICK_MARKER_COLOUR = 0xff0000;
 const CLICK_MARKER_RADIUS = 0.30;
@@ -115,7 +129,8 @@ export function initViewer(container)
     const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambient);
 
-    loadHandModel();
+    // The model is loaded after config/ui_config.json is parsed.
+    // That lets the config choose between multiple CAD models.
 
     window.addEventListener("resize", () =>
     {
@@ -562,52 +577,54 @@ function getReadableObjectName(object)
 }
 
 /*
-    Load the hand model from the local models folder.
+    Load the configured hand model.
 
-    Expected files:
-    - ./models/hand.mtl
-    - ./models/hand.obj
+    The model path comes from the active config profile. This allows different
+    CAD models to use different slot-to-body mappings without changing code.
 */
-function loadHandModel()
+function loadConfiguredModel(modelConfig)
 {
+    activeModelConfig = modelConfig || {};
+
+    const objPath = String(activeModelConfig.obj_path || "./models/hand.obj");
+    const mtlPath = String(activeModelConfig.mtl_path || "./models/hand.mtl");
+    const modelScale = Number.isFinite(Number(activeModelConfig.scale)) ? Number(activeModelConfig.scale) : 1.0;
+
+    if (model)
+    {
+        scene.remove(model);
+        model = null;
+    }
+
+    bodyMeshIndex = new Map();
+
+    const objAsset = splitAssetPath(objPath);
+    const mtlAsset = splitAssetPath(mtlPath);
+
+    if (!mtlPath || mtlPath.trim().length === 0)
+    {
+        loadObjOnlyModel(objAsset, modelScale);
+        return;
+    }
+
     const mtlLoader = new MTLLoader();
-    mtlLoader.setPath("./models/");
+    mtlLoader.setPath(mtlAsset.directory);
 
     mtlLoader.load(
-        "hand.mtl",
+        mtlAsset.fileName,
         (materials) =>
         {
             materials.preload();
 
             const objLoader = new OBJLoader();
             objLoader.setMaterials(materials);
-            objLoader.setPath("./models/");
+            objLoader.setPath(objAsset.directory);
 
             objLoader.load(
-                "hand.obj",
+                objAsset.fileName,
                 (object) =>
                 {
-                    model = object;
-
-                    model.scale.set(1, 1, 1);
-                    model.position.set(0, 0, 0);
-
-                    scene.add(model);
-
-                    requestAnimationFrame(() =>
-                    {
-                        resetCamera();
-                    });
-
-                    console.log("OBJ model loaded:", model);
-
-                    model.traverse((child) =>
-                    {
-                        if (child.isMesh)
-                        {
-                            console.log("Mesh name:", child.name);
-                        }
-                    });
+                    finishLoadedModel(object, modelScale);
                 },
                 (progress) =>
                 {
@@ -622,9 +639,88 @@ function loadHandModel()
         undefined,
         (err) =>
         {
-            console.error("MTL loading error:", err);
+            console.warn("MTL loading failed, trying OBJ without MTL:", err);
+            loadObjOnlyModel(objAsset, modelScale);
         }
     );
+}
+
+/*
+    Load an OBJ without an MTL file.
+*/
+function loadObjOnlyModel(objAsset, modelScale)
+{
+    const objLoader = new OBJLoader();
+    objLoader.setPath(objAsset.directory);
+
+    objLoader.load(
+        objAsset.fileName,
+        (object) =>
+        {
+            finishLoadedModel(object, modelScale);
+        },
+        (progress) =>
+        {
+            console.log("OBJ loading progress:", progress);
+        },
+        (err) =>
+        {
+            console.error("OBJ loading error:", err);
+        }
+    );
+}
+
+/*
+    Finish adding a loaded OBJ to the scene.
+*/
+function finishLoadedModel(object, modelScale)
+{
+    model = object;
+
+    model.scale.set(modelScale, modelScale, modelScale);
+    model.position.set(0, 0, 0);
+
+    scene.add(model);
+
+    requestAnimationFrame(() =>
+    {
+        resetCamera();
+    });
+
+    console.log(`OBJ model loaded for profile '${activeProfileName}':`, model);
+
+    model.traverse((child) =>
+    {
+        if (child.isMesh)
+        {
+            console.log("Mesh name:", child.name);
+        }
+    });
+
+    buildBodyMeshIndex();
+    applyLatestFrameToModel();
+}
+
+/*
+    Split a browser asset path into loader directory and file name.
+*/
+function splitAssetPath(assetPath)
+{
+    const cleanPath = String(assetPath || "").trim();
+    const slashIndex = cleanPath.lastIndexOf("/");
+
+    if (slashIndex < 0)
+    {
+        return {
+            directory: "./",
+            fileName: cleanPath
+        };
+    }
+
+    return {
+        directory: cleanPath.slice(0, slashIndex + 1),
+        fileName: cleanPath.slice(slashIndex + 1)
+    };
 }
 
 /*
@@ -680,15 +776,448 @@ export function resetCamera()
 }
 
 /*
-    Placeholder for future serial-driven model colouring.
+    Load the UI configuration used to map ROS sensor slots to OBJ body IDs.
 
-    Later this can find a mesh by name and update its material colour based
-    on incoming serial data.
+    Preferred config format:
+    - active_profile chooses which CAD model and slot map to use.
+    - profiles[active_profile].model chooses OBJ/MTL files.
+    - profiles[active_profile].slot_body_map maps slots to model body IDs.
+    - each slot can override z_full_scale.
+
+    The legacy top-level slot_body_map format is still supported.
+*/
+export function loadUiConfig(config)
+{
+    const resolved = resolveActiveProfile(config);
+    const profile = resolved.profile;
+
+    activeProfileName = resolved.name;
+    slotBodyMap = new Map();
+    mappedBodyIds = new Set();
+
+    zFullScale = getPositiveNumber(profile.z_full_scale,
+                                   getPositiveNumber(config?.z_full_scale, DEFAULT_Z_FULL_SCALE));
+
+    const entries = Array.isArray(profile.slot_body_map) ? profile.slot_body_map : [];
+
+    entries.forEach((entry) =>
+    {
+        const slot = Number(entry.slot);
+        const bodyId = String(entry.body_id || "").trim();
+
+        if (!Number.isInteger(slot) || bodyId.length === 0)
+        {
+            return;
+        }
+
+        const slotFullScale = getSlotFullScale(entry, zFullScale);
+
+        slotBodyMap.set(slot,
+        {
+            bodyId: bodyId,
+            zFullScale: slotFullScale
+        });
+
+        mappedBodyIds.add(bodyId);
+    });
+
+    loadStoredCalibration();
+    loadConfiguredModel(profile.model || config?.model || {});
+
+    console.log(`Loaded profile '${activeProfileName}' with ${slotBodyMap.size} slot-to-body mappings`);
+}
+
+/*
+    Resolve the active model/profile from the UI config.
+*/
+function resolveActiveProfile(config)
+{
+    const profiles = config?.profiles;
+
+    if (profiles && typeof profiles === "object" && !Array.isArray(profiles))
+    {
+        const profileNames = Object.keys(profiles);
+        const requestedName = String(config?.active_profile || profileNames[0] || "default");
+        const selectedName = profiles[requestedName] ? requestedName : profileNames[0];
+
+        return {
+            name: selectedName || "default",
+            profile: profiles[selectedName] || {}
+        };
+    }
+
+    return {
+        name: "legacy",
+        profile: config || {}
+    };
+}
+
+/*
+    Read the Z full-scale value for one slot mapping.
+*/
+function getSlotFullScale(entry, fallback)
+{
+    const possibleValues = [
+        entry?.z_full_scale,
+        entry?.zFullScale,
+        entry?.z_max,
+        entry?.max_z,
+        entry?.max_value
+    ];
+
+    for (const value of possibleValues)
+    {
+        if (Number.isFinite(Number(value)) && Number(value) > 0)
+        {
+            return Number(value);
+        }
+    }
+
+    return getPositiveNumber(fallback, DEFAULT_Z_FULL_SCALE);
+}
+
+/*
+    Return a positive number or a fallback.
+*/
+function getPositiveNumber(value, fallback)
+{
+    const number = Number(value);
+
+    if (Number.isFinite(number) && number > 0)
+    {
+        return number;
+    }
+
+    return fallback;
+}
+
+/*
+    Apply one ROS MagneticHandFrame message to the model.
+
+    The message is expected to contain samples with slot, raw_x, raw_y and
+    raw_z fields. Only raw_z is used for colouring at the moment.
+*/
+export function applyMagneticHandFrame(frame)
+{
+    latestFrame = frame;
+    applyLatestFrameToModel();
+}
+
+/*
+    Capture the current untouched readings as the calibration baseline.
+
+    The Z value for each slot is stored. Later colouring uses the magnitude of
+    current_z - calibrated_z so either sign of movement produces red intensity.
+*/
+export function captureCalibrationFromFrame()
+{
+    if (!latestFrame || !Array.isArray(latestFrame.samples))
+    {
+        return {
+            ok: false,
+            message: "No ROS frame has been received yet"
+        };
+    }
+
+    calibrationBySlot = new Map();
+    calibrationTimestamp = new Date().toISOString();
+
+    latestFrame.samples.forEach((sample) =>
+    {
+        const slot = Number(sample.slot);
+        const rawZ = Number(sample.raw_z);
+
+        if (!Number.isInteger(slot) || !Number.isFinite(rawZ))
+        {
+            return;
+        }
+
+        calibrationBySlot.set(slot, rawZ);
+    });
+
+    const calibration = {
+        timestamp: calibrationTimestamp,
+        baselines: Object.fromEntries(calibrationBySlot)
+    };
+
+    localStorage.setItem(CALIBRATION_STORAGE_KEY, JSON.stringify(calibration));
+    applyLatestFrameToModel();
+
+    return {
+        ok: true,
+        message: `Calibrated ${calibrationBySlot.size} slots at ${calibrationTimestamp}`,
+        calibration: calibration
+    };
+}
+
+/*
+    Return a short calibration status string for the sidebar.
+*/
+export function getCalibrationSummary()
+{
+    loadStoredCalibration();
+
+    if (!calibrationTimestamp)
+    {
+        return "Not calibrated";
+    }
+
+    return `${calibrationBySlot.size} slots, ${calibrationTimestamp}`;
+}
+
+/*
+    Colour one named model part from its base material colour towards red.
+
+    @param partName Mesh/material/body name to colour.
+    @param value Normalised value from 0 to 1.
 */
 export function colourPart(partName, value)
 {
-    void partName;
-    void value;
+    const mesh = findMeshByBodyId(partName);
+
+    if (!mesh)
+    {
+        return;
+    }
+
+    setMeshRedIntensity(mesh, value);
+}
+
+/*
+    Load the last calibration from localStorage if one exists.
+*/
+function loadStoredCalibration()
+{
+    if (calibrationBySlot.size > 0)
+    {
+        return;
+    }
+
+    const storedText = localStorage.getItem(CALIBRATION_STORAGE_KEY);
+
+    if (!storedText)
+    {
+        return;
+    }
+
+    try
+    {
+        const stored = JSON.parse(storedText);
+        const baselines = stored.baselines || {};
+
+        calibrationBySlot = new Map();
+
+        Object.entries(baselines).forEach(([slotText, rawZ]) =>
+        {
+            const slot = Number(slotText);
+            const value = Number(rawZ);
+
+            if (Number.isInteger(slot) && Number.isFinite(value))
+            {
+                calibrationBySlot.set(slot, value);
+            }
+        });
+
+        calibrationTimestamp = stored.timestamp || null;
+    }
+    catch (err)
+    {
+        console.warn("Could not load stored calibration:", err);
+    }
+}
+
+/*
+    Build a lookup table from possible body identifiers to meshes.
+
+    Supported identifiers:
+    - mesh name
+    - parent object name
+    - material name
+    - mesh uuid
+*/
+function buildBodyMeshIndex()
+{
+    bodyMeshIndex = new Map();
+
+    if (!model)
+    {
+        return;
+    }
+
+    model.traverse((child) =>
+    {
+        if (!child.isMesh)
+        {
+            return;
+        }
+
+        addMeshIndexName(child.name, child);
+        addMeshIndexName(child.parent?.name, child);
+        addMeshIndexName(child.material?.name, child);
+        addMeshIndexName(child.uuid, child);
+    });
+
+    console.log(`Built model body index with ${bodyMeshIndex.size} names`);
+}
+
+/*
+    Add one name to the model body lookup if it is usable.
+*/
+function addMeshIndexName(name, mesh)
+{
+    const key = String(name || "").trim();
+
+    if (!key || bodyMeshIndex.has(key))
+    {
+        return;
+    }
+
+    bodyMeshIndex.set(key, mesh);
+}
+
+/*
+    Apply the latest ROS frame to every mapped body.
+*/
+function applyLatestFrameToModel()
+{
+    if (!model || !latestFrame || !Array.isArray(latestFrame.samples))
+    {
+        return;
+    }
+
+    const bodyValues = new Map();
+
+    latestFrame.samples.forEach((sample) =>
+    {
+        const slot = Number(sample.slot);
+        const mapping = slotBodyMap.get(slot);
+
+        if (!mapping || !mapping.bodyId)
+        {
+            return;
+        }
+
+        const rawZ = Number(sample.raw_z);
+
+        if (!Number.isFinite(rawZ))
+        {
+            return;
+        }
+
+        const calibratedZ = calibrationBySlot.has(slot) ? calibrationBySlot.get(slot) : 0.0;
+        const zMagnitude = Math.abs(rawZ - calibratedZ);
+        const slotIntensity = clamp01(zMagnitude / mapping.zFullScale);
+
+        if (!bodyValues.has(mapping.bodyId))
+        {
+            bodyValues.set(mapping.bodyId, []);
+        }
+
+        bodyValues.get(mapping.bodyId).push(slotIntensity);
+    });
+
+    mappedBodyIds.forEach((bodyId) =>
+    {
+        const mesh = findMeshByBodyId(bodyId);
+
+        if (!mesh)
+        {
+            return;
+        }
+
+        const values = bodyValues.get(bodyId) || [];
+        const intensity = average(values);
+
+        setMeshRedIntensity(mesh, intensity);
+    });
+}
+
+/*
+    Find a mesh by body identifier.
+*/
+function findMeshByBodyId(bodyId)
+{
+    const key = String(bodyId || "").trim();
+
+    if (!key)
+    {
+        return null;
+    }
+
+    return bodyMeshIndex.get(key) || null;
+}
+
+/*
+    Set one mesh colour from its original material colour towards red.
+*/
+function setMeshRedIntensity(mesh, intensity)
+{
+    if (!mesh || !mesh.isMesh || !mesh.material)
+    {
+        return;
+    }
+
+    const clampedIntensity = clamp01(intensity);
+    const materials = makeMeshMaterialsUnique(mesh);
+
+    materials.forEach((material) =>
+    {
+        if (!material || !material.color)
+        {
+            return;
+        }
+
+        const baseColour = getMaterialBaseColour(material);
+        const targetColour = baseColour.clone().lerp(PAD_ACTIVE_COLOUR, clampedIntensity);
+
+        material.color.copy(targetColour);
+    });
+}
+
+/*
+    Get the original material colour, storing it the first time it is seen.
+*/
+function getMaterialBaseColour(material)
+{
+    if (material.userData.baseColourHex === undefined)
+    {
+        material.userData.baseColourHex = material.color.getHex();
+    }
+
+    return new THREE.Color(material.userData.baseColourHex);
+}
+
+/*
+    Return the average of a list of numeric values.
+*/
+function average(values)
+{
+    if (!Array.isArray(values) || values.length === 0)
+    {
+        return 0.0;
+    }
+
+    let total = 0.0;
+
+    values.forEach((value) =>
+    {
+        total += value;
+    });
+
+    return total / values.length;
+}
+
+/*
+    Clamp one number between 0 and 1.
+*/
+function clamp01(value)
+{
+    if (!Number.isFinite(value))
+    {
+        return 0.0;
+    }
+
+    return Math.max(0.0, Math.min(1.0, value));
 }
 
 /*
