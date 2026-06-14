@@ -27,7 +27,6 @@ const GRADIENT_MAX_SPREAD = 0.96;
 const DEFAULT_GRADIENT_SUBDIVISION_TARGET = 2.0;
 const DEFAULT_GRADIENT_SUBDIVISION_MAX_STEPS = 18;
 
-
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const activeHighlights = new Map();
@@ -60,7 +59,6 @@ let padGroups = new Map();
 let padGradientInfoByKey = new Map();
 let padMultiHotspotInfoByKey = new Map();
 const reusableGradientRgb = [1.0, 0.0, 0.0];
-
 
 const CLICK_MARKER_COLOUR = 0xff0000;
 const CLICK_MARKER_RADIUS = 0.30;
@@ -1551,7 +1549,6 @@ function loadStoredCalibration()
     }
 }
 
-
 /*
     Add extra vertices to mapped meshes before gradient colouring starts.
 
@@ -2208,10 +2205,9 @@ function buildMultiHotspotModeKey(padKey, slots, slotIntensityMap)
 /*
     Apply continuous multi-hotspot gradient mode to one mesh.
 
-    Unlike the old local gradient, each vertex is evaluated against every sensor
-    hotspot in the same pad. Since all distances are calculated in world space,
-    adjacent CAD bodies blend together instead of each body having its own hard
-    centred gradient.
+    Each vertex is evaluated against every sensor hotspot in the same pad.
+    World-space distances let adjacent CAD bodies blend together across their
+    shared pad group.
 */
 function setMeshMultiHotspotGradientIntensity(mesh, padKey, slots, slotIntensityMap, modeKey)
 {
@@ -2540,8 +2536,8 @@ function getPadMultiHotspotInfo(padKey)
 /*
     Return the world-space hotspot position for a sensor entry.
 
-    This version uses the centre of the mapped sensor body. Per-slot offsets are
-    intentionally not used until the continuous field is stable and performant.
+    Explicit world-space hotspot fields take priority. Otherwise, the mapped
+    sensor body's centre is used as the hotspot.
 */
 function getSensorHotspotWorldPosition(mapping, mesh)
 {

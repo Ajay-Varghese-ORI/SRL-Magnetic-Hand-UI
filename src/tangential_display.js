@@ -16,7 +16,6 @@ const DEFAULT_TANGENTIAL_CONFIG =
     max_device_pixel_ratio: 1.5,
     fixed_dot_colour: "#1E90FF",
     movable_dot_colour: "#00FF11",
-    marked32_dot_colour: "#F7FF00",
     mapped_dot_colour: "#FF0000",
     polygon_stroke_colour: "rgba(255,255,255,0.36)",
     polygon_fill_colour: "rgba(255,255,255,0.015)",
@@ -47,7 +46,6 @@ let sourceSvgHolder = null;
 let viewBox = {x: 0, y: 0, width: 322.85, height: 347.11};
 let sensorDots = [];
 let movableDots = [];
-let marked32Dots = [];
 let fixedDots = [];
 let padPolygons = [];
 let motionGroups = [];
@@ -61,7 +59,7 @@ let activeSourceByDotIndex = [];
 let padPolygonPath = null;
 
 /**
- * Initialise the tangential-force display DOM hooks.
+ * Initialise the tangential movement display DOM hooks.
  *
  * @param {object} elements DOM element references.
  */
@@ -73,13 +71,13 @@ export function initTangentialDisplay(elements)
 }
 
 /**
- * Load the fixed SVG dot map and prepare the canvas renderer.
+ * Load the SVG dot map and prepare the canvas renderer.
  *
- * The SVG is now treated as the source of truth:
- *   red dots  = sensor dots that can be mapped by tangential_dot_index
- *   green dots = normal movable follower dots
- *   yellow dots = treated as normal movable follower dots for compatibility
- *   blue dots = fixed boundary dots
+ * SVG colour roles:
+ *   red dots = sensor anchors mapped by tangential_dot_index
+ *   green dots = movable follower dots
+ *   yellow dots = movable follower dots used while editing the SVG
+ *   blue dots = fixed reference dots
  *
  * @param {object} appConfig Full ui_config.json object.
  */
@@ -142,7 +140,7 @@ export async function loadTangentialDisplay(appConfig)
 }
 
 /**
- * Update the tangential-force display from one ROS magnetic hand frame.
+ * Update the tangential movement display from one ROS magnetic hand frame.
  *
  * @param {object} frame MagneticHandFrame message.
  * @param {Function} getBaseline Callback returning {x,y,z} for a slot.
@@ -241,8 +239,6 @@ export function resetTangentialDisplay()
 
     sensorDots.forEach((dot) => resetMovingDot(dot));
     movableDots.forEach((dot) => resetMovingDot(dot));
-    marked32Dots.forEach((dot) => resetMovingDot(dot));
-
     requestRender(true);
 }
 
@@ -266,7 +262,6 @@ function clearDisplayState()
     sourceSvgHolder = null;
     sensorDots = [];
     movableDots = [];
-    marked32Dots = [];
     fixedDots = [];
     padPolygons = [];
     motionGroups = [];
@@ -307,7 +302,6 @@ function buildCanvasDisplayFromSvg(svgText)
 
     sensorDots = dots.filter((dot) => dot.kind === "sensor");
     movableDots = dots.filter((dot) => dot.kind === "movable");
-    marked32Dots = [];
     fixedDots = dots.filter((dot) => dot.kind === "fixed");
 
     sensorDots.forEach((dot, index) =>
@@ -326,7 +320,7 @@ function buildCanvasDisplayFromSvg(svgText)
 
     canvasElement = document.createElement("canvas");
     canvasElement.className = "tangential-canvas";
-    canvasElement.setAttribute("aria-label", "Tangential force display");
+    canvasElement.setAttribute("aria-label", "Tangential movement display");
     svgContainerElement.appendChild(canvasElement);
     canvasContext = canvasElement.getContext("2d");
 
@@ -674,10 +668,6 @@ function initialisePadMotionInfo()
 
         pad.bounds = bounds;
 
-        // The master SVG dots are spaced around 25 SVG units apart.
-        // A 24-unit influence radius meant most green dots were just outside
-        // the active area, so only the red sensor dot moved. Use a pad-sized
-        // minimum radius so the green interior behaves like an elastic sheet.
         pad.motionInfluenceRadius = Math.max(55.0, Math.min(180.0, diagonal * 0.55));
     });
 }
@@ -887,95 +877,10 @@ function applySourceMotion(activeSources)
     });
 }
 
-function applyMarked32FollowerMotion(sourceByDotIndex, response, influenceStrength, minimumPadInfluence, maxOffset)
-{
-    const source32 = sourceByDotIndex.get(32);
-    const sensor32 = sensorDots[32];
-
-    if (!source32 || !sensor32)
-    {
-        marked32Dots.forEach((dot) =>
-        {
-            dot.x += (dot.originalX - dot.x) * response;
-            dot.y += (dot.originalY - dot.y) * response;
-        });
-
-        return;
-    }
-
-    const yellowBounds = computeDotBounds(marked32Dots.length > 0 ? marked32Dots : [sensor32]);
-    const width = Math.max(1.0, yellowBounds.maxX - yellowBounds.minX);
-    const height = Math.max(1.0, yellowBounds.maxY - yellowBounds.minY);
-    const forceRadius = Math.max(45.0, Math.sqrt((width * width) + (height * height)) * 0.95);
-
-    marked32Dots.forEach((dot) =>
-    {
-        const distance = distance2D(dot.originalX, dot.originalY, sensor32.originalX, sensor32.originalY);
-        const influence = Math.max(0.0, 1.0 - (distance / forceRadius));
-        const elasticInfluence = minimumPadInfluence + ((1.0 - minimumPadInfluence) * smooth01(influence));
-        const weight = elasticInfluence * influenceStrength;
-        let targetX = dot.originalX;
-        let targetY = dot.originalY;
-
-        if (weight > 0.0)
-        {
-            targetX += clampMagnitude(source32.dx * weight, maxOffset);
-            targetY += clampMagnitude(source32.dy * weight, maxOffset);
-        }
-
-        // Do not use automatic pad grouping here. The yellow-marked points are
-        // explicitly intended to follow sensor dot 32, even when the SVG polygon
-        // hit-test or cluster grouping is awkward.
-        dot.x += (targetX - dot.x) * response;
-        dot.y += (targetY - dot.y) * response;
-    });
-}
-
 function resetMovingDot(dot)
 {
     dot.x = dot.originalX;
     dot.y = dot.originalY;
-}
-
-function clampToPad(padIndex, originX, originY, targetX, targetY)
-{
-    const group = motionGroups[padIndex];
-    const boundary = group?.boundaryPolygon || null;
-
-    if (!boundary || boundary.length < 3)
-    {
-        return {x: targetX, y: targetY};
-    }
-
-    if (pointInPolygon(targetX, targetY, boundary))
-    {
-        return {x: targetX, y: targetY};
-    }
-
-    let low = 0.0;
-    let high = 1.0;
-    let bestX = originX;
-    let bestY = originY;
-
-    for (let step = 0; step < 16; step++)
-    {
-        const mid = (low + high) * 0.5;
-        const testX = originX + ((targetX - originX) * mid);
-        const testY = originY + ((targetY - originY) * mid);
-
-        if (pointInPolygon(testX, testY, boundary))
-        {
-            bestX = testX;
-            bestY = testY;
-            low = mid;
-        }
-        else
-        {
-            high = mid;
-        }
-    }
-
-    return {x: bestX, y: bestY};
 }
 
 function ensureCanvasSize()
@@ -1208,10 +1113,9 @@ function drawCircle(x, y, radius)
     canvasContext.fill();
 }
 
-
 function assignMotionGroupsFromDotClusters()
 {
-    const allDots = [...sensorDots, ...movableDots, ...marked32Dots, ...fixedDots];
+    const allDots = [...sensorDots, ...movableDots, ...fixedDots];
     const clusterDistance = getPositiveNumber(activeConfig.dot_cluster_distance, DEFAULT_TANGENTIAL_CONFIG.dot_cluster_distance);
     const parent = allDots.map((_, index) => index);
 
@@ -1327,7 +1231,7 @@ function assignMotionGroupsFromDotClusters()
         });
     });
 
-    [...sensorDots, ...movableDots, ...marked32Dots, ...fixedDots].forEach((dot) =>
+    [...sensorDots, ...movableDots, ...fixedDots].forEach((dot) =>
     {
         if (!Number.isInteger(dot.padIndex) || dot.padIndex < 0)
         {
