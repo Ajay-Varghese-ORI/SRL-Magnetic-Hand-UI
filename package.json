@@ -4,12 +4,33 @@
   "description": "UI for SRL Hand",
   "main": "electron-main.cjs",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist:linux": "electron-builder --linux AppImage deb --x64"
   },
   "dependencies": {
     "three": "^0.181.2"
   },
   "devDependencies": {
-    "electron": "^42.2.0"
+    "electron": "^42.2.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+        "appId": "com.srl.magnetic.hand.ui",
+        "productName": "SRL Magnetic Hand UI",
+        "files": [
+            "src/**/*",
+            "assets/**/*",
+            "models/**/*",
+            "config/**/*",
+            "index.html",
+            "package.json"
+        ],
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb"
+            ],
+            "category": "Science"
+        }
   }
 }
