@@ -69,6 +69,7 @@ let pointerDownPosition =
 };
 
 let pointerDownButton = 0;
+let externalModelClickHandler = null;
 
 const START_CAMERA_POSITION =
 {
@@ -315,6 +316,16 @@ function logClickedModelPart(event, button)
 
     if (intersections.length === 0)
     {
+        if (externalModelClickHandler)
+        {
+            const handled = externalModelClickHandler(null, null, button);
+
+            if (handled)
+            {
+                return;
+            }
+        }
+
         console.log("Clicked viewer background, no model part selected.");
         return;
     }
@@ -323,9 +334,7 @@ function logClickedModelPart(event, button)
     const selectedObject = selectedIntersection.object;
     const selectedName = getReadableObjectName(selectedObject);
 
-    console.log("Selected model part:", selectedName);
-
-    console.table(
+    const selectionInfo =
     {
         selected_name: selectedName,
         mesh_name: selectedObject.name || "",
@@ -336,7 +345,20 @@ function logClickedModelPart(event, button)
         click_x: selectedIntersection.point.x,
         click_y: selectedIntersection.point.y,
         click_z: selectedIntersection.point.z
-    });
+    };
+
+    if (externalModelClickHandler)
+    {
+        const handled = externalModelClickHandler(selectionInfo, selectedIntersection, button);
+
+        if (handled)
+        {
+            return;
+        }
+    }
+
+    console.log("Selected model part:", selectedName);
+    console.table(selectionInfo);
 
     if (button === 2)
     {
@@ -917,6 +939,39 @@ export function setColourMode(mode)
     pendingFrameApply = true;
     applyLatestFrameToModel();
     return true;
+}
+
+/*
+    Install or clear an external click handler for guided mapping routines.
+
+    The handler receives the picked mesh information, the Three.js intersection
+    and the mouse button. Return true from the handler to stop the normal debug
+    click behaviour.
+*/
+export function setModelClickHandler(handler)
+{
+    externalModelClickHandler = typeof handler === "function" ? handler : null;
+}
+
+/*
+    Flash a picked mesh from an external workflow such as the mapper.
+*/
+export function flashMappedBody(intersection)
+{
+    if (!intersection || !intersection.object)
+    {
+        return;
+    }
+
+    flashSelectedMesh(intersection.object);
+}
+
+/*
+    Flash a picked point from an external workflow such as the mapper.
+*/
+export function flashMappedPoint(intersection)
+{
+    flashClickPoint(intersection);
 }
 
 /*

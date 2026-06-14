@@ -1,6 +1,10 @@
+html,
 body
 {
     margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     font-family: Arial, sans-serif;
     background: #111;
     color: white;
@@ -10,12 +14,16 @@ body
 {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
 .sidebar
 {
     width: 330px;
     padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     background: #1d1d1d;
     box-sizing: border-box;
 }
@@ -23,6 +31,8 @@ body
 .viewer
 {
     flex: 1;
+    min-width: 0;
+    height: 100vh;
     background: #222;
 }
 
@@ -82,4 +92,44 @@ pre
     padding: 8px;
     margin-bottom: 10px;
     box-sizing: border-box;
+}
+
+
+.mapping-section
+{
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid #444;
+}
+
+.mapping-section h3
+{
+    margin: 0 0 10px 0;
+}
+
+.mapping-start-button
+{
+    background: #237a3b;
+    color: #fff;
+    border: 0;
+}
+
+.mapping-stop-button
+{
+    background: #944649;
+    color: #fff;
+    border: 0;
+}
+
+.mapping-download-button
+{
+    background: #3468a8;
+    color: #fff;
+    border: 0;
+}
+
+.mapping-prompt
+{
+    min-height: 120px;
+    max-height: 190px;
 }

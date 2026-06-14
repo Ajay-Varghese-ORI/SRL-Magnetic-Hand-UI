@@ -36,6 +36,20 @@
                 <button id="resetViewButton">Reset View</button>
                 <button id="clearLogButton">Clear Log</button>
 
+                <div class="mapping-section">
+                    <h3>Mapping Routine</h3>
+
+                    <label for="mappingProfileSelect">Profile to map</label>
+                    <select id="mappingProfileSelect"></select>
+
+                    <button id="startMappingButton" class="mapping-start-button">Start Mapping Current Profile</button>
+                    <button id="stopMappingButton" class="mapping-stop-button">Stop Mapping</button>
+                    <button id="downloadMappedConfigButton" class="mapping-download-button">Download Mapped Config</button>
+
+                    <p>Mapping: <span id="mappingStatus">Idle</span></p>
+                    <pre id="mappingPrompt" class="mapping-prompt"></pre>
+                </div>
+
                 <p>Status: <span id="status">Not connected</span></p>
                 <p>Rate: <span id="frameRate">--</span></p>
                 <p>Calibration: <span id="calibrationStatus">Not calibrated</span></p>
