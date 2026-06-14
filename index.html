@@ -16,8 +16,9 @@
         </script>
     </head>
     <body>
+        <button id="sidebarToggleButton" class="sidebar-toggle-button" type="button" aria-label="Toggle controls">☰</button>
         <div class="app">
-            <div class="sidebar">
+            <div class="sidebar" id="sidebar">
                 <h1>SRL Hand</h1>
 
                 <label for="rosbridgeUrlInput">ROS bridge URL</label>
@@ -36,7 +37,7 @@
                 <button id="resetViewButton">Reset View</button>
                 <button id="clearLogButton">Clear Log</button>
 
-                <div class="mapping-section">
+                <div class="mapping-section" id="mappingSection">
                     <h3>Mapping Routine</h3>
 
                     <label for="mappingProfileSelect">Profile to map</label>

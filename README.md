@@ -304,3 +304,37 @@ Each slot entry in `config/ui_config.json` now includes two optional world-space
 Leave them as empty objects (`{}`) when unused. The viewer will then fall back to the calculated geometric centre.
 
 In hybrid mode, if one or more slots in the same pad define `hybrid_hotspot_world`, the viewer averages the provided world points and uses that average as the shared hybrid hotspot centre for the whole pad. If none are provided, the viewer uses the mathematical centre of the combined pad geometry.
+
+
+## Profile camera start view
+
+Each profile can define its own reset/start camera pose:
+
+```json
+"camera_start_view": {
+    "camera_x": 22.15957395302073,
+    "camera_y": -38.695039902170016,
+    "camera_z": -263.508728563301,
+    "target_x": 22.159574172680824,
+    "target_y": -38.69521933870093,
+    "target_z": -84.08003871700765
+}
+```
+
+The Reset View button and automatic model load reset both use the active profile's camera start view.
+
+## Debug mode
+
+Set `debug_mode` in `config/ui_config.json`:
+
+```json
+"debug_mode": true
+```
+
+When true, the mapper, L hotkey, and left/right-click visual debug tools are enabled. The sidebar starts open.
+
+When false, the mapper is hidden, click debug/highlight tools are disabled, and the sidebar starts hidden. The small side tab can still be used to open the controls for ROS, colour mode and calibration.
+
+## Sidebar
+
+The sidebar is now an overlay. It does not shrink or resize the 3D viewer. Use the small tab on the left edge to slide it in or out.

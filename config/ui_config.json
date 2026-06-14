@@ -3,7 +3,7 @@
     "frame_topic": "/srl_magnetic_hand/frame",
     "metadata_topic": "/srl_magnetic_hand/metadata",
     "frame_throttle_ms": 16,
-    "active_profile": "main_hand",
+    "active_profile": "alternate_hand",
     "profiles": {
         "main_hand": {
             "display_name": "Main hand CAD model",
@@ -1139,7 +1139,15 @@
             "colour_mode": "gradient",
             "red_sensitivity": 4000,
             "gradient_sensitivity": 4000,
-            "hybrid_sensitivity": 4000
+            "hybrid_sensitivity": 4000,
+            "camera_start_view": {
+                "camera_x": 8.53,
+                "camera_y": 270.46,
+                "camera_z": -84.08,
+                "target_x": 8.53,
+                "target_y": 0.0,
+                "target_z": -84.08
+            }
         },
         "alternate_hand": {
             "display_name": "Alternate CAD model",
@@ -1156,19 +1164,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body2:5",
                     "red_sensitivity": 1000,
                     "gradient_sensitivity": 1000,
                     "hybrid_sensitivity": 1000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 70.77976603218755,
+                        "y": 26.055312090708952,
+                        "z": -68.8544666976004
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 75.37730564411285,
+                        "y": 28.20979972092141,
+                        "z": -69.86076824339247
                     }
                 },
                 {
@@ -1178,19 +1186,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body2:5",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 74.84109880611356,
+                        "y": 26.515775004371392,
+                        "z": -72.92358195152121
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 75.37730564411285,
+                        "y": 28.20979972092141,
+                        "z": -69.86076824339247
                     }
                 },
                 {
@@ -1200,19 +1208,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body2:5",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 77.26841849524111,
+                        "y": 29.0160942883914,
+                        "z": -69.76656490313815
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 75.37730564411285,
+                        "y": 28.20979972092141,
+                        "z": -69.86076824339247
                     }
                 },
                 {
@@ -1222,19 +1230,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body2:5",
                     "red_sensitivity": 1000,
                     "gradient_sensitivity": 1000,
                     "hybrid_sensitivity": 1000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 74.50881705956078,
+                        "y": 28.83860335857861,
+                        "z": -67.10877741802238
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 75.37730564411285,
+                        "y": 28.20979972092141,
+                        "z": -69.86076824339247
                     }
                 },
                 {
@@ -1244,19 +1252,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body1:5",
                     "red_sensitivity": 2000,
                     "gradient_sensitivity": 2000,
                     "hybrid_sensitivity": 2000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 56.598659328987,
+                        "y": 27.73169510424978,
+                        "z": -48.5629011072077
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 56.608223634139065,
+                        "y": 27.683362572256783,
+                        "z": -48.68338117623536
                     }
                 },
                 {
@@ -1266,19 +1274,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body1:7",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 36.2533892389668,
+                        "y": 36.915115627664505,
+                        "z": -6.1105581911843245
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 28.000390914067083,
+                        "y": 37.21394069926697,
+                        "z": -9.31780977413517
                     }
                 },
                 {
@@ -1288,19 +1296,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body1:7",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 26.515214174351307,
+                        "y": 36.852315991245945,
+                        "z": -19.5418961120885
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 28.000390914067083,
+                        "y": 37.21394069926697,
+                        "z": -9.31780977413517
                     }
                 },
                 {
@@ -1310,19 +1318,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x13",
-                    "body_id": "",
+                    "body_id": "Body1:7",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 19.06977574931108,
+                        "y": 36.910237158986064,
+                        "z": 0.6756620200380894
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 28.000390914067083,
+                        "y": 37.21394069926697,
+                        "z": -9.31780977413517
                     }
                 },
                 {
@@ -1332,19 +1340,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body2:10",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 14.950512896442088,
+                        "y": 30.460068407763828,
+                        "z": -162.01915707545112
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.771838096288224,
+                        "y": 31.11836814880371,
+                        "z": -137.5311106020832
                     }
                 },
                 {
@@ -1354,19 +1362,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body2:10",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 16.060392060385716,
+                        "y": 30.83310625794803,
+                        "z": -168.22911018355626
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.771838096288224,
+                        "y": 31.11836814880371,
+                        "z": -137.5311106020832
                     }
                 },
                 {
@@ -1376,19 +1384,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body2:10",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 21.331443636393054,
+                        "y": 31.031032093870806,
+                        "z": -167.89284034843314
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.771838096288224,
+                        "y": 31.11836814880371,
+                        "z": -137.5311106020832
                     }
                 },
                 {
@@ -1398,19 +1406,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body2:10",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 20.87682126975143,
+                        "y": 31.086259065276437,
+                        "z": -161.14072625209462
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.771838096288224,
+                        "y": 31.11836814880371,
+                        "z": -137.5311106020832
                     }
                 },
                 {
@@ -1420,19 +1428,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body3:9",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.75389375239014,
+                        "y": 31.11836814880371,
+                        "z": -138.66140848256958
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.692101592774417,
+                        "y": 31.11836814880371,
+                        "z": -164.76210603065846
                     }
                 },
                 {
@@ -1442,19 +1450,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body1:11",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.88035263545867,
+                        "y": 31.11836814880374,
+                        "z": -107.91258641186553
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 19.338714310060645,
+                        "y": 31.11836814880371,
+                        "z": -105.24385339671207
                     }
                 },
                 {
@@ -1464,19 +1472,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body1:11",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 19.047022901859425,
+                        "y": 31.11836814880374,
+                        "z": -100.53941793209209
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 19.338714310060645,
+                        "y": 31.11836814880371,
+                        "z": -105.24385339671207
                     }
                 },
                 {
@@ -1486,19 +1494,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body2:12",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -13.834955601625342,
+                        "y": 30.63475471864794,
+                        "z": -159.47387895095912
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -10.537977757134781,
+                        "y": 31.11836814880371,
+                        "z": -162.1859075398427
                     }
                 },
                 {
@@ -1508,19 +1516,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body2:12",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -13.538891470571915,
+                        "y": 30.89568811461109,
+                        "z": -164.89329757197729
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -10.537977757134781,
+                        "y": 31.11836814880371,
+                        "z": -162.1859075398427
                     }
                 },
                 {
@@ -1530,19 +1538,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body2:12",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -8.415035539778623,
+                        "y": 31.023611661465765,
+                        "z": -165.2549810509674
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -10.537977757134781,
+                        "y": 31.11836814880371,
+                        "z": -162.1859075398427
                     }
                 },
                 {
@@ -1552,19 +1560,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body2:12",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -8.51292290775501,
+                        "y": 31.09974400068765,
+                        "z": -159.4715078983421
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -10.537977757134781,
+                        "y": 31.11836814880371,
+                        "z": -162.1859075398427
                     }
                 },
                 {
@@ -1574,19 +1582,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body3:11",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -8.20660192081689,
+                        "y": 31.11836814880371,
+                        "z": -135.93762768327895
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -8.08394846282841,
+                        "y": 31.118368148803683,
+                        "z": -135.9363992106641
                     }
                 },
                 {
@@ -1596,19 +1604,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body1:13",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -4.973269912264638,
+                        "y": 31.11836814880371,
+                        "z": -105.88714308794775
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -4.586205968925359,
+                        "y": 31.118368148803683,
+                        "z": -102.5187273196735
                     }
                 },
                 {
@@ -1618,19 +1626,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 2,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body1:13",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -4.207931078860527,
+                        "y": 31.11836814880371,
+                        "z": -98.78988258383545
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -4.586205968925359,
+                        "y": 31.118368148803683,
+                        "z": -102.5187273196735
                     }
                 },
                 {
@@ -1640,19 +1648,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body2:8",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -41.302172336816106,
+                        "y": 30.697792845812984,
+                        "z": -148.32088746253217
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -38.64582863149467,
+                        "y": 31.11836814880371,
+                        "z": -150.82704569041627
                     }
                 },
                 {
@@ -1662,19 +1670,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body2:8",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -42.064539400869634,
+                        "y": 30.70758853888239,
+                        "z": -152.40667228329593
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -38.64582863149467,
+                        "y": 31.11836814880371,
+                        "z": -150.82704569041627
                     }
                 },
                 {
@@ -1684,19 +1692,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body2:8",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -36.695213477761456,
+                        "y": 31.057115765411396,
+                        "z": -153.8374374295787
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -38.64582863149467,
+                        "y": 31.11836814880371,
+                        "z": -150.82704569041627
                     }
                 },
                 {
@@ -1706,19 +1714,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body2:8",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -36.19958043697769,
+                        "y": 31.103980080832656,
+                        "z": -148.5794114117691
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -38.64582863149467,
+                        "y": 31.11836814880371,
+                        "z": -150.82704569041627
                     }
                 },
                 {
@@ -1728,19 +1736,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body3:7",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -33.792700787529455,
+                        "y": 31.11836814880371,
+                        "z": -124.53157935329985
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -33.28630014977431,
+                        "y": 31.11836814880371,
+                        "z": -124.58498879266416
                     }
                 },
                 {
@@ -1750,19 +1758,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body1:9",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -27.52569456997222,
+                        "y": 31.11836814880371,
+                        "z": -96.4509198695038
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -27.010005020405565,
+                        "y": 31.11836814880371,
+                        "z": -92.49135577961545
                     }
                 },
                 {
@@ -1772,19 +1780,19 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 3,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body1:9",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -25.856043442464635,
+                        "y": 31.11836814880371,
+                        "z": -86.87401802026852
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -27.010005020405565,
+                        "y": 31.11836814880371,
+                        "z": -92.49135577961545
                     }
                 },
                 {
@@ -1794,19 +1802,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body2:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -75.24921583667005,
+                        "y": 30.550524445636512,
+                        "z": -133.09674943172053
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -73.20289084444373,
+                        "y": 31.11836814880371,
+                        "z": -136.94272663430846
                     }
                 },
                 {
@@ -1816,19 +1824,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body2:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -76.31930219681267,
+                        "y": 30.817431758604926,
+                        "z": -138.3405330620911
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -73.20289084444373,
+                        "y": 31.11836814880371,
+                        "z": -136.94272663430846
                     }
                 },
                 {
@@ -1838,19 +1846,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body2:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -72.06698118439621,
+                        "y": 31.100970431136773,
+                        "z": -140.43521451890896
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -73.20289084444373,
+                        "y": 31.11836814880371,
+                        "z": -136.94272663430846
                     }
                 },
                 {
@@ -1860,19 +1868,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body2:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -70.20580191851937,
+                        "y": 31.099399424357586,
+                        "z": -135.38708954658264
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -73.20289084444373,
+                        "y": 31.11836814880371,
+                        "z": -136.94272663430846
                     }
                 },
                 {
@@ -1882,19 +1890,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body3:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -63.864233327782195,
+                        "y": 31.11836814880371,
+                        "z": -112.77737137471155
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -63.459738232409755,
+                        "y": 31.11836814880371,
+                        "z": -112.37079803505074
                     }
                 },
                 {
@@ -1904,19 +1912,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body1:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -53.37929221310857,
+                        "y": 31.11836814880371,
+                        "z": -84.53967067532281
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -52.4708454208766,
+                        "y": 31.11836814880371,
+                        "z": -81.01024531609696
                     }
                 },
                 {
@@ -1926,19 +1934,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 0,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body1:3",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -51.045391921678544,
+                        "y": 31.118368148803683,
+                        "z": -76.83395618598678
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -52.4708454208766,
+                        "y": 31.11836814880371,
+                        "z": -81.01024531609696
                     }
                 },
                 {
@@ -1948,19 +1956,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body1:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 22.273062587522492,
+                        "y": 36.96730711056307,
+                        "z": -66.13928096088864
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.50336049465833,
+                        "y": 37.21760990512233,
+                        "z": -61.2139558267028
                     }
                 },
                 {
@@ -1970,19 +1978,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body1:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 14.457092689107991,
+                        "y": 36.88258103515945,
+                        "z": -66.21481956564975
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.50336049465833,
+                        "y": 37.21760990512233,
+                        "z": -61.2139558267028
                     }
                 },
                 {
@@ -1992,19 +2000,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body1:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 14.227917148993148,
+                        "y": 36.90166628496685,
+                        "z": -56.066407671192344
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.50336049465833,
+                        "y": 37.21760990512233,
+                        "z": -61.2139558267028
                     }
                 },
                 {
@@ -2014,19 +2022,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body1:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 22.454480788169164,
+                        "y": 36.982652870639114,
+                        "z": -56.98885332404346
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 18.50336049465833,
+                        "y": 37.21760990512233,
+                        "z": -61.2139558267028
                     }
                 },
                 {
@@ -2036,19 +2044,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body4:4",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": 0.6516248714248114,
+                        "y": 37.21836853027344,
+                        "z": -58.228624295282174
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -11.571833035425405,
+                        "y": 37.21836853027342,
+                        "z": -45.968116418862486
                     }
                 },
                 {
@@ -2058,19 +2066,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body4:4",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -17.864357339719355,
+                        "y": 37.21836853027345,
+                        "z": -47.48780342201658
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -11.571833035425405,
+                        "y": 37.21836853027342,
+                        "z": -45.968116418862486
                     }
                 },
                 {
@@ -2080,19 +2088,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body4:4",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -14.478370836801982,
+                        "y": 37.21836853027344,
+                        "z": -29.081675771497842
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -11.571833035425405,
+                        "y": 37.21836853027342,
+                        "z": -45.968116418862486
                     }
                 },
                 {
@@ -2102,19 +2110,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 1,
                     "i2c_address": "0x13",
-                    "body_id": "",
+                    "body_id": "Body4:4",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -4.825431953258754,
+                        "y": 37.21836853027345,
+                        "z": -44.963720342777506
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -11.571833035425405,
+                        "y": 37.21836853027342,
+                        "z": -45.968116418862486
                     }
                 },
                 {
@@ -2124,19 +2132,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x0C",
-                    "body_id": "",
+                    "body_id": "Body3:5",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -33.64586214537051,
+                        "y": 36.641581495695476,
+                        "z": -44.41343232989286
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -37.1982477193895,
+                        "y": 37.2163282449562,
+                        "z": -33.11170310073517
                     }
                 },
                 {
@@ -2146,19 +2154,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x0D",
-                    "body_id": "",
+                    "body_id": "Body3:5",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -39.83807004539182,
+                        "y": 37.15347543463717,
+                        "z": -35.37351639918807
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -37.1982477193895,
+                        "y": 37.2163282449562,
+                        "z": -33.11170310073517
                     }
                 },
                 {
@@ -2168,19 +2176,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x0E",
-                    "body_id": "",
+                    "body_id": "Body3:5",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -36.29133527912649,
+                        "y": 36.07115311367092,
+                        "z": -20.82851935272658
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -37.1982477193895,
+                        "y": 37.2163282449562,
+                        "z": -33.11170310073517
                     }
                 },
                 {
@@ -2190,19 +2198,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x0F",
-                    "body_id": "",
+                    "body_id": "Body3:5",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -27.518729273905908,
+                        "y": 36.42454201409933,
+                        "z": -30.177101234326553
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -37.1982477193895,
+                        "y": 37.2163282449562,
+                        "z": -33.11170310073517
                     }
                 },
                 {
@@ -2212,19 +2220,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x10",
-                    "body_id": "",
+                    "body_id": "Body2:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -22.90434744740985,
+                        "y": 36.67225263713814,
+                        "z": -12.784050241304207
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -25.605647927134402,
+                        "y": 37.21349036949893,
+                        "z": -3.4727208636982505
                     }
                 },
                 {
@@ -2234,19 +2242,19 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x11",
-                    "body_id": "",
+                    "body_id": "Body2:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -34.174917178486155,
+                        "y": 36.736132243415355,
+                        "z": -6.754000184708981
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -25.605647927134402,
+                        "y": 37.21349036949893,
+                        "z": -3.4727208636982505
                     }
                 },
                 {
@@ -2256,26 +2264,35 @@
                     "i2c_mux": "0x71",
                     "i2c_channel": 2,
                     "i2c_address": "0x12",
-                    "body_id": "",
+                    "body_id": "Body2:6",
                     "red_sensitivity": 4000,
                     "gradient_sensitivity": 4000,
                     "hybrid_sensitivity": 4000,
                     "gradient_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -20.628353011091942,
+                        "y": 36.96493760765995,
+                        "z": 1.404705899650649
                     },
                     "hybrid_hotspot_world": {
-                        "x": null,
-                        "y": null,
-                        "z": null
+                        "x": -25.605647927134402,
+                        "y": 37.21349036949893,
+                        "z": -3.4727208636982505
                     }
                 }
             ],
-            "colour_mode": "red",
+            "colour_mode": "gradient",
             "red_sensitivity": 4000,
             "gradient_sensitivity": 4000,
-            "hybrid_sensitivity": 4000
+            "hybrid_sensitivity": 4000,
+            "camera_start_view": {
+                "camera_x": -6.740724757148421,
+                "camera_y": 282.64825041903697,
+                "camera_z": -66.90589804615324,
+                "target_x": -40.11257310470477,
+                "target_y": -15.012629031735694,
+                "target_z": -76.47804780629268
+            }
         }
-    }
+    },
+    "debug_mode": false
 }

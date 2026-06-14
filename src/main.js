@@ -10,6 +10,7 @@ import {
     loadUiConfig,
     resetCamera,
     setColourMode,
+    setDebugMode,
     setModelClickHandler
 } from "./viewer.js";
 
@@ -30,6 +31,8 @@ const stopMappingButton = document.getElementById("stopMappingButton");
 const downloadMappedConfigButton = document.getElementById("downloadMappedConfigButton");
 const mappingStatusElement = document.getElementById("mappingStatus");
 const mappingPromptElement = document.getElementById("mappingPrompt");
+const mappingSectionElement = document.getElementById("mappingSection");
+const sidebarToggleButton = document.getElementById("sidebarToggleButton");
 
 const EMPTY_HOTSPOT = {x: null, y: null, z: null};
 
@@ -38,6 +41,7 @@ let receivedFrameCount = 0;
 let lastRateUpdateTime = performance.now();
 let framesSinceRateUpdate = 0;
 let mappingState = null;
+let debugMode = false;
 
 initViewer(viewerElement);
 initialiseApp();
@@ -52,6 +56,7 @@ async function initialiseApp()
         const response = await fetch("./config/ui_config.json");
         appConfig = await response.json();
         normaliseConfigInPlace(appConfig);
+        configureDebugMode();
 
         loadUiConfig(appConfig);
         populateProfileSelect();
@@ -146,6 +151,14 @@ downloadMappedConfigButton.addEventListener("click", () =>
     downloadMappedConfig();
 });
 
+if (sidebarToggleButton)
+{
+    sidebarToggleButton.addEventListener("click", () =>
+    {
+        document.body.classList.toggle("sidebar-open");
+    });
+}
+
 /**
  * Handle one MagneticHandFrame message from rosbridge.
  *
@@ -206,6 +219,28 @@ function updateFrameRateReadout(msg)
 }
 
 /**
+ * Apply debug-mode UI and viewer behaviour from config.
+*/
+function configureDebugMode()
+{
+    debugMode = Boolean(appConfig?.debug_mode ?? appConfig?.debugMode ?? false);
+    setDebugMode(debugMode);
+
+    document.body.classList.toggle("debug-mode", debugMode);
+    document.body.classList.toggle("sidebar-open", debugMode);
+
+    if (mappingSectionElement)
+    {
+        mappingSectionElement.hidden = !debugMode;
+    }
+
+    if (!debugMode)
+    {
+        stopMappingRoutine("Mapping disabled because debug_mode is false.");
+    }
+}
+
+/**
  * Populate the mapping profile dropdown from the config profiles.
 */
 function populateProfileSelect()
@@ -233,6 +268,11 @@ function populateProfileSelect()
 */
 function startMappingRoutine()
 {
+    if (!debugMode)
+    {
+        return;
+    }
+
     if (!appConfig)
     {
         setMappingText("Config not loaded", "Load the config before starting mapping.");
@@ -619,6 +659,11 @@ function normaliseConfigInPlace(config)
         return;
     }
 
+    if (config.debug_mode === undefined && config.debugMode === undefined)
+    {
+        config.debug_mode = true;
+    }
+
     const mainProfile = config.profiles.main_hand || Object.values(config.profiles)[0];
     const alternateProfile = config.profiles.alternate_hand;
 
@@ -640,12 +685,78 @@ function normaliseConfigInPlace(config)
             profile.slot_body_map = [];
         }
 
+        profile.camera_start_view = normaliseCameraStartView(profile.camera_start_view || profile.cameraStartView || profile.camera, profile);
+
         profile.slot_body_map.forEach((entry) =>
         {
             entry.gradient_hotspot_world = normaliseHotspot(entry.gradient_hotspot_world || entry.gradientHotspotWorld);
             entry.hybrid_hotspot_world = normaliseHotspot(entry.hybrid_hotspot_world || entry.hybridHotspotWorld);
         });
     });
+}
+
+/**
+ * Ensure profile camera config exists and has explicit flat keys.
+ *
+ * @param {object|null} value Existing camera config.
+ * @param {object} profile Profile being normalised.
+ * @returns {object} Normalised camera_start_view object.
+*/
+function normaliseCameraStartView(value, profile)
+{
+    const defaultMainView = {
+        camera_x: 8.53,
+        camera_y: 270.46,
+        camera_z: -84.08,
+        target_x: 8.53,
+        target_y: 0.0,
+        target_z: -84.08
+    };
+
+    const defaultAlternateView = {
+        camera_x: 22.15957395302073,
+        camera_y: -38.695039902170016,
+        camera_z: -263.508728563301,
+        target_x: 22.159574172680824,
+        target_y: -38.69521933870093,
+        target_z: -84.08003871700765
+    };
+
+    const profileNameHint = String(profile?.display_name || profile?.model?.obj_path || "").toLowerCase();
+    const fallback = profileNameHint.includes("alternate") ? defaultAlternateView : defaultMainView;
+    const source = value && typeof value === "object" ? value : {};
+
+    return {
+        camera_x: readCameraNumber(source, "camera", "x", fallback.camera_x),
+        camera_y: readCameraNumber(source, "camera", "y", fallback.camera_y),
+        camera_z: readCameraNumber(source, "camera", "z", fallback.camera_z),
+        target_x: readCameraNumber(source, "target", "x", fallback.target_x),
+        target_y: readCameraNumber(source, "target", "y", fallback.target_y),
+        target_z: readCameraNumber(source, "target", "z", fallback.target_z)
+    };
+}
+
+/**
+ * Read a camera number from flat or nested config.
+*/
+function readCameraNumber(source, prefix, axis, fallback)
+{
+    const flat = source?.[`${prefix}_${axis}`];
+
+    if (Number.isFinite(Number(flat)))
+    {
+        return Number(flat);
+    }
+
+    const nested = source?.[prefix] || source?.[`${prefix}_position`] || source?.[`${prefix}Position`] || null;
+    const nestedValue = nested?.[axis];
+
+    if (Number.isFinite(Number(nestedValue)))
+    {
+        return Number(nestedValue);
+    }
+
+    return fallback;
 }
 
 /**

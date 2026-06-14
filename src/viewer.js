@@ -70,6 +70,7 @@ let pointerDownPosition =
 
 let pointerDownButton = 0;
 let externalModelClickHandler = null;
+let debugModeEnabled = true;
 
 const START_CAMERA_POSITION =
 {
@@ -83,6 +84,12 @@ const START_TARGET_POSITION =
     x: 8.53,
     y: 0.00,
     z: -84.08
+};
+
+let activeCameraStartView =
+{
+    camera: {...START_CAMERA_POSITION},
+    target: {...START_TARGET_POSITION}
 };
 
 /*
@@ -131,7 +138,7 @@ export function initViewer(container)
 
     window.addEventListener("keydown", (event) =>
     {
-        if (event.key.toLowerCase() === "l")
+        if (debugModeEnabled && event.key.toLowerCase() === "l")
         {
             logCameraPosition();
         }
@@ -286,6 +293,11 @@ function setupModelClickDebug()
             return;
         }
 
+        if (!debugModeEnabled && !externalModelClickHandler)
+        {
+            return;
+        }
+
         logClickedModelPart(event, pointerDownButton);
     });
 }
@@ -299,6 +311,11 @@ function setupModelClickDebug()
 */
 function logClickedModelPart(event, button)
 {
+    if (!debugModeEnabled && !externalModelClickHandler)
+    {
+        return;
+    }
+
     if (!model || !camera || !renderer)
     {
         console.warn("Model, camera, or renderer is not ready yet.");
@@ -355,6 +372,11 @@ function logClickedModelPart(event, button)
         {
             return;
         }
+    }
+
+    if (!debugModeEnabled)
+    {
+        return;
     }
 
     console.log("Selected model part:", selectedName);
@@ -802,15 +824,15 @@ export function resetCamera()
     }
 
     camera.position.set(
-        START_CAMERA_POSITION.x,
-        START_CAMERA_POSITION.y,
-        START_CAMERA_POSITION.z
+        activeCameraStartView.camera.x,
+        activeCameraStartView.camera.y,
+        activeCameraStartView.camera.z
     );
 
     controls.target.set(
-        START_TARGET_POSITION.x,
-        START_TARGET_POSITION.y,
-        START_TARGET_POSITION.z
+        activeCameraStartView.target.x,
+        activeCameraStartView.target.y,
+        activeCameraStartView.target.z
     );
 
     controls.update();
@@ -835,6 +857,7 @@ export function loadUiConfig(config)
     const profile = resolved.profile;
 
     activeProfileName = resolved.name;
+    activeCameraStartView = resolveCameraStartView(profile, config);
     slotBodyMap = new Map();
     mappedBodyIds = new Set();
     padGroups = new Map();
@@ -954,6 +977,23 @@ export function setModelClickHandler(handler)
 }
 
 /*
+    Enable or disable development/debug click tools.
+
+    When disabled, the L camera hotkey, left-click whole-body highlighting and
+    right-click point marking are ignored. Mapping also clears any active click
+    handler so the production UI cannot accidentally enter mapping mode.
+*/
+export function setDebugMode(enabled)
+{
+    debugModeEnabled = Boolean(enabled);
+
+    if (!debugModeEnabled)
+    {
+        externalModelClickHandler = null;
+    }
+}
+
+/*
     Flash a picked mesh from an external workflow such as the mapper.
 */
 export function flashMappedBody(intersection)
@@ -972,6 +1012,94 @@ export function flashMappedBody(intersection)
 export function flashMappedPoint(intersection)
 {
     flashClickPoint(intersection);
+}
+
+/*
+    Resolve the profile-specific camera start view.
+
+    Preferred config format:
+    camera_start_view: {
+        camera_x, camera_y, camera_z,
+        target_x, target_y, target_z
+    }
+
+    Nested formats are also accepted so older experimental configs can still be
+    loaded without changes.
+*/
+function resolveCameraStartView(profile, config)
+{
+    const view = profile?.camera_start_view ||
+                 profile?.cameraStartView ||
+                 profile?.camera ||
+                 config?.camera_start_view ||
+                 config?.cameraStartView ||
+                 config?.camera ||
+                 null;
+
+    const cameraPosition = readCameraPosition(view, "camera", START_CAMERA_POSITION);
+    const targetPosition = readCameraPosition(view, "target", START_TARGET_POSITION);
+
+    return {
+        camera: cameraPosition,
+        target: targetPosition
+    };
+}
+
+/*
+    Read either a flat camera_x style object or a nested position object.
+*/
+function readCameraPosition(view, prefix, fallback)
+{
+    if (!view || typeof view !== "object")
+    {
+        return {...fallback};
+    }
+
+    const nested = view[prefix] ||
+                   view[`${prefix}_position`] ||
+                   view[`${prefix}Position`] ||
+                   view.position ||
+                   null;
+
+    if (nested && typeof nested === "object")
+    {
+        const nestedPoint = readFinitePoint(nested.x, nested.y, nested.z);
+
+        if (nestedPoint)
+        {
+            return nestedPoint;
+        }
+    }
+
+    const flatPoint = readFinitePoint(
+        view[`${prefix}_x`],
+        view[`${prefix}_y`],
+        view[`${prefix}_z`]
+    );
+
+    if (flatPoint)
+    {
+        return flatPoint;
+    }
+
+    return {...fallback};
+}
+
+/*
+    Return a valid XYZ object or null.
+*/
+function readFinitePoint(xValue, yValue, zValue)
+{
+    const x = Number(xValue);
+    const y = Number(yValue);
+    const z = Number(zValue);
+
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z))
+    {
+        return null;
+    }
+
+    return {x: x, y: y, z: z};
 }
 
 /*

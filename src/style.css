@@ -12,13 +12,18 @@ body
 
 .app
 {
-    display: flex;
+    position: relative;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
 }
 
 .sidebar
 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
     width: 330px;
     padding: 20px;
     height: 100vh;
@@ -26,13 +31,52 @@ body
     overflow-x: hidden;
     background: #1d1d1d;
     box-sizing: border-box;
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.35);
+    transform: translateX(-100%);
+    transition: transform 220ms ease;
+}
+
+body.sidebar-open .sidebar
+{
+    transform: translateX(0);
+}
+
+.sidebar-toggle-button
+{
+    position: fixed;
+    top: 18px;
+    left: 0;
+    z-index: 40;
+    width: 34px;
+    height: 48px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: rgba(20, 20, 20, 0.92);
+    color: #ffffff;
+    font-size: 22px;
+    line-height: 48px;
+    cursor: pointer;
+    transition: left 220ms ease, background 120ms ease;
+}
+
+body.sidebar-open .sidebar-toggle-button
+{
+    left: 330px;
+}
+
+.sidebar-toggle-button:hover
+{
+    background: rgba(50, 50, 50, 0.96);
 }
 
 .viewer
 {
-    flex: 1;
-    min-width: 0;
-    height: 100vh;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     background: #222;
 }
 
@@ -132,4 +176,9 @@ pre
 {
     min-height: 120px;
     max-height: 190px;
+}
+
+[hidden]
+{
+    display: none !important;
 }
