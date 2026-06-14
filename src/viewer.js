@@ -15,6 +15,8 @@ let fpsFrameCount = 0;
 let fpsLastUpdateTime = performance.now();
 
 const FPS_UPDATE_INTERVAL_MS = 250;
+const MODEL_COLOUR_UPDATE_INTERVAL_MS = 33;
+const INTENSITY_CHANGE_EPSILON = 0.005;
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -24,18 +26,24 @@ const activeClickMarkers = [];
 const HIGHLIGHT_COLOUR = new THREE.Color(0xff0000);
 const HIGHLIGHT_DURATION_MS = 1200;
 const PAD_ACTIVE_COLOUR = new THREE.Color(0xff0000);
-const DEFAULT_Z_FULL_SCALE = 4000.0;
+const DEFAULT_SENSITIVITY = 4000.0;
 const CALIBRATION_STORAGE_KEY = "srlHandUntouchedCalibration";
 
 let slotBodyMap = new Map();
 let mappedBodyIds = new Set();
 let bodyMeshIndex = new Map();
 let latestFrame = null;
-let zFullScale = DEFAULT_Z_FULL_SCALE;
+let pendingFrameApply = false;
+let lastModelColourUpdateTime = 0.0;
+let defaultSensitivity = DEFAULT_SENSITIVITY;
 let calibrationBySlot = new Map();
 let calibrationTimestamp = null;
 let activeProfileName = "legacy";
 let activeModelConfig = null;
+let colourMode = "red";
+let padGroups = new Map();
+let padGradientInfoByKey = new Map();
+const reusableGradientRgb = [1.0, 0.0, 0.0];
 
 
 const CLICK_MARKER_COLOUR = 0xff0000;
@@ -53,16 +61,16 @@ let pointerDownButton = 0;
 
 const START_CAMERA_POSITION =
 {
-    x: 2.850,
-    y: 28.310,
-    z: -8.898
+    x: 8.53,
+    y: 270.46,
+    z: -84.08
 };
 
 const START_TARGET_POSITION =
 {
-    x: 2.850,
-    y: 0.000,
-    z: -8.898
+    x: 8.53,
+    y: 0.00,
+    z: -84.08
 };
 
 /*
@@ -698,6 +706,7 @@ function finishLoadedModel(object, modelScale)
     });
 
     buildBodyMeshIndex();
+    padGradientInfoByKey = new Map();
     applyLatestFrameToModel();
 }
 
@@ -736,6 +745,7 @@ function animate()
     updateFpsCounter();
     updateHighlightAnimations();
     updateClickMarkers();
+    applyPendingFrameToModel();
 
     if (controls)
     {
@@ -782,7 +792,7 @@ export function resetCamera()
     - active_profile chooses which CAD model and slot map to use.
     - profiles[active_profile].model chooses OBJ/MTL files.
     - profiles[active_profile].slot_body_map maps slots to model body IDs.
-    - each slot can override z_full_scale.
+    - each slot can override red_sensitivity, gradient_sensitivity and hybrid_sensitivity.
 
     The legacy top-level slot_body_map format is still supported.
 */
@@ -794,9 +804,22 @@ export function loadUiConfig(config)
     activeProfileName = resolved.name;
     slotBodyMap = new Map();
     mappedBodyIds = new Set();
+    padGroups = new Map();
+    padGradientInfoByKey = new Map();
 
-    zFullScale = getPositiveNumber(profile.z_full_scale,
-                                   getPositiveNumber(config?.z_full_scale, DEFAULT_Z_FULL_SCALE));
+    defaultSensitivity = getDefaultSensitivity(profile, config);
+
+    colourMode = String(profile.colour_mode ||
+                        profile.color_mode ||
+                        config?.colour_mode ||
+                        config?.color_mode ||
+                        "red").trim().toLowerCase();
+
+    if ((colourMode !== "red") && (colourMode !== "gradient") && (colourMode !== "hybrid"))
+    {
+        console.warn(`Unknown colour_mode '${colourMode}', using red mode`);
+        colourMode = "red";
+    }
 
     const entries = Array.isArray(profile.slot_body_map) ? profile.slot_body_map : [];
 
@@ -804,27 +827,77 @@ export function loadUiConfig(config)
     {
         const slot = Number(entry.slot);
         const bodyId = String(entry.body_id || "").trim();
+        const component = String(entry.component || "").trim();
+        const pad = String(entry.pad || "").trim();
 
         if (!Number.isInteger(slot) || bodyId.length === 0)
         {
             return;
         }
 
-        const slotFullScale = getSlotFullScale(entry, zFullScale);
+        const sensitivities = getSlotSensitivities(entry, profile, config, defaultSensitivity);
+        const padKey = getPadKey(component, pad, bodyId);
 
         slotBodyMap.set(slot,
         {
             bodyId: bodyId,
-            zFullScale: slotFullScale
+            component: component,
+            pad: pad,
+            padKey: padKey,
+            redSensitivity: sensitivities.red,
+            gradientSensitivity: sensitivities.gradient,
+            hybridSensitivity: sensitivities.hybrid
         });
 
         mappedBodyIds.add(bodyId);
+
+        if (!padGroups.has(padKey))
+        {
+            padGroups.set(padKey,
+            {
+                component: component,
+                pad: pad,
+                bodyIds: new Set(),
+                slots: []
+            });
+        }
+
+        const padGroup = padGroups.get(padKey);
+        padGroup.bodyIds.add(bodyId);
+        padGroup.slots.push(slot);
     });
 
     loadStoredCalibration();
     loadConfiguredModel(profile.model || config?.model || {});
 
-    console.log(`Loaded profile '${activeProfileName}' with ${slotBodyMap.size} slot-to-body mappings`);
+    console.log(`Loaded profile '${activeProfileName}' with ${slotBodyMap.size} slot-to-body mappings in ${colourMode} mode`);
+}
+
+/*
+    Return the currently active colour mode.
+*/
+export function getColourMode()
+{
+    return colourMode;
+}
+
+/*
+    Change the colour mode live and immediately repaint the model.
+*/
+export function setColourMode(mode)
+{
+    const nextMode = String(mode || "").trim().toLowerCase();
+
+    if ((nextMode !== "red") && (nextMode !== "gradient") && (nextMode !== "hybrid"))
+    {
+        console.warn(`Unknown colour mode '${mode}' ignored`);
+        return false;
+    }
+
+    colourMode = nextMode;
+    pendingFrameApply = true;
+    applyLatestFrameToModel();
+    return true;
 }
 
 /*
@@ -853,16 +926,73 @@ function resolveActiveProfile(config)
 }
 
 /*
-    Read the Z full-scale value for one slot mapping.
+    Read the default sensitivity value for the active profile.
+
+    Lower sensitivity values make the colour react more strongly. The old
+    z_full_scale names are still accepted as a fallback so existing configs do
+    not break.
 */
-function getSlotFullScale(entry, fallback)
+function getDefaultSensitivity(profile, config)
 {
+    return getPositiveNumber(profile?.sensitivity,
+           getPositiveNumber(config?.sensitivity,
+           getPositiveNumber(profile?.z_full_scale,
+           getPositiveNumber(config?.z_full_scale, DEFAULT_SENSITIVITY))));
+}
+
+/*
+    Read the per-mode sensitivity values for one slot mapping.
+*/
+function getSlotSensitivities(entry, profile, config, fallback)
+{
+    return {
+        red: getModeSensitivityValue(entry, profile, config, "red", fallback),
+        gradient: getModeSensitivityValue(entry, profile, config, "gradient", fallback),
+        hybrid: getModeSensitivityValue(entry, profile, config, "hybrid", fallback)
+    };
+}
+
+/*
+    Resolve one mode-specific sensitivity value.
+
+    Preferred names are red_sensitivity, gradient_sensitivity and
+    hybrid_sensitivity. Legacy z_full_scale values are still accepted.
+*/
+function getModeSensitivityValue(entry, profile, config, mode, fallback)
+{
+    const snakeName = `${mode}_sensitivity`;
+    const camelName = `${mode}Sensitivity`;
+    const fullScaleSnakeName = `${mode}_full_scale`;
+    const fullScaleCamelName = `${mode}FullScale`;
+
     const possibleValues = [
+        entry?.[snakeName],
+        entry?.[camelName],
+        entry?.[fullScaleSnakeName],
+        entry?.[fullScaleCamelName],
+        entry?.sensitivity,
+
+        profile?.[snakeName],
+        profile?.[camelName],
+        profile?.[fullScaleSnakeName],
+        profile?.[fullScaleCamelName],
+        profile?.sensitivity,
+
+        config?.[snakeName],
+        config?.[camelName],
+        config?.[fullScaleSnakeName],
+        config?.[fullScaleCamelName],
+        config?.sensitivity,
+
         entry?.z_full_scale,
         entry?.zFullScale,
         entry?.z_max,
         entry?.max_z,
-        entry?.max_value
+        entry?.max_value,
+        profile?.z_full_scale,
+        profile?.zFullScale,
+        config?.z_full_scale,
+        config?.zFullScale
     ];
 
     for (const value of possibleValues)
@@ -873,7 +1003,25 @@ function getSlotFullScale(entry, fallback)
         }
     }
 
-    return getPositiveNumber(fallback, DEFAULT_Z_FULL_SCALE);
+    return getPositiveNumber(fallback, DEFAULT_SENSITIVITY);
+}
+
+/*
+    Return the sensitivity value that applies to one mapping for one mode.
+*/
+function getMappingSensitivity(mapping, mode)
+{
+    if (mode === "gradient")
+    {
+        return getPositiveNumber(mapping?.gradientSensitivity, defaultSensitivity);
+    }
+
+    if (mode === "hybrid")
+    {
+        return getPositiveNumber(mapping?.hybridSensitivity, defaultSensitivity);
+    }
+
+    return getPositiveNumber(mapping?.redSensitivity, defaultSensitivity);
 }
 
 /*
@@ -892,6 +1040,24 @@ function getPositiveNumber(value, fallback)
 }
 
 /*
+    Build one pad-group key from component and pad.
+
+    If component/pad are missing, fall back to the body ID so the mapping still works.
+*/
+function getPadKey(component, pad, bodyId)
+{
+    const safeComponent = String(component || "").trim();
+    const safePad = String(pad || "").trim();
+
+    if (safeComponent.length > 0 || safePad.length > 0)
+    {
+        return `${safeComponent}::${safePad}`;
+    }
+
+    return `body::${String(bodyId || "").trim()}`;
+}
+
+/*
     Apply one ROS MagneticHandFrame message to the model.
 
     The message is expected to contain samples with slot, raw_x, raw_y and
@@ -900,7 +1066,7 @@ function getPositiveNumber(value, fallback)
 export function applyMagneticHandFrame(frame)
 {
     latestFrame = frame;
-    applyLatestFrameToModel();
+    pendingFrameApply = true;
 }
 
 /*
@@ -1076,6 +1242,32 @@ function addMeshIndexName(name, mesh)
 }
 
 /*
+    Apply the newest ROS frame at the render-loop rate.
+
+    ROS messages can arrive much faster than the renderer can recolour the CAD
+    model. This keeps only the latest frame and drops intermediate frames so the
+    UI does not spend all its time processing stale data.
+*/
+function applyPendingFrameToModel()
+{
+    if (!pendingFrameApply)
+    {
+        return;
+    }
+
+    const now = performance.now();
+
+    if ((now - lastModelColourUpdateTime) < MODEL_COLOUR_UPDATE_INTERVAL_MS)
+    {
+        return;
+    }
+
+    pendingFrameApply = false;
+    lastModelColourUpdateTime = now;
+    applyLatestFrameToModel();
+}
+
+/*
     Apply the latest ROS frame to every mapped body.
 */
 function applyLatestFrameToModel()
@@ -1085,6 +1277,160 @@ function applyLatestFrameToModel()
         return;
     }
 
+    if (colourMode === "gradient")
+    {
+        applyGradientModeFrame();
+        return;
+    }
+
+    if (colourMode === "hybrid")
+    {
+        applyHybridModeFrame();
+        return;
+    }
+
+    applyRedModeFrame();
+}
+
+/*
+    Collect averaged pad intensities for pad-based colouring modes.
+
+    The returned map uses padKey as the key and stores a single normalised
+    intensity per pad, computed from the average Z magnitude and the average
+    mode-specific sensitivity across all sensors in that pad.
+*/
+function buildPadIntensityMap(mode)
+{
+    const padValues = new Map();
+    const padIntensityMap = new Map();
+
+    latestFrame.samples.forEach((sample) =>
+    {
+        const slot = Number(sample.slot);
+        const mapping = slotBodyMap.get(slot);
+
+        if (!mapping || !mapping.bodyId)
+        {
+            return;
+        }
+
+        const rawZ = Number(sample.raw_z);
+
+        if (!Number.isFinite(rawZ))
+        {
+            return;
+        }
+
+        const calibratedZ = calibrationBySlot.has(slot) ? calibrationBySlot.get(slot) : 0.0;
+        const zMagnitude = Math.abs(rawZ - calibratedZ);
+
+        if (!padValues.has(mapping.padKey))
+        {
+            padValues.set(mapping.padKey,
+            {
+                zValues: [],
+                zScales: []
+            });
+        }
+
+        const padEntry = padValues.get(mapping.padKey);
+        padEntry.zValues.push(zMagnitude);
+        padEntry.zScales.push(getMappingSensitivity(mapping, mode));
+    });
+
+    padGroups.forEach((group, padKey) =>
+    {
+        const padEntry = padValues.get(padKey);
+        const averageReading = average(padEntry?.zValues || []);
+        const averageScale = average(padEntry?.zScales || []);
+        const intensity = clamp01(averageReading / Math.max(averageScale, 1e-9));
+
+        padIntensityMap.set(padKey, intensity);
+    });
+
+    return padIntensityMap;
+}
+
+/*
+    Apply the current frame using red mode.
+
+    All sensors that belong to the same pad share one averaged reading and one
+    averaged red_sensitivity. Every body that belongs to that pad is then coloured
+    with the same red intensity.
+*/
+function applyRedModeFrame()
+{
+    const padIntensityMap = buildPadIntensityMap("red");
+
+    mappedBodyIds.forEach((bodyId) =>
+    {
+        const mesh = findMeshByBodyId(bodyId);
+
+        if (!mesh)
+        {
+            return;
+        }
+
+        setMeshRedIntensity(mesh, 0.0);
+    });
+
+    padGroups.forEach((group, padKey) =>
+    {
+        const intensity = padIntensityMap.get(padKey) || 0.0;
+
+        group.bodyIds.forEach((bodyId) =>
+        {
+            const mesh = findMeshByBodyId(bodyId);
+
+            if (!mesh)
+            {
+                return;
+            }
+
+            setMeshRedIntensity(mesh, intensity);
+        });
+    });
+}
+
+/*
+    Apply the current frame using hybrid mode.
+
+    Sensors are grouped by pad exactly like red mode, but the whole pad is
+    coloured using the gradient visual treatment instead of a flat red fill.
+    Every body that belongs to the same pad therefore gets the same gradient
+    strength.
+*/
+function applyHybridModeFrame()
+{
+    const padIntensityMap = buildPadIntensityMap("hybrid");
+
+    padGroups.forEach((group, padKey) =>
+    {
+        const intensity = padIntensityMap.get(padKey) || 0.0;
+
+        group.bodyIds.forEach((bodyId) =>
+        {
+            const mesh = findMeshByBodyId(bodyId);
+
+            if (!mesh)
+            {
+                return;
+            }
+
+            setMeshPadGradientIntensity(mesh, intensity, padKey);
+        });
+    });
+}
+
+/*
+    Apply the current frame using gradient mode.
+
+    Each sensor is treated independently. Its own body is coloured using its
+    own Z magnitude and gradient_sensitivity value. If multiple slots map to the same
+    body, their normalised intensities are averaged.
+*/
+function applyGradientModeFrame()
+{
     const bodyValues = new Map();
 
     latestFrame.samples.forEach((sample) =>
@@ -1106,7 +1452,7 @@ function applyLatestFrameToModel()
 
         const calibratedZ = calibrationBySlot.has(slot) ? calibrationBySlot.get(slot) : 0.0;
         const zMagnitude = Math.abs(rawZ - calibratedZ);
-        const slotIntensity = clamp01(zMagnitude / mapping.zFullScale);
+        const slotIntensity = clamp01(zMagnitude / Math.max(getMappingSensitivity(mapping, "gradient"), 1e-9));
 
         if (!bodyValues.has(mapping.bodyId))
         {
@@ -1128,7 +1474,7 @@ function applyLatestFrameToModel()
         const values = bodyValues.get(bodyId) || [];
         const intensity = average(values);
 
-        setMeshRedIntensity(mesh, intensity);
+        setMeshGradientIntensity(mesh, intensity);
     });
 }
 
@@ -1148,6 +1494,153 @@ function findMeshByBodyId(bodyId)
 }
 
 /*
+    Apply a shared pad-level gradient to one mesh.
+
+    Hybrid mode uses this so every body in a pad is treated as part of one
+    larger imaginary body. The red centre is calculated from the centre of the
+    combined pad geometry, not from each individual mesh centre.
+*/
+function setMeshPadGradientIntensity(mesh, intensity, padKey)
+{
+    const padInfo = getPadGradientInfo(padKey);
+    const meshInfo = padInfo?.meshInfo?.get(mesh.uuid) || null;
+
+    setMeshGradientIntensity(mesh, intensity, meshInfo, `pad:${padKey}`);
+}
+
+/*
+    Build or return cached shared gradient data for one pad.
+
+    The centre and radius are calculated in world space using all meshes that
+    belong to the pad. Each mesh then receives distance values relative to that
+    shared centre and shared radius.
+*/
+function getPadGradientInfo(padKey)
+{
+    if (padGradientInfoByKey.has(padKey))
+    {
+        return padGradientInfoByKey.get(padKey);
+    }
+
+    const group = padGroups.get(padKey);
+
+    if (!group)
+    {
+        return null;
+    }
+
+    const meshes = [];
+    const seenMeshIds = new Set();
+
+    group.bodyIds.forEach((bodyId) =>
+    {
+        const mesh = findMeshByBodyId(bodyId);
+
+        if (!mesh || seenMeshIds.has(mesh.uuid))
+        {
+            return;
+        }
+
+        seenMeshIds.add(mesh.uuid);
+        meshes.push(mesh);
+    });
+
+    if (meshes.length === 0)
+    {
+        return null;
+    }
+
+    if (model)
+    {
+        model.updateMatrixWorld(true);
+    }
+
+    const combinedBox = new THREE.Box3();
+    const meshBox = new THREE.Box3();
+
+    meshes.forEach((mesh) =>
+    {
+        if (!mesh.geometry.boundingBox)
+        {
+            mesh.geometry.computeBoundingBox();
+        }
+
+        meshBox.copy(mesh.geometry.boundingBox);
+        meshBox.applyMatrix4(mesh.matrixWorld);
+        combinedBox.union(meshBox);
+    });
+
+    const padCenter = new THREE.Vector3();
+    combinedBox.getCenter(padCenter);
+
+    const worldPoint = new THREE.Vector3();
+    let maxRadius = 0.001;
+
+    meshes.forEach((mesh) =>
+    {
+        const position = mesh.geometry.attributes.position;
+
+        if (!position)
+        {
+            return;
+        }
+
+        for (let index = 0; index < position.count; index++)
+        {
+            worldPoint.set(position.getX(index), position.getY(index), position.getZ(index));
+            worldPoint.applyMatrix4(mesh.matrixWorld);
+
+            const radius = worldPoint.distanceTo(padCenter);
+
+            if (radius > maxRadius)
+            {
+                maxRadius = radius;
+            }
+        }
+    });
+
+    const meshInfo = new Map();
+
+    meshes.forEach((mesh) =>
+    {
+        const position = mesh.geometry.attributes.position;
+
+        if (!position)
+        {
+            return;
+        }
+
+        const distanceNorms = new Float32Array(position.count);
+
+        for (let index = 0; index < position.count; index++)
+        {
+            worldPoint.set(position.getX(index), position.getY(index), position.getZ(index));
+            worldPoint.applyMatrix4(mesh.matrixWorld);
+
+            distanceNorms[index] = clamp01(worldPoint.distanceTo(padCenter) / maxRadius);
+        }
+
+        meshInfo.set(mesh.uuid,
+        {
+            center: padCenter,
+            maxRadius: maxRadius,
+            distanceNorms: distanceNorms
+        });
+    });
+
+    const padInfo =
+    {
+        center: padCenter,
+        maxRadius: maxRadius,
+        meshInfo: meshInfo
+    };
+
+    padGradientInfoByKey.set(padKey, padInfo);
+
+    return padInfo;
+}
+
+/*
     Set one mesh colour from its original material colour towards red.
 */
 function setMeshRedIntensity(mesh, intensity)
@@ -1158,6 +1651,16 @@ function setMeshRedIntensity(mesh, intensity)
     }
 
     const clampedIntensity = clamp01(intensity);
+
+    if (Math.abs((mesh.userData.lastRedIntensity ?? -1.0) - clampedIntensity) < INTENSITY_CHANGE_EPSILON)
+    {
+        return;
+    }
+
+    mesh.userData.lastRedIntensity = clampedIntensity;
+    mesh.userData.lastGradientIntensity = undefined;
+    mesh.userData.lastGradientModeKey = undefined;
+
     const materials = makeMeshMaterialsUnique(mesh);
 
     materials.forEach((material) =>
@@ -1168,10 +1671,244 @@ function setMeshRedIntensity(mesh, intensity)
         }
 
         const baseColour = getMaterialBaseColour(material);
-        const targetColour = baseColour.clone().lerp(PAD_ACTIVE_COLOUR, clampedIntensity);
 
-        material.color.copy(targetColour);
+        material.vertexColors = false;
+        material.color.setRGB(
+            baseColour.r + ((PAD_ACTIVE_COLOUR.r - baseColour.r) * clampedIntensity),
+            baseColour.g + ((PAD_ACTIVE_COLOUR.g - baseColour.g) * clampedIntensity),
+            baseColour.b + ((PAD_ACTIVE_COLOUR.b - baseColour.b) * clampedIntensity)
+        );
+        material.needsUpdate = true;
     });
+}
+
+/*
+    Set one mesh to a radial false-colour gradient.
+
+    The centre becomes red and expands as intensity increases. The outer area
+    fades through orange and yellow before ending in blue near the edges.
+*/
+function setMeshGradientIntensity(mesh, intensity, gradientInfo = null, gradientModeKey = "local")
+{
+    if (!mesh || !mesh.isMesh || !mesh.material || !mesh.geometry)
+    {
+        return;
+    }
+
+    const clampedIntensity = clamp01(intensity);
+    const activeGradientModeKey = String(gradientModeKey || "local");
+
+    if ((mesh.userData.lastGradientModeKey === activeGradientModeKey) &&
+        (Math.abs((mesh.userData.lastGradientIntensity ?? -1.0) - clampedIntensity) < INTENSITY_CHANGE_EPSILON))
+    {
+        return;
+    }
+
+    mesh.userData.lastGradientIntensity = clampedIntensity;
+    mesh.userData.lastGradientModeKey = activeGradientModeKey;
+    mesh.userData.lastRedIntensity = undefined;
+
+    const materials = makeMeshMaterialsUnique(mesh);
+    const geometry = mesh.geometry;
+
+    if (!geometry.attributes || !geometry.attributes.position)
+    {
+        return;
+    }
+
+    const firstMaterial = Array.isArray(materials) ? materials[0] : materials;
+    const baseColour = getMaterialBaseColour(firstMaterial);
+    const colours = ensureMeshColourAttribute(mesh);
+    const colourArray = colours.array;
+
+    const isPadGradient = activeGradientModeKey.startsWith("pad:");
+    const visualIntensity = isPadGradient ? Math.sqrt(clampedIntensity) : clampedIntensity;
+
+    if (visualIntensity <= 0.0001)
+    {
+        fillMeshColourArray(colourArray, baseColour.r, baseColour.g, baseColour.b);
+        colours.needsUpdate = true;
+        enableVertexColours(materials);
+        return;
+    }
+
+    const info = gradientInfo || getMeshGradientInfo(mesh);
+    const distanceNorms = info.distanceNorms;
+
+    // In local gradient mode, keep a smaller hot spot so individual sensors stay distinct.
+    // In hybrid mode, the pad is treated as one larger body, so the red area needs to
+    // spread much further and reach full red when the pad saturates.
+    const coreRadius = isPadGradient ?
+        clamp01(0.06 + (0.94 * visualIntensity)) :
+        clamp01(0.12 + (0.58 * visualIntensity));
+
+    for (let index = 0; index < distanceNorms.length; index++)
+    {
+        const distanceNorm = distanceNorms[index];
+        const gradient = sampleGradientRgbNoAlloc(distanceNorm, coreRadius);
+        const arrayIndex = index * 3;
+
+        colourArray[arrayIndex + 0] = baseColour.r + ((gradient[0] - baseColour.r) * visualIntensity);
+        colourArray[arrayIndex + 1] = baseColour.g + ((gradient[1] - baseColour.g) * visualIntensity);
+        colourArray[arrayIndex + 2] = baseColour.b + ((gradient[2] - baseColour.b) * visualIntensity);
+    }
+
+    colours.needsUpdate = true;
+    enableVertexColours(materials);
+}
+
+/*
+    Get the local centre and normalised vertex distances used for gradient colouring.
+
+    This is computed once per mesh and reused every frame.
+*/
+function getMeshGradientInfo(mesh)
+{
+    if (mesh.userData.gradientInfo)
+    {
+        return mesh.userData.gradientInfo;
+    }
+
+    const geometry = mesh.geometry;
+    geometry.computeBoundingBox();
+
+    const box = geometry.boundingBox;
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+
+    const position = geometry.attributes.position;
+    const distances = new Float32Array(position.count);
+    let maxRadius = 0.001;
+
+    for (let index = 0; index < position.count; index++)
+    {
+        const dx = position.getX(index) - center.x;
+        const dy = position.getY(index) - center.y;
+        const dz = position.getZ(index) - center.z;
+        const radius = Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+
+        distances[index] = radius;
+
+        if (radius > maxRadius)
+        {
+            maxRadius = radius;
+        }
+    }
+
+    for (let index = 0; index < distances.length; index++)
+    {
+        distances[index] = clamp01(distances[index] / maxRadius);
+    }
+
+    mesh.userData.gradientInfo = {
+        center: center,
+        maxRadius: maxRadius,
+        distanceNorms: distances
+    };
+
+    return mesh.userData.gradientInfo;
+}
+
+/*
+    Ensure a geometry colour attribute exists and return it.
+*/
+function ensureMeshColourAttribute(mesh)
+{
+    const geometry = mesh.geometry;
+    let colours = geometry.getAttribute("color");
+
+    if (colours)
+    {
+        return colours;
+    }
+
+    const position = geometry.attributes.position;
+    const array = new Float32Array(position.count * 3);
+    colours = new THREE.BufferAttribute(array, 3);
+    geometry.setAttribute("color", colours);
+
+    return colours;
+}
+
+/*
+    Enable per-vertex colours on every material used by a mesh.
+*/
+function enableVertexColours(materials)
+{
+    materials.forEach((material) =>
+    {
+        if (!material)
+        {
+            return;
+        }
+
+        material.vertexColors = true;
+
+        if (material.color)
+        {
+            material.color.set(0xffffff);
+        }
+
+        material.needsUpdate = true;
+    });
+}
+
+/*
+    Fill one colour buffer with a solid RGB value.
+*/
+function fillMeshColourArray(array, r, g, b)
+{
+    for (let index = 0; index < array.length; index += 3)
+    {
+        array[index + 0] = r;
+        array[index + 1] = g;
+        array[index + 2] = b;
+    }
+}
+
+/*
+    Sample the false-colour gradient for one normalised distance.
+
+    The result is returned as plain numbers rather than THREE.Color objects so
+    gradient updates avoid thousands of temporary allocations per frame.
+*/
+function sampleGradientRgbNoAlloc(distanceNorm, coreRadius)
+{
+    if (distanceNorm <= coreRadius)
+    {
+        reusableGradientRgb[0] = 1.0;
+        reusableGradientRgb[1] = 0.0;
+        reusableGradientRgb[2] = 0.0;
+        return reusableGradientRgb;
+    }
+
+    const outerNorm = clamp01((distanceNorm - coreRadius) / Math.max(1.0 - coreRadius, 1e-9));
+
+    if (outerNorm < 0.33)
+    {
+        const t = outerNorm / 0.33;
+        reusableGradientRgb[0] = 1.0;
+        reusableGradientRgb[1] = 0.4784313725 * t;
+        reusableGradientRgb[2] = 0.0;
+        return reusableGradientRgb;
+    }
+
+    if (outerNorm < 0.66)
+    {
+        const t = (outerNorm - 0.33) / 0.33;
+        reusableGradientRgb[0] = 1.0;
+        reusableGradientRgb[1] = 0.4784313725 + ((0.9019607843 - 0.4784313725) * t);
+        reusableGradientRgb[2] = 0.0;
+        return reusableGradientRgb;
+    }
+
+    const t = (outerNorm - 0.66) / 0.34;
+
+    reusableGradientRgb[0] = 1.0 + ((0.0823529412 - 1.0) * t);
+    reusableGradientRgb[1] = 0.9019607843 + ((0.3960784314 - 0.9019607843) * t);
+    reusableGradientRgb[2] = 0.0 + (1.0 * t);
+
+    return reusableGradientRgb;
 }
 
 /*

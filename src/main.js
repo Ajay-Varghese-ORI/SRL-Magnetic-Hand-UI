@@ -3,9 +3,11 @@ import {
     applyMagneticHandFrame,
     captureCalibrationFromFrame,
     getCalibrationSummary,
+    getColourMode,
     initViewer,
     loadUiConfig,
-    resetCamera
+    resetCamera,
+    setColourMode
 } from "./viewer.js";
 
 const viewerElement = document.getElementById("viewer");
@@ -14,6 +16,7 @@ const calibrateButton = document.getElementById("calibrateButton");
 const resetViewButton = document.getElementById("resetViewButton");
 const clearLogButton = document.getElementById("clearLogButton");
 const rosbridgeUrlInput = document.getElementById("rosbridgeUrlInput");
+const colourModeSelect = document.getElementById("colourModeSelect");
 const statusElement = document.getElementById("status");
 const frameRateElement = document.getElementById("frameRate");
 const calibrationElement = document.getElementById("calibrationStatus");
@@ -40,6 +43,7 @@ async function initialiseApp()
         loadUiConfig(appConfig);
 
         rosbridgeUrlInput.value = appConfig.rosbridge_url || "ws://localhost:9090";
+        colourModeSelect.value = getColourMode();
         calibrationElement.textContent = getCalibrationSummary();
         statusElement.textContent = "Ready";
     }
@@ -49,6 +53,14 @@ async function initialiseApp()
         statusElement.textContent = "Config load failed: " + err.message;
     }
 }
+
+
+colourModeSelect.addEventListener("change", () =>
+{
+    const selectedMode = colourModeSelect.value;
+    setColourMode(selectedMode);
+    statusElement.textContent = `Colour mode: ${selectedMode}`;
+});
 
 connectRosButton.addEventListener("click", () =>
 {
@@ -65,6 +77,7 @@ connectRosButton.addEventListener("click", () =>
         url: rosbridgeUrlInput.value.trim(),
         frameTopic: appConfig.frame_topic || "/srl_magnetic_hand/frame",
         metadataTopic: appConfig.metadata_topic || "/srl_magnetic_hand/metadata",
+        frameThrottleMs: Number(appConfig.frame_throttle_ms || 16),
         onFrame: handleRosFrame,
         onMetadata: handleRosMetadata,
         onStatus: (newStatus) =>

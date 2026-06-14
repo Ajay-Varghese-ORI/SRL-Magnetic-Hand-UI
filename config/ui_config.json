@@ -2,6 +2,7 @@
     "rosbridge_url": "ws://localhost:9090",
     "frame_topic": "/srl_magnetic_hand/frame",
     "metadata_topic": "/srl_magnetic_hand/metadata",
+    "frame_throttle_ms": 16,
     "active_profile": "main_hand",
     "profiles": {
         "main_hand": {
@@ -11,7 +12,6 @@
                 "mtl_path": "./models/hand.mtl",
                 "scale": 1.0
             },
-            "z_full_scale": 4000.0,
             "slot_body_map": [
                 {
                     "slot": 0,
@@ -20,8 +20,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0C",
-                    "body_id": "Body2:4",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body12:3",
+                    "red_sensitivity": 1000.0,
+                    "gradient_sensitivity": 1000.0,
+                    "hybrid_sensitivity": 1000.0
                 },
                 {
                     "slot": 1,
@@ -30,8 +32,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0D",
-                    "body_id": "Body2:4",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body11:2",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 2,
@@ -40,8 +44,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0E",
-                    "body_id": "Body2:4",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body8:1",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 3,
@@ -50,8 +56,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x0F",
-                    "body_id": "Body2:4",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body10:1",
+                    "red_sensitivity": 1000.0,
+                    "gradient_sensitivity": 1000.0,
+                    "hybrid_sensitivity": 1000.0
                 },
                 {
                     "slot": 4,
@@ -60,8 +68,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 0,
                     "i2c_address": "0x10",
-                    "body_id": "Body1:5",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body12:2",
+                    "red_sensitivity": 2000.0,
+                    "gradient_sensitivity": 2000.0,
+                    "hybrid_sensitivity": 2000.0
                 },
                 {
                     "slot": 5,
@@ -71,7 +81,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x11",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 6,
@@ -81,7 +93,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x12",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 7,
@@ -91,7 +105,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x13",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 8,
@@ -100,8 +116,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0C",
-                    "body_id": "Body2:6",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body10:2",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 9,
@@ -110,8 +128,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0D",
-                    "body_id": "Body2:6",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body8:3",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 10,
@@ -120,8 +140,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0E",
-                    "body_id": "Body2:6",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body11:3",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 11,
@@ -130,8 +152,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x0F",
-                    "body_id": "Body2:6",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body12:4",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 12,
@@ -140,8 +164,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x10",
-                    "body_id": "Body1:25",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body5:2",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 13,
@@ -150,8 +176,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x11",
-                    "body_id": "Body2:5",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body7:1",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 14,
@@ -160,8 +188,10 @@
                     "i2c_mux": "0x70",
                     "i2c_channel": 1,
                     "i2c_address": "0x12",
-                    "body_id": "Body2:5",
-                    "z_full_scale": 4000.0
+                    "body_id": "Body8:2",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 15,
@@ -171,7 +201,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0C",
                     "body_id": "Body2:8",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 16,
@@ -181,7 +213,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0D",
                     "body_id": "Body2:8",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 17,
@@ -191,7 +225,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0E",
                     "body_id": "Body2:8",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 18,
@@ -201,7 +237,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0F",
                     "body_id": "Body2:8",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 19,
@@ -211,7 +249,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x10",
                     "body_id": "Body1:51",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 20,
@@ -221,7 +261,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x11",
                     "body_id": "Body2:7",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 21,
@@ -231,7 +273,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x12",
                     "body_id": "Body2:7",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 22,
@@ -241,7 +285,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x0C",
                     "body_id": "Body2:10",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 23,
@@ -251,7 +297,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x0D",
                     "body_id": "Body2:10",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 24,
@@ -261,7 +309,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x0E",
                     "body_id": "Body2:10",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 25,
@@ -271,7 +321,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x0F",
                     "body_id": "Body2:10",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 26,
@@ -281,7 +333,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x10",
                     "body_id": "Body1:51",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 27,
@@ -291,7 +345,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x11",
                     "body_id": "Body2:9",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 28,
@@ -301,7 +357,9 @@
                     "i2c_channel": 3,
                     "i2c_address": "0x12",
                     "body_id": "Body2:9",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 29,
@@ -311,7 +369,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x0C",
                     "body_id": "Body2:12",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 30,
@@ -321,7 +381,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x0D",
                     "body_id": "Body2:12",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 31,
@@ -331,7 +393,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x0E",
                     "body_id": "Body2:12",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 32,
@@ -341,7 +405,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x0F",
                     "body_id": "Body2:12",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 33,
@@ -351,7 +417,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x10",
                     "body_id": "Body1:103",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 34,
@@ -361,7 +429,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x11",
                     "body_id": "Body2:11",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 35,
@@ -371,7 +441,9 @@
                     "i2c_channel": 0,
                     "i2c_address": "0x12",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 36,
@@ -381,7 +453,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x0C",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 37,
@@ -391,7 +465,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x0D",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 38,
@@ -401,7 +477,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x0E",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 39,
@@ -411,7 +489,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x0F",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 40,
@@ -421,7 +501,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x10",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 41,
@@ -431,7 +513,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x11",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 42,
@@ -441,7 +525,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x12",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 43,
@@ -451,7 +537,9 @@
                     "i2c_channel": 1,
                     "i2c_address": "0x13",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 44,
@@ -461,7 +549,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0C",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 45,
@@ -471,7 +561,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0D",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 46,
@@ -481,7 +573,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0E",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 47,
@@ -491,7 +585,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x0F",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 48,
@@ -501,7 +597,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x10",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 49,
@@ -511,7 +609,9 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x11",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 },
                 {
                     "slot": 50,
@@ -521,9 +621,15 @@
                     "i2c_channel": 2,
                     "i2c_address": "0x12",
                     "body_id": "",
-                    "z_full_scale": 4000.0
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0
                 }
-            ]
+            ],
+            "colour_mode": "red",
+            "red_sensitivity": 4000.0,
+            "gradient_sensitivity": 4000.0,
+            "hybrid_sensitivity": 4000.0
         },
         "alternate_hand": {
             "display_name": "Alternate CAD model",
@@ -532,8 +638,11 @@
                 "mtl_path": "./models/alternate_hand.mtl",
                 "scale": 1.0
             },
-            "z_full_scale": 4000.0,
-            "slot_body_map": []
+            "slot_body_map": [],
+            "colour_mode": "red",
+            "red_sensitivity": 4000.0,
+            "gradient_sensitivity": 4000.0,
+            "hybrid_sensitivity": 4000.0
         }
     }
 }

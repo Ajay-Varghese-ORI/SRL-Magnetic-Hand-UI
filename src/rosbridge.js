@@ -8,6 +8,7 @@ let isConnected = false;
  * @param {string} options.url rosbridge websocket URL.
  * @param {string} options.frameTopic ROS topic that publishes MagneticHandFrame messages.
  * @param {string} options.metadataTopic ROS topic that publishes SensorMetadataArray messages.
+ * @param {number} options.frameThrottleMs Minimum gap between frame messages from rosbridge, in ms.
  * @param {Function} options.onFrame Called with every frame message.
  * @param {Function} options.onMetadata Called with metadata messages.
  * @param {Function} options.onStatus Called with human-readable status text.
@@ -28,11 +29,11 @@ export function connectRosBridge(options)
         isConnected = true;
         options.onStatus?.(`Connected to ROS bridge at ${url}`);
 
-        subscribe(frameTopic);
+        subscribe(frameTopic, Number(options.frameThrottleMs || 0));
 
         if (metadataTopic)
         {
-            subscribe(metadataTopic);
+            subscribe(metadataTopic, 0);
         }
     });
 
@@ -126,17 +127,24 @@ export function getRosBridgeConnected()
  *
  * @param {string} topic ROS topic name to subscribe to.
 */
-function subscribe(topic)
+function subscribe(topic, throttleRateMs)
 {
     if (!socket || !topic)
     {
         return;
     }
 
-    socket.send(JSON.stringify(
+    const packet =
     {
         op: "subscribe",
         topic: topic,
         queue_length: 1
-    }));
+    };
+
+    if (Number.isFinite(throttleRateMs) && throttleRateMs > 0)
+    {
+        packet.throttle_rate = Math.round(throttleRateMs);
+    }
+
+    socket.send(JSON.stringify(packet));
 }

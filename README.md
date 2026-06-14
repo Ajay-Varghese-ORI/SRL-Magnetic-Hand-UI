@@ -77,7 +77,9 @@ Each profile has its own model paths and its own `slot_body_map`:
             "mtl_path": "./models/hand.mtl",
             "scale": 1.0
         },
-        "z_full_scale": 4000.0,
+        "red_sensitivity": 4000.0,
+        "gradient_sensitivity": 4000.0,
+        "hybrid_sensitivity": 4000.0,
         "slot_body_map": []
     },
     "alternate_hand": {
@@ -87,7 +89,9 @@ Each profile has its own model paths and its own `slot_body_map`:
             "mtl_path": "./models/alternate_hand.mtl",
             "scale": 1.0
         },
-        "z_full_scale": 4000.0,
+        "red_sensitivity": 4000.0,
+        "gradient_sensitivity": 4000.0,
+        "hybrid_sensitivity": 4000.0,
         "slot_body_map": []
     }
 }
@@ -108,34 +112,31 @@ Each slot mapping has:
     "i2c_channel": 0,
     "i2c_address": "0x0C",
     "body_id": "Body2:4",
-    "z_full_scale": 4000.0
+    "red_sensitivity": 4000.0,
+    "gradient_sensitivity": 4000.0,
+    "hybrid_sensitivity": 4000.0
 }
 ```
 
 Fill `body_id` with the OBJ mesh name, parent name, material name, or mesh UUID that should be coloured for that sensor slot.
 
-Multiple slots can use the same `body_id`. The UI normalises each slot using its own `z_full_scale`, then averages the normalised values for all slots mapped to the same body.
+Multiple slots can use the same `body_id`. The UI normalises each slot using the sensitivity value for the selected colour mode.
 
-## Per-slot colour scaling
+## Per-mode sensitivity
 
-Each slot can have its own maximum Z value:
+Each profile and each slot can have separate sensitivities for the three colour modes:
 
 ```json
-"z_full_scale": 1000.0
+"red_sensitivity": 1000.0,
+"gradient_sensitivity": 1500.0,
+"hybrid_sensitivity": 2000.0
 ```
 
-A larger value makes that slot less sensitive. A smaller value makes that slot more sensitive.
+The value is the calibrated Z magnitude that gives full colour intensity. A larger value makes that mode less sensitive. A smaller value makes that mode more sensitive.
 
-If a slot does not include `z_full_scale`, the profile-level value is used instead.
+If a slot does not include one of these fields, the profile-level value is used instead.
 
-The code also accepts these aliases if you prefer them:
-
-```text
-zFullScale
-z_max
-max_z
-max_value
-```
+Old `z_full_scale`, `zFullScale`, `z_max`, `max_z`, and `max_value` fields are still accepted as fallbacks, but the new config uses the three explicit sensitivity fields.
 
 ## Calibration
 
@@ -160,3 +161,110 @@ The calibration is saved in browser localStorage, so it remains available after 
 - Right mouse drag: pan.
 - L key: log camera position.
 - R key: reset camera.
+
+
+## Colour modes
+
+Each profile in `config/ui_config.json` can set:
+
+```json
+"colour_mode": "red"
+```
+
+or:
+
+```json
+"colour_mode": "gradient"
+```
+
+or:
+
+```json
+"colour_mode": "hybrid"
+```
+
+The sidebar dropdown can also switch between these modes live without restarting the app.
+
+### Red mode
+
+Sensors are grouped by `component` and `pad`. The calibrated Z magnitudes for all
+sensors in that pad are averaged, and their `red_sensitivity` values are averaged.
+Every mapped body in that pad is then coloured with the same fading red value.
+
+### Gradient mode
+
+Each sensor is treated independently. Its own body is coloured from that slot's
+calibrated Z magnitude and its own `gradient_sensitivity`. The body uses a radial
+false-colour gradient with a red centre, then orange, yellow, and blue toward
+the edge. A larger reading gives a larger red centre.
+
+### Hybrid mode
+
+Sensors are grouped by `component` and `pad`, just like red mode. The calibrated
+Z magnitudes and `hybrid_sensitivity` values are averaged across that pad. The
+pad is then drawn using one shared gradient centre/radius across all of its
+individual bodies, as if they were one larger mesh.
+
+## Performance notes
+
+The colour update path is throttled so the UI does not recolour the CAD model for every ROS websocket packet.
+
+Top-level config option:
+
+```json
+"frame_throttle_ms": 16
+```
+
+Use larger values if the model is heavy:
+
+```json
+"frame_throttle_ms": 33
+```
+
+That limits rosbridge frame delivery to about 30 Hz. The UI also only applies the latest received frame during the render loop, so intermediate stale frames are dropped rather than queued.
+
+Gradient mode now caches per-mesh vertex distances and updates colour buffers directly. Red mode remains the fastest option.
+
+
+## Hybrid colour mode
+
+Set `"colour_mode": "hybrid"` to use pad-level averaging like red mode, but draw the result using the gradient colour treatment across every body in that pad.
+
+
+The sidebar now includes a live colour mode selector so you can switch between `red`, `gradient`, and `hybrid` without editing the config file or restarting the app.
+
+
+Hybrid mode update: the gradient is now calculated using a shared centre and radius for the whole pad group. This means separate OBJ bodies that share the same `component` + `pad` are treated as one larger imaginary pad for the gradient.
+
+
+## Per-mode sensitivity
+
+`z_full_scale` has been replaced by mode-specific sensitivity fields:
+
+```json
+{
+    "slot": 0,
+    "component": "Thumb",
+    "pad": "Tip",
+    "body_id": "Body12:3",
+    "red_sensitivity": 1000.0,
+    "gradient_sensitivity": 1500.0,
+    "hybrid_sensitivity": 2000.0
+}
+```
+
+The sensitivity value is still the calibrated Z magnitude that gives full colour intensity. Lower values make that mode more sensitive.
+
+For pad-level modes:
+
+- `red` averages the `red_sensitivity` values for all sensors in the pad.
+- `hybrid` averages the `hybrid_sensitivity` values for all sensors in the pad.
+
+For individual-body mode:
+
+- `gradient` uses each sensor body's own `gradient_sensitivity`.
+
+Old `z_full_scale` configs are still accepted as a fallback, but the new config uses the three explicit fields.
+
+
+Hybrid mode note: the hybrid gradient now uses a much wider red core than the individual gradient mode. When the pad intensity reaches 1.0 the combined pad should become fully red, instead of staying mostly yellow/orange at the edges.
