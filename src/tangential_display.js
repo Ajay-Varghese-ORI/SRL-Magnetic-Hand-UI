@@ -13,6 +13,7 @@ const DEFAULT_TANGENTIAL_CONFIG =
     sensor_dot_radius: 7.4,
     passive_dot_radius: 7.4,
     render_hz: 30.0,
+    max_device_pixel_ratio: 1.5,
     fixed_dot_colour: "#1E90FF",
     movable_dot_colour: "#00FF11",
     marked32_dot_colour: "#F7FF00",
@@ -55,6 +56,9 @@ let latestActiveSources = [];
 let animationFrameHandle = null;
 let lastRenderTimeMs = 0;
 let needsRender = false;
+let slotConfigBySlot = [];
+let activeSourceByDotIndex = [];
+let padPolygonPath = null;
 
 /**
  * Initialise the tangential-force display DOM hooks.
@@ -125,6 +129,7 @@ export async function loadTangentialDisplay(appConfig)
 
         buildCanvasDisplayFromSvg(svgText);
         buildMappedDotIndex();
+        buildSlotConfigCache();
         requestRender(true);
         updateStatus(activeConfig.debug_mode ? `${sensorDots.length} sensors | ${movableDots.length} movable | ${fixedDots.length} fixed | ${motionGroups.length} groups` : "");
     }
@@ -149,32 +154,36 @@ export function updateTangentialDisplay(frame, getBaseline)
         return;
     }
 
-    const slotEntries = Array.isArray(activeProfile.slot_body_map) ? activeProfile.slot_body_map : [];
-    const slotConfigBySlot = new Map();
-
-    slotEntries.forEach((entry) =>
+    if (!Array.isArray(slotConfigBySlot) || slotConfigBySlot.length === 0)
     {
-        const slot = Number(entry.slot);
+        buildSlotConfigCache();
+    }
 
-        if (Number.isInteger(slot))
-        {
-            slotConfigBySlot.set(slot, entry);
-        }
-    });
+    if (!Array.isArray(activeSourceByDotIndex) || activeSourceByDotIndex.length !== sensorDots.length)
+    {
+        activeSourceByDotIndex = new Array(sensorDots.length).fill(null);
+    }
+    else
+    {
+        activeSourceByDotIndex.fill(null);
+    }
 
     const activeSources = [];
+    const maxDotOffset = getPositiveNumber(activeConfig.max_dot_offset, DEFAULT_TANGENTIAL_CONFIG.max_dot_offset);
+    const defaultSensitivity = getPositiveNumber(activeConfig.default_sensitivity, DEFAULT_TANGENTIAL_CONFIG.default_sensitivity);
+    const deadband = activeConfig.deadband;
 
     frame.samples.forEach((sample) =>
     {
         const slot = Number(sample.slot);
-        const entry = slotConfigBySlot.get(slot);
+        const entry = Number.isInteger(slot) ? slotConfigBySlot[slot] : null;
 
         if (!entry)
         {
             return;
         }
 
-        const dotIndex = getOptionalInteger(entry.tangential_dot_index ?? entry.tangentialDotIndex ?? entry.force_dot_index ?? entry.forceDotIndex);
+        const dotIndex = entry.__tangentialDotIndex;
         const sensorDot = sensorDots[dotIndex];
 
         if (!sensorDot)
@@ -191,32 +200,30 @@ export function updateTangentialDisplay(frame, getBaseline)
         }
 
         const baseline = typeof getBaseline === "function" ? getBaseline(slot) : {x: 0.0, y: 0.0, z: 0.0};
-        const xSign = getSign(entry.tangential_x_sign ?? entry.tangentialXSign ?? 1);
-        const ySign = getSign(entry.tangential_y_sign ?? entry.tangentialYSign ?? 1);
-        const headingOffsetDeg = getFiniteNumber(entry.tangential_heading_offset_deg ?? entry.tangentialHeadingOffsetDeg, 0.0);
-        const sensitivity = getPositiveNumber(entry.tangential_sensitivity ?? entry.tangentialSensitivity, activeConfig.default_sensitivity);
-
-        const dxField = (rawX - Number(baseline.x || 0.0)) * xSign;
-        const dyField = (rawY - Number(baseline.y || 0.0)) * ySign;
+        const dxField = (rawX - Number(baseline.x || 0.0)) * entry.__tangentialXSign;
+        const dyField = (rawY - Number(baseline.y || 0.0)) * entry.__tangentialYSign;
         const magnitude = Math.sqrt((dxField * dxField) + (dyField * dyField));
-        const normalisedMagnitude = applyDeadband(magnitude / Math.max(sensitivity, 1e-9), activeConfig.deadband);
+        const sensitivity = entry.__tangentialSensitivity || defaultSensitivity;
+        const normalisedMagnitude = applyDeadband(magnitude / Math.max(sensitivity, 1e-9), deadband);
 
         if (normalisedMagnitude <= 0.0001)
         {
             return;
         }
 
-        const headingRad = Math.atan2(dyField, dxField) + degreesToRadians(headingOffsetDeg);
-        const offsetScale = normalisedMagnitude * getPositiveNumber(activeConfig.max_dot_offset, DEFAULT_TANGENTIAL_CONFIG.max_dot_offset);
-
-        activeSources.push(
+        const headingRad = Math.atan2(dyField, dxField) + entry.__tangentialHeadingOffsetRad;
+        const offsetScale = normalisedMagnitude * maxDotOffset;
+        const source =
         {
             dotIndex: dotIndex,
             padIndex: sensorDot.padIndex,
             dx: Math.cos(headingRad) * offsetScale,
             dy: Math.sin(headingRad) * offsetScale,
             strength: normalisedMagnitude
-        });
+        };
+
+        activeSourceByDotIndex[dotIndex] = source;
+        activeSources.push(source);
     });
 
     latestActiveSources = activeSources;
@@ -265,6 +272,9 @@ function clearDisplayState()
     motionGroups = [];
     lastMappedSlotCount = 0;
     latestActiveSources = [];
+    slotConfigBySlot = [];
+    activeSourceByDotIndex = [];
+    padPolygonPath = null;
     lastRenderTimeMs = 0;
     needsRender = false;
 }
@@ -306,6 +316,8 @@ function buildCanvasDisplayFromSvg(svgText)
     });
 
     assignMotionGroupsFromDotClusters();
+    buildMotionLinks();
+    buildPadPolygonPath();
 
     if (sensorDots.length === 0)
     {
@@ -709,25 +721,127 @@ function buildMappedDotIndex()
     });
 }
 
-function applySourceMotion(activeSources)
+function buildSlotConfigCache()
 {
-    const sourceByDotIndex = new Map();
+    slotConfigBySlot = [];
 
-    activeSources.forEach((source) =>
+    const entries = Array.isArray(activeProfile?.slot_body_map) ? activeProfile.slot_body_map : [];
+    const defaultSensitivity = getPositiveNumber(activeConfig.default_sensitivity, DEFAULT_TANGENTIAL_CONFIG.default_sensitivity);
+
+    entries.forEach((entry) =>
     {
-        sourceByDotIndex.set(source.dotIndex, source);
-    });
+        const slot = Number(entry.slot);
 
-    const response = clamp01(getPositiveNumber(activeConfig.response, DEFAULT_TANGENTIAL_CONFIG.response));
+        if (!Number.isInteger(slot) || slot < 0)
+        {
+            return;
+        }
+
+        const dotIndex = getOptionalInteger(entry.tangential_dot_index ?? entry.tangentialDotIndex ?? entry.force_dot_index ?? entry.forceDotIndex);
+
+        if (!sensorDots[dotIndex])
+        {
+            return;
+        }
+
+        entry.__tangentialDotIndex = dotIndex;
+        entry.__tangentialXSign = getSign(entry.tangential_x_sign ?? entry.tangentialXSign ?? 1);
+        entry.__tangentialYSign = getSign(entry.tangential_y_sign ?? entry.tangentialYSign ?? 1);
+        entry.__tangentialHeadingOffsetRad = degreesToRadians(getFiniteNumber(entry.tangential_heading_offset_deg ?? entry.tangentialHeadingOffsetDeg, 0.0));
+        entry.__tangentialSensitivity = getPositiveNumber(entry.tangential_sensitivity ?? entry.tangentialSensitivity, defaultSensitivity);
+        slotConfigBySlot[slot] = entry;
+    });
+}
+
+function buildMotionLinks()
+{
     const configuredInfluenceRadius = getPositiveNumber(activeConfig.influence_radius, DEFAULT_TANGENTIAL_CONFIG.influence_radius);
     const influenceStrength = getPositiveNumber(activeConfig.influence_strength, DEFAULT_TANGENTIAL_CONFIG.influence_strength);
     const minimumPadInfluence = clamp01(getFiniteNumber(activeConfig.minimum_pad_influence, DEFAULT_TANGENTIAL_CONFIG.minimum_pad_influence));
     const springFalloffPower = getPositiveNumber(activeConfig.spring_falloff_power, DEFAULT_TANGENTIAL_CONFIG.spring_falloff_power);
+
+    const sensorsByPad = new Map();
+
+    sensorDots.forEach((sensorDot) =>
+    {
+        if (!Number.isInteger(sensorDot.padIndex) || sensorDot.padIndex < 0)
+        {
+            return;
+        }
+
+        if (!sensorsByPad.has(sensorDot.padIndex))
+        {
+            sensorsByPad.set(sensorDot.padIndex, []);
+        }
+
+        sensorsByPad.get(sensorDot.padIndex).push(sensorDot);
+    });
+
+    movableDots.forEach((dot) =>
+    {
+        const localSensors = sensorsByPad.get(dot.padIndex) || [];
+        const group = motionGroups[dot.padIndex];
+        const effectiveInfluenceRadius = Math.max(configuredInfluenceRadius, group?.motionInfluenceRadius || 0.0, 1.0);
+
+        dot.motionLinks = localSensors.map((sensorDot) =>
+        {
+            const distance = distance2D(dot.originalX, dot.originalY, sensorDot.originalX, sensorDot.originalY);
+            const influence = Math.max(0.0, 1.0 - (distance / effectiveInfluenceRadius));
+            const shapedInfluence = Math.pow(smooth01(influence), springFalloffPower);
+            const elasticInfluence = minimumPadInfluence + ((1.0 - minimumPadInfluence) * shapedInfluence);
+
+            return {
+                dotIndex: sensorDot.index,
+                weight: elasticInfluence * influenceStrength
+            };
+        }).filter((link) => link.weight > 0.0);
+    });
+}
+
+function buildPadPolygonPath()
+{
+    if (typeof Path2D === "undefined")
+    {
+        padPolygonPath = null;
+        return;
+    }
+
+    const path = new Path2D();
+
+    padPolygons.forEach((pad) =>
+    {
+        if (!Array.isArray(pad.points) || pad.points.length < 3)
+        {
+            return;
+        }
+
+        pad.points.forEach((point, index) =>
+        {
+            if (index === 0)
+            {
+                path.moveTo(point.x, point.y);
+            }
+            else
+            {
+                path.lineTo(point.x, point.y);
+            }
+        });
+
+        path.closePath();
+    });
+
+    padPolygonPath = path;
+}
+
+function applySourceMotion(activeSources)
+{
+    const response = clamp01(getPositiveNumber(activeConfig.response, DEFAULT_TANGENTIAL_CONFIG.response));
     const maxOffset = getPositiveNumber(activeConfig.max_dot_offset, DEFAULT_TANGENTIAL_CONFIG.max_dot_offset) * 1.2;
+    const hasActiveSources = activeSources.length > 0;
 
     sensorDots.forEach((dot) =>
     {
-        const source = sourceByDotIndex.get(dot.index);
+        const source = activeSourceByDotIndex[dot.index];
         let targetX = dot.originalX;
         let targetY = dot.originalY;
 
@@ -737,69 +851,33 @@ function applySourceMotion(activeSources)
             targetY += source.dy;
         }
 
-        // Sensor dots are anchors for the measured tangential vector. Do not
-        // clamp them to the SVG polygon boundary. Some sensor dots, especially
-        // thumb tip dots 28 to 32, sit very close to the boundary, so polygon
-        // clamping can collapse left/right/down motion and make them appear to
-        // move in only one direction.
         dot.x += (targetX - dot.x) * response;
         dot.y += (targetY - dot.y) * response;
     });
 
     movableDots.forEach((dot) =>
     {
-        const localSources = activeSources.filter((source) => source.padIndex === dot.padIndex);
-
-        if (localSources.length === 0)
-        {
-            dot.x += (dot.originalX - dot.x) * response;
-            dot.y += (dot.originalY - dot.y) * response;
-            return;
-        }
-
-        const group = motionGroups[dot.padIndex];
-        const effectiveInfluenceRadius = Math.max(configuredInfluenceRadius, group?.motionInfluenceRadius || 0.0);
-
-        let sumDx = 0.0;
-        let sumDy = 0.0;
-        let totalWeight = 0.0;
-
-        localSources.forEach((source) =>
-        {
-            const sensorDot = sensorDots[source.dotIndex];
-
-            if (!sensorDot)
-            {
-                return;
-            }
-
-            const distance = distance2D(dot.originalX, dot.originalY, sensorDot.originalX, sensorDot.originalY);
-            const influence = Math.max(0.0, 1.0 - (distance / effectiveInfluenceRadius));
-
-            // Spring style motion:
-            //   - dots close to the red sensor follow strongly
-            //   - dots further away follow less
-            //   - do not divide by the total weight, otherwise every dot gets
-            //     the same final displacement and the pad moves like a rigid plate
-            const shapedInfluence = Math.pow(smooth01(influence), springFalloffPower);
-            const elasticInfluence = minimumPadInfluence + ((1.0 - minimumPadInfluence) * shapedInfluence);
-            const weight = elasticInfluence * influenceStrength;
-
-            if (weight <= 0.0)
-            {
-                return;
-            }
-
-            sumDx += source.dx * weight;
-            sumDy += source.dy * weight;
-            totalWeight += weight;
-        });
-
         let targetX = dot.originalX;
         let targetY = dot.originalY;
 
-        if (totalWeight > 1e-9)
+        if (hasActiveSources && Array.isArray(dot.motionLinks) && dot.motionLinks.length > 0)
         {
+            let sumDx = 0.0;
+            let sumDy = 0.0;
+
+            dot.motionLinks.forEach((link) =>
+            {
+                const source = activeSourceByDotIndex[link.dotIndex];
+
+                if (!source)
+                {
+                    return;
+                }
+
+                sumDx += source.dx * link.weight;
+                sumDy += source.dy * link.weight;
+            });
+
             targetX += clampMagnitude(sumDx, maxOffset);
             targetY += clampMagnitude(sumDy, maxOffset);
         }
@@ -807,8 +885,6 @@ function applySourceMotion(activeSources)
         dot.x += (targetX - dot.x) * response;
         dot.y += (targetY - dot.y) * response;
     });
-
-    // Yellow dots are no longer hard-coded to sensor 32. They are treated as normal movable dots.
 }
 
 function applyMarked32FollowerMotion(sourceByDotIndex, response, influenceStrength, minimumPadInfluence, maxOffset)
@@ -912,7 +988,8 @@ function ensureCanvasSize()
     const rect = svgContainerElement.getBoundingClientRect();
     const cssWidth = Math.max(1, Math.floor(rect.width));
     const cssHeight = Math.max(1, Math.floor(rect.height));
-    const dpr = window.devicePixelRatio || 1;
+    const maxDevicePixelRatio = getPositiveNumber(activeConfig.max_device_pixel_ratio ?? activeConfig.maxDevicePixelRatio, DEFAULT_TANGENTIAL_CONFIG.max_device_pixel_ratio);
+    const dpr = Math.min(window.devicePixelRatio || 1, maxDevicePixelRatio);
     const pixelWidth = Math.max(1, Math.round(cssWidth * dpr));
     const pixelHeight = Math.max(1, Math.round(cssHeight * dpr));
 
@@ -1013,6 +1090,14 @@ function drawPadPolygons()
     canvasContext.strokeStyle = String(activeConfig.polygon_stroke_colour || DEFAULT_TANGENTIAL_CONFIG.polygon_stroke_colour);
     canvasContext.fillStyle = String(activeConfig.polygon_fill_colour || DEFAULT_TANGENTIAL_CONFIG.polygon_fill_colour);
 
+    if (padPolygonPath)
+    {
+        canvasContext.fill(padPolygonPath);
+        canvasContext.stroke(padPolygonPath);
+        canvasContext.restore();
+        return;
+    }
+
     padPolygons.forEach((pad) =>
     {
         canvasContext.beginPath();
@@ -1039,17 +1124,24 @@ function drawPadPolygons()
 
 function drawDots(dots, colour)
 {
+    if (!Array.isArray(dots) || dots.length === 0)
+    {
+        return;
+    }
+
     canvasContext.save();
     canvasContext.fillStyle = colour;
     canvasContext.strokeStyle = "rgba(0,0,0,0.85)";
     canvasContext.lineWidth = 0.35;
+    canvasContext.beginPath();
 
     dots.forEach((dot) =>
     {
-        drawCircle(dot.x, dot.y, dot.radius);
-        canvasContext.stroke();
+        appendCircleToCurrentPath(dot.x, dot.y, dot.radius);
     });
 
+    canvasContext.fill();
+    canvasContext.stroke();
     canvasContext.restore();
 }
 
@@ -1059,44 +1151,60 @@ function drawSensorDots()
     const labelFontSize = getPositiveNumber(activeConfig.label_font_size, DEFAULT_TANGENTIAL_CONFIG.label_font_size);
 
     canvasContext.save();
+    canvasContext.fillStyle = String(activeConfig.mapped_dot_colour || DEFAULT_TANGENTIAL_CONFIG.mapped_dot_colour);
+    canvasContext.strokeStyle = "rgba(0,0,0,0.95)";
+    canvasContext.lineWidth = 0.8;
+    canvasContext.beginPath();
+
+    sensorDots.forEach((dot) =>
+    {
+        appendCircleToCurrentPath(dot.x, dot.y, dot.radius);
+    });
+
+    canvasContext.fill();
+    canvasContext.stroke();
+
+    if (!showIds)
+    {
+        canvasContext.restore();
+        return;
+    }
+
     canvasContext.textAlign = "left";
     canvasContext.textBaseline = "middle";
     canvasContext.font = `bold ${labelFontSize}px Arial, sans-serif`;
 
     sensorDots.forEach((dot) =>
     {
-        canvasContext.fillStyle = String(activeConfig.mapped_dot_colour || DEFAULT_TANGENTIAL_CONFIG.mapped_dot_colour);
-        canvasContext.strokeStyle = "rgba(0,0,0,0.95)";
-        canvasContext.lineWidth = 0.8;
-        drawCircle(dot.x, dot.y, dot.radius);
-        canvasContext.stroke();
+        const label = String(dot.index);
+        const labelX = dot.x + dot.radius + 5.0;
+        const labelY = dot.y;
+        const metrics = canvasContext.measureText(label);
+        const padX = 4.0;
+        const padY = 3.0;
+        const boxWidth = metrics.width + (padX * 2.0);
+        const boxHeight = labelFontSize + (padY * 2.0);
 
-        if (showIds)
-        {
-            const label = String(dot.index);
-            const labelX = dot.x + dot.radius + 5.0;
-            const labelY = dot.y;
-            const metrics = canvasContext.measureText(label);
-            const padX = 4.0;
-            const padY = 3.0;
-            const boxWidth = metrics.width + (padX * 2.0);
-            const boxHeight = labelFontSize + (padY * 2.0);
+        canvasContext.fillStyle = String(activeConfig.label_background_colour || DEFAULT_TANGENTIAL_CONFIG.label_background_colour);
+        canvasContext.fillRect(labelX - padX, labelY - (boxHeight * 0.5), boxWidth, boxHeight);
 
-            canvasContext.fillStyle = String(activeConfig.label_background_colour || DEFAULT_TANGENTIAL_CONFIG.label_background_colour);
-            canvasContext.fillRect(labelX - padX, labelY - (boxHeight * 0.5), boxWidth, boxHeight);
-
-            canvasContext.fillStyle = String(activeConfig.label_colour || DEFAULT_TANGENTIAL_CONFIG.label_colour);
-            canvasContext.fillText(label, labelX, labelY);
-        }
+        canvasContext.fillStyle = String(activeConfig.label_colour || DEFAULT_TANGENTIAL_CONFIG.label_colour);
+        canvasContext.fillText(label, labelX, labelY);
     });
 
     canvasContext.restore();
 }
 
+function appendCircleToCurrentPath(x, y, radius)
+{
+    canvasContext.moveTo(x + Math.max(1.0, radius), y);
+    canvasContext.arc(x, y, Math.max(1.0, radius), 0, Math.PI * 2.0);
+}
+
 function drawCircle(x, y, radius)
 {
     canvasContext.beginPath();
-    canvasContext.arc(x, y, Math.max(1.0, radius), 0, Math.PI * 2.0);
+    appendCircleToCurrentPath(x, y, radius);
     canvasContext.fill();
 }
 

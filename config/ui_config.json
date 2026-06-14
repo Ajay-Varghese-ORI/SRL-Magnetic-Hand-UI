@@ -1433,7 +1433,7 @@
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 31,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1460,7 +1460,7 @@
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 29,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1487,7 +1487,7 @@
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 28,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1514,7 +1514,7 @@
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 30,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1541,7 +1541,7 @@
                         "y": 27.683362572256783,
                         "z": -48.68338117623536
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 32,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1568,7 +1568,7 @@
                         "y": 37.21394069926697,
                         "z": -9.31780977413517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 50,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1595,7 +1595,7 @@
                         "y": 37.21394069926697,
                         "z": -9.31780977413517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 49,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1622,7 +1622,7 @@
                         "y": 37.21394069926697,
                         "z": -9.31780977413517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 48,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1649,7 +1649,7 @@
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 3,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1676,7 +1676,7 @@
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 1,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1703,7 +1703,7 @@
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 0,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1730,7 +1730,7 @@
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 2,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1757,7 +1757,7 @@
                         "y": 31.11836814880371,
                         "z": -164.76210603065846
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 4,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1784,7 +1784,7 @@
                         "y": 31.11836814880371,
                         "z": -105.24385339671207
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 5,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1811,7 +1811,7 @@
                         "y": 31.11836814880371,
                         "z": -105.24385339671207
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 6,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1838,7 +1838,7 @@
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 9,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1865,7 +1865,7 @@
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 7,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1892,7 +1892,7 @@
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 8,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1919,7 +1919,7 @@
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 10,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -1946,7 +1946,7 @@
                         "y": 31.118368148803683,
                         "z": -135.9363992106641
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 11,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -1973,7 +1973,7 @@
                         "y": 31.118368148803683,
                         "z": -102.5187273196735
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 12,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2000,7 +2000,7 @@
                         "y": 31.118368148803683,
                         "z": -102.5187273196735
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 13,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2027,7 +2027,7 @@
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 17,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2054,7 +2054,7 @@
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 15,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2081,7 +2081,7 @@
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 14,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2108,7 +2108,7 @@
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 16,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2135,7 +2135,7 @@
                         "y": 31.11836814880371,
                         "z": -124.58498879266416
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 18,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2162,7 +2162,7 @@
                         "y": 31.11836814880371,
                         "z": -92.49135577961545
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 19,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2189,7 +2189,7 @@
                         "y": 31.11836814880371,
                         "z": -92.49135577961545
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 20,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2216,7 +2216,7 @@
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 23,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2243,7 +2243,7 @@
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 21,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2270,7 +2270,7 @@
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 22,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2297,7 +2297,7 @@
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 24,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": -90.0,
@@ -2324,7 +2324,7 @@
                         "y": 31.11836814880371,
                         "z": -112.37079803505074
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 25,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2351,7 +2351,7 @@
                         "y": 31.11836814880371,
                         "z": -81.01024531609696
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 27,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": -1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2378,7 +2378,7 @@
                         "y": 31.11836814880371,
                         "z": -81.01024531609696
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 26,
                     "tangential_x_sign": -1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2405,7 +2405,7 @@
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 44,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2432,7 +2432,7 @@
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 45,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2459,7 +2459,7 @@
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 47,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2486,7 +2486,7 @@
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 46,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2513,7 +2513,7 @@
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 42,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2540,7 +2540,7 @@
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 40,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2567,7 +2567,7 @@
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 41,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2594,7 +2594,7 @@
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 43,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2621,7 +2621,7 @@
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 34,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2648,7 +2648,7 @@
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 35,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2675,7 +2675,7 @@
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 36,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2702,7 +2702,7 @@
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 33,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2729,7 +2729,7 @@
                         "y": 37.21349036949893,
                         "z": -3.4727208636982505
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 37,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2756,7 +2756,7 @@
                         "y": 37.21349036949893,
                         "z": -3.4727208636982505
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 39,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2783,7 +2783,7 @@
                         "y": 37.21349036949893,
                         "z": -3.4727208636982505
                     },
-                    "tangential_dot_index": null,
+                    "tangential_dot_index": 38,
                     "tangential_x_sign": 1,
                     "tangential_y_sign": 1,
                     "tangential_heading_offset_deg": 0.0,
@@ -2821,6 +2821,7 @@
         "passive_dot_grid_radius": 2,
         "render_hz": 30.0,
         "minimum_pad_influence": 0.12,
-        "spring_falloff_power": 2.0
+        "spring_falloff_power": 2.0,
+        "max_device_pixel_ratio": 1.5
     }
 }

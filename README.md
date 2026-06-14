@@ -338,3 +338,82 @@ When false, the mapper is hidden, click debug/highlight tools are disabled, and 
 ## Sidebar
 
 The sidebar is now an overlay. It does not shrink or resize the 3D viewer. Use the small tab on the left edge to slide it in or out.
+
+## Tangential-force display
+
+This build adds a right-side SVG force display for the X/Y magnetic readings.
+The 3D hand still uses Z for press intensity. The new display uses calibrated
+X/Y deltas to estimate tangential heading and moves dots on `assets/Dots_handFDM.svg`.
+
+The heading calculation is:
+
+```text
+x = (raw_x - calibrated_x) * tangential_x_sign
+y = (raw_y - calibrated_y) * tangential_y_sign
+heading = atan2(y, x) + tangential_heading_offset_deg
+```
+
+The movement size is normalised with `tangential_sensitivity`. Map a sensor to a
+red key dot by setting `tangential_dot_index` in that slot entry. Leave it as
+`null` if the slot is not mapped to a dot yet.
+
+Top-level display settings live in `tangential_display`:
+
+```json
+"tangential_display": {
+    "enabled": true,
+    "svg_path": "./assets/Dots_handFDM.svg",
+    "max_dot_offset": 7.0,
+    "influence_radius": 34.0,
+    "influence_strength": 0.85,
+    "response": 0.32,
+    "deadband": 0.03,
+    "default_sensitivity": 1200.0
+}
+```
+
+Each slot now supports:
+
+```json
+"tangential_dot_index": null,
+"tangential_x_sign": 1,
+"tangential_y_sign": 1,
+"tangential_heading_offset_deg": 0.0,
+"tangential_sensitivity": 1200.0
+```
+
+## Tangential force display update
+
+The tangential force overlay is now larger and easier to map.
+
+- Original SVG sensor dots are shown as red sensor-candidate dots.
+- Each sensor candidate shows its numeric `tangential_dot_index` label.
+- Extra passive white dots are generated around each sensor candidate inside the same pad shape.
+- Active sensor dots pull nearby passive dots in the calculated X/Y heading direction.
+- The panel is larger and pointer-enabled so dot hover titles can be inspected.
+
+Relevant config values:
+
+```json
+"tangential_display": {
+    "show_dot_ids": true,
+    "sensor_dot_radius": 3.0,
+    "passive_dot_radius": 2.0,
+    "passive_dot_spacing": 5.0,
+    "passive_dot_grid_radius": 2,
+    "max_dot_offset": 12.0,
+    "influence_radius": 24.0
+}
+```
+
+Use the visible red dot number as the `tangential_dot_index` for the matching sensor slot.
+
+
+## Tangential pad influence fix
+
+`minimum_pad_influence` controls how much every green dot in the same pad follows an active sensor, even when it is far from the red sensor dot. This prevents large or diamond shaped pads from looking split, where one triangle moves and another appears fixed. Blue boundary dots remain fixed.
+
+
+## Non-debug tangential display colours
+
+When `debug_mode` is `false`, the tangential movement display hides dot ID labels and status text. It also renders all non-sensor dots as white at runtime. Red sensor dots stay red. In debug mode, the SVG/debug colours are preserved.
