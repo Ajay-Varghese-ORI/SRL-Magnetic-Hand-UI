@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "UI for SRL Hand",
   "main": "electron-main.cjs",
+  "author": "ajay <ajay@test.com>",
   "scripts": {
     "start": "electron .",
     "dist:linux": "electron-builder --linux AppImage deb --x64"
