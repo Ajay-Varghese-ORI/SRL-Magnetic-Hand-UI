@@ -24,6 +24,9 @@ const GRADIENT_MIN_RED_CORE = 0.10;
 const GRADIENT_MAX_RED_CORE = 0.46;
 const GRADIENT_MIN_SPREAD = 0.62;
 const GRADIENT_MAX_SPREAD = 0.96;
+const DEFAULT_GRADIENT_SUBDIVISION_TARGET = 2.0;
+const DEFAULT_GRADIENT_SUBDIVISION_MAX_STEPS = 18;
+
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -46,6 +49,8 @@ let defaultSensitivity = DEFAULT_SENSITIVITY;
 let gradientVisualGain = DEFAULT_GRADIENT_VISUAL_GAIN;
 let gradientVisualExponent = DEFAULT_GRADIENT_VISUAL_EXPONENT;
 let gradientDeadband = DEFAULT_GRADIENT_DEADBAND;
+let gradientSubdivisionTarget = DEFAULT_GRADIENT_SUBDIVISION_TARGET;
+let gradientSubdivisionMaxSteps = DEFAULT_GRADIENT_SUBDIVISION_MAX_STEPS;
 let calibrationBySlot = new Map();
 let calibrationTimestamp = null;
 let activeProfileName = "legacy";
@@ -761,7 +766,9 @@ function finishLoadedModel(object, modelScale)
     });
 
     buildBodyMeshIndex();
+    subdivideMappedGradientMeshes();
     padGradientInfoByKey = new Map();
+    padMultiHotspotInfoByKey = new Map();
     applyLatestFrameToModel();
 }
 
@@ -870,6 +877,10 @@ export function loadUiConfig(config)
     gradientVisualExponent = getPositiveNumber(profile?.gradient_visual_exponent,
                              getPositiveNumber(config?.gradient_visual_exponent, DEFAULT_GRADIENT_VISUAL_EXPONENT));
     gradientDeadband = clamp01(Number(profile?.gradient_deadband ?? config?.gradient_deadband ?? DEFAULT_GRADIENT_DEADBAND));
+    gradientSubdivisionTarget = getPositiveNumber(profile?.gradient_geometry_subdivision_target,
+                                getPositiveNumber(config?.gradient_geometry_subdivision_target, DEFAULT_GRADIENT_SUBDIVISION_TARGET));
+    gradientSubdivisionMaxSteps = Math.max(1, Math.floor(getPositiveNumber(profile?.gradient_geometry_subdivision_max_steps,
+                                  getPositiveNumber(config?.gradient_geometry_subdivision_max_steps, DEFAULT_GRADIENT_SUBDIVISION_MAX_STEPS))));
 
     colourMode = String(profile.colour_mode ||
                         profile.color_mode ||
@@ -1452,6 +1463,314 @@ function loadStoredCalibration()
     {
         console.warn("Could not load stored calibration:", err);
     }
+}
+
+
+/*
+    Add extra vertices to mapped meshes before gradient colouring starts.
+
+    The gradient renderer uses vertex colours. On very low-poly flat CAD pads,
+    a hot spot in the middle of a large triangle cannot be represented because
+    there are no vertices there. Rather than changing the CAD model, this creates
+    a denser runtime copy of mapped pad geometry only.
+*/
+function subdivideMappedGradientMeshes()
+{
+    if (!model || !bodyMeshIndex || mappedBodyIds.size === 0)
+    {
+        return;
+    }
+
+    const processedMeshUuids = new Set();
+    let subdividedCount = 0;
+
+    mappedBodyIds.forEach((bodyId) =>
+    {
+        const mesh = findMeshByBodyId(bodyId);
+
+        if (!mesh || !mesh.geometry || processedMeshUuids.has(mesh.uuid))
+        {
+            return;
+        }
+
+        processedMeshUuids.add(mesh.uuid);
+
+        if (subdivideMeshGeometryForGradient(mesh))
+        {
+            subdividedCount += 1;
+        }
+    });
+
+    if (subdividedCount > 0)
+    {
+        console.log(`Subdivided ${subdividedCount} mapped meshes for smoother gradient colouring`);
+    }
+}
+
+/*
+    Create a denser non-indexed geometry for one mesh if its triangles are large.
+*/
+function subdivideMeshGeometryForGradient(mesh)
+{
+    const sourceGeometry = mesh.geometry;
+
+    if (!sourceGeometry || sourceGeometry.userData?.srlGradientSubdivided)
+    {
+        return false;
+    }
+
+    const sourcePosition = sourceGeometry.getAttribute("position");
+
+    if (!sourcePosition || sourcePosition.count < 3)
+    {
+        return false;
+    }
+
+    let geometry = sourceGeometry;
+
+    if (geometry.index)
+    {
+        geometry = geometry.toNonIndexed();
+    }
+    else
+    {
+        geometry = geometry.clone();
+    }
+
+    const position = geometry.getAttribute("position");
+    const normal = geometry.getAttribute("normal");
+    const uv = geometry.getAttribute("uv");
+    const groups = normaliseGeometryGroups(geometry, position.count);
+
+    const newPositions = [];
+    const newNormals = normal ? [] : null;
+    const newUvs = uv ? [] : null;
+    const newGroups = [];
+    let outputVertexCount = 0;
+    let largestStepCount = 1;
+
+    groups.forEach((group) =>
+    {
+        const groupStartVertex = outputVertexCount;
+        const end = Math.min(group.start + group.count, position.count);
+
+        for (let triStart = group.start; triStart + 2 < end; triStart += 3)
+        {
+            const stepCount = getTriangleSubdivisionStepCount(position, triStart);
+            largestStepCount = Math.max(largestStepCount, stepCount);
+
+            appendSubdividedTriangle(
+                position,
+                normal,
+                uv,
+                triStart,
+                stepCount,
+                newPositions,
+                newNormals,
+                newUvs
+            );
+
+            outputVertexCount = newPositions.length / 3;
+        }
+
+        const groupCount = outputVertexCount - groupStartVertex;
+
+        if (groupCount > 0)
+        {
+            newGroups.push(
+            {
+                start: groupStartVertex,
+                count: groupCount,
+                materialIndex: group.materialIndex || 0
+            });
+        }
+    });
+
+    if (largestStepCount <= 1)
+    {
+        return false;
+    }
+
+    const newGeometry = new THREE.BufferGeometry();
+    newGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(newPositions), 3));
+
+    if (newNormals && newNormals.length > 0)
+    {
+        newGeometry.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(newNormals), 3));
+    }
+    else
+    {
+        newGeometry.computeVertexNormals();
+    }
+
+    if (newUvs && newUvs.length > 0)
+    {
+        newGeometry.setAttribute("uv", new THREE.BufferAttribute(new Float32Array(newUvs), 2));
+    }
+
+    newGroups.forEach((group) =>
+    {
+        newGeometry.addGroup(group.start, group.count, group.materialIndex);
+    });
+
+    newGeometry.computeBoundingBox();
+    newGeometry.computeBoundingSphere();
+    newGeometry.userData.srlGradientSubdivided = true;
+
+    mesh.geometry = newGeometry;
+    mesh.userData.gradientInfo = null;
+    mesh.userData.lastGradientIntensity = undefined;
+    mesh.userData.lastGradientModeKey = undefined;
+    mesh.userData.lastMultiHotspotModeKey = undefined;
+
+    return true;
+}
+
+/*
+    Return material groups that cover all triangles in a non-indexed geometry.
+*/
+function normaliseGeometryGroups(geometry, vertexCount)
+{
+    if (Array.isArray(geometry.groups) && geometry.groups.length > 0)
+    {
+        return geometry.groups.map((group) =>
+        {
+            return {
+                start: group.start,
+                count: group.count,
+                materialIndex: group.materialIndex || 0
+            };
+        });
+    }
+
+    return [
+    {
+        start: 0,
+        count: vertexCount,
+        materialIndex: 0
+    }];
+}
+
+/*
+    Pick how much one triangle should be subdivided based on its longest edge.
+*/
+function getTriangleSubdivisionStepCount(position, triStart)
+{
+    const ax = position.getX(triStart + 0);
+    const ay = position.getY(triStart + 0);
+    const az = position.getZ(triStart + 0);
+    const bx = position.getX(triStart + 1);
+    const by = position.getY(triStart + 1);
+    const bz = position.getZ(triStart + 1);
+    const cx = position.getX(triStart + 2);
+    const cy = position.getY(triStart + 2);
+    const cz = position.getZ(triStart + 2);
+
+    const ab = distance3(ax, ay, az, bx, by, bz);
+    const bc = distance3(bx, by, bz, cx, cy, cz);
+    const ca = distance3(cx, cy, cz, ax, ay, az);
+    const longestEdge = Math.max(ab, bc, ca);
+
+    return Math.max(1, Math.min(gradientSubdivisionMaxSteps, Math.ceil(longestEdge / gradientSubdivisionTarget)));
+}
+
+/*
+    Append one barycentric-grid subdivided triangle to output arrays.
+*/
+function appendSubdividedTriangle(position, normal, uv, triStart, stepCount, outPositions, outNormals, outUvs)
+{
+    const emitVertex = (i, j) =>
+    {
+        const b = i / stepCount;
+        const c = j / stepCount;
+        const a = 1.0 - b - c;
+
+        interpolateVec3Attribute(position, triStart, a, b, c, outPositions, false);
+
+        if (normal && outNormals)
+        {
+            interpolateVec3Attribute(normal, triStart, a, b, c, outNormals, true);
+        }
+
+        if (uv && outUvs)
+        {
+            interpolateVec2Attribute(uv, triStart, a, b, c, outUvs);
+        }
+    };
+
+    for (let i = 0; i < stepCount; i++)
+    {
+        for (let j = 0; j < (stepCount - i); j++)
+        {
+            emitVertex(i, j);
+            emitVertex(i + 1, j);
+            emitVertex(i, j + 1);
+
+            if ((i + j) < (stepCount - 1))
+            {
+                emitVertex(i + 1, j);
+                emitVertex(i + 1, j + 1);
+                emitVertex(i, j + 1);
+            }
+        }
+    }
+}
+
+/*
+    Interpolate a vec3 triangle attribute using barycentric weights.
+*/
+function interpolateVec3Attribute(attribute, triStart, a, b, c, output, normalise)
+{
+    let x = (attribute.getX(triStart + 0) * a) +
+            (attribute.getX(triStart + 1) * b) +
+            (attribute.getX(triStart + 2) * c);
+    let y = (attribute.getY(triStart + 0) * a) +
+            (attribute.getY(triStart + 1) * b) +
+            (attribute.getY(triStart + 2) * c);
+    let z = (attribute.getZ(triStart + 0) * a) +
+            (attribute.getZ(triStart + 1) * b) +
+            (attribute.getZ(triStart + 2) * c);
+
+    if (normalise)
+    {
+        const length = Math.sqrt((x * x) + (y * y) + (z * z));
+
+        if (length > 1e-9)
+        {
+            x /= length;
+            y /= length;
+            z /= length;
+        }
+    }
+
+    output.push(x, y, z);
+}
+
+/*
+    Interpolate a vec2 triangle attribute using barycentric weights.
+*/
+function interpolateVec2Attribute(attribute, triStart, a, b, c, output)
+{
+    const x = (attribute.getX(triStart + 0) * a) +
+              (attribute.getX(triStart + 1) * b) +
+              (attribute.getX(triStart + 2) * c);
+    const y = (attribute.getY(triStart + 0) * a) +
+              (attribute.getY(triStart + 1) * b) +
+              (attribute.getY(triStart + 2) * c);
+
+    output.push(x, y);
+}
+
+/*
+    Return Euclidean distance between two XYZ points.
+*/
+function distance3(ax, ay, az, bx, by, bz)
+{
+    const dx = ax - bx;
+    const dy = ay - by;
+    const dz = az - bz;
+
+    return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
 }
 
 /*
