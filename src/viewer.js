@@ -17,6 +17,13 @@ let fpsLastUpdateTime = performance.now();
 const FPS_UPDATE_INTERVAL_MS = 250;
 const MODEL_COLOUR_UPDATE_INTERVAL_MS = 33;
 const INTENSITY_CHANGE_EPSILON = 0.005;
+const DEFAULT_GRADIENT_VISUAL_GAIN = 1.05;
+const DEFAULT_GRADIENT_VISUAL_EXPONENT = 0.55;
+const DEFAULT_GRADIENT_DEADBAND = 0.10;
+const GRADIENT_MIN_RED_CORE = 0.10;
+const GRADIENT_MAX_RED_CORE = 0.46;
+const GRADIENT_MIN_SPREAD = 0.62;
+const GRADIENT_MAX_SPREAD = 0.96;
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -36,6 +43,9 @@ let latestFrame = null;
 let pendingFrameApply = false;
 let lastModelColourUpdateTime = 0.0;
 let defaultSensitivity = DEFAULT_SENSITIVITY;
+let gradientVisualGain = DEFAULT_GRADIENT_VISUAL_GAIN;
+let gradientVisualExponent = DEFAULT_GRADIENT_VISUAL_EXPONENT;
+let gradientDeadband = DEFAULT_GRADIENT_DEADBAND;
 let calibrationBySlot = new Map();
 let calibrationTimestamp = null;
 let activeProfileName = "legacy";
@@ -43,6 +53,7 @@ let activeModelConfig = null;
 let colourMode = "red";
 let padGroups = new Map();
 let padGradientInfoByKey = new Map();
+let padMultiHotspotInfoByKey = new Map();
 const reusableGradientRgb = [1.0, 0.0, 0.0];
 
 
@@ -806,8 +817,14 @@ export function loadUiConfig(config)
     mappedBodyIds = new Set();
     padGroups = new Map();
     padGradientInfoByKey = new Map();
+    padMultiHotspotInfoByKey = new Map();
 
     defaultSensitivity = getDefaultSensitivity(profile, config);
+    gradientVisualGain = getPositiveNumber(profile?.gradient_visual_gain,
+                         getPositiveNumber(config?.gradient_visual_gain, DEFAULT_GRADIENT_VISUAL_GAIN));
+    gradientVisualExponent = getPositiveNumber(profile?.gradient_visual_exponent,
+                             getPositiveNumber(config?.gradient_visual_exponent, DEFAULT_GRADIENT_VISUAL_EXPONENT));
+    gradientDeadband = clamp01(Number(profile?.gradient_deadband ?? config?.gradient_deadband ?? DEFAULT_GRADIENT_DEADBAND));
 
     colourMode = String(profile.colour_mode ||
                         profile.color_mode ||
@@ -846,7 +863,9 @@ export function loadUiConfig(config)
             padKey: padKey,
             redSensitivity: sensitivities.red,
             gradientSensitivity: sensitivities.gradient,
-            hybridSensitivity: sensitivities.hybrid
+            hybridSensitivity: sensitivities.hybrid,
+            gradientHotspotWorld: getVectorConfig(entry.gradient_hotspot_world || entry.gradientHotspotWorld),
+            hybridHotspotWorld: getVectorConfig(entry.hybrid_hotspot_world || entry.hybridHotspotWorld)
         });
 
         mappedBodyIds.add(bodyId);
@@ -1040,6 +1059,66 @@ function getPositiveNumber(value, fallback)
 }
 
 /*
+    Read an optional XYZ vector from config.
+
+    This is used for rare cases where the visual hotspot should be pinned to
+    a known world-space point instead of the centre of the CAD body.
+*/
+function getVectorConfig(value)
+{
+    if (!value || typeof value !== "object")
+    {
+        return null;
+    }
+
+    if (isEmptyVectorComponent(value.x) ||
+        isEmptyVectorComponent(value.y) ||
+        isEmptyVectorComponent(value.z))
+    {
+        return null;
+    }
+
+    const x = Number(value.x);
+    const y = Number(value.y);
+    const z = Number(value.z);
+
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z))
+    {
+        return null;
+    }
+
+    return {x: x, y: y, z: z};
+}
+
+/*
+    Return true when a vector component is deliberately blank in the config.
+
+    This allows every hotspot field to always contain x/y/z keys while still
+    letting the code fall back to the calculated geometric centre when the
+    values are unused.
+*/
+function isEmptyVectorComponent(value)
+{
+    return value === null || value === undefined || String(value).trim() === "";
+}
+
+/*
+    Apply a normalised deadband and rescale the remaining value to 0..1.
+*/
+function applyNormalisedDeadband(value, deadband)
+{
+    const clampedValue = clamp01(value);
+    const clampedDeadband = clamp01(deadband);
+
+    if (clampedValue <= clampedDeadband)
+    {
+        return 0.0;
+    }
+
+    return clamp01((clampedValue - clampedDeadband) / Math.max(1.0 - clampedDeadband, 1e-9));
+}
+
+/*
     Build one pad-group key from component and pad.
 
     If component/pad are missing, fall back to the body ID so the mapping still works.
@@ -1224,6 +1303,31 @@ function buildBodyMeshIndex()
     });
 
     console.log(`Built model body index with ${bodyMeshIndex.size} names`);
+    reportMissingMappedBodies();
+}
+
+/*
+    Warn if any configured body IDs do not exist in the loaded model.
+*/
+function reportMissingMappedBodies()
+{
+    const missingBodyIds = [];
+
+    mappedBodyIds.forEach((bodyId) =>
+    {
+        if (!findMeshByBodyId(bodyId))
+        {
+            missingBodyIds.push(bodyId);
+        }
+    });
+
+    if (missingBodyIds.length === 0)
+    {
+        console.log("All configured body IDs were found in the loaded model");
+        return;
+    }
+
+    console.warn("Configured body IDs not found in model:", missingBodyIds);
 }
 
 /*
@@ -1431,7 +1535,7 @@ function applyHybridModeFrame()
 */
 function applyGradientModeFrame()
 {
-    const bodyValues = new Map();
+    const slotIntensityMap = new Map();
 
     latestFrame.samples.forEach((sample) =>
     {
@@ -1452,29 +1556,27 @@ function applyGradientModeFrame()
 
         const calibratedZ = calibrationBySlot.has(slot) ? calibrationBySlot.get(slot) : 0.0;
         const zMagnitude = Math.abs(rawZ - calibratedZ);
-        const slotIntensity = clamp01(zMagnitude / Math.max(getMappingSensitivity(mapping, "gradient"), 1e-9));
+        const rawSlotIntensity = clamp01(zMagnitude / Math.max(getMappingSensitivity(mapping, "gradient"), 1e-9));
+        const slotIntensity = applyNormalisedDeadband(rawSlotIntensity, gradientDeadband);
 
-        if (!bodyValues.has(mapping.bodyId))
-        {
-            bodyValues.set(mapping.bodyId, []);
-        }
-
-        bodyValues.get(mapping.bodyId).push(slotIntensity);
+        slotIntensityMap.set(slot, slotIntensity);
     });
 
-    mappedBodyIds.forEach((bodyId) =>
+    padGroups.forEach((group, padKey) =>
     {
-        const mesh = findMeshByBodyId(bodyId);
+        const modeKey = buildMultiHotspotModeKey(padKey, group.slots, slotIntensityMap);
 
-        if (!mesh)
+        group.bodyIds.forEach((bodyId) =>
         {
-            return;
-        }
+            const mesh = findMeshByBodyId(bodyId);
 
-        const values = bodyValues.get(bodyId) || [];
-        const intensity = average(values);
+            if (!mesh)
+            {
+                return;
+            }
 
-        setMeshGradientIntensity(mesh, intensity);
+            setMeshMultiHotspotGradientIntensity(mesh, padKey, group.slots, slotIntensityMap, modeKey);
+        });
     });
 }
 
@@ -1491,6 +1593,392 @@ function findMeshByBodyId(bodyId)
     }
 
     return bodyMeshIndex.get(key) || null;
+}
+
+/*
+    Build a compact key representing the current multi-hotspot state for one pad.
+
+    This lets the renderer skip colour-buffer writes when the visible values have
+    not changed enough to matter.
+*/
+function buildMultiHotspotModeKey(padKey, slots, slotIntensityMap)
+{
+    const parts = [String(padKey)];
+
+    slots.forEach((slot) =>
+    {
+        const intensity = slotIntensityMap.get(slot) || 0.0;
+
+        // Quantise to 2 percent steps so sensor jitter does not force a full
+        // vertex-colour repaint every received ROS frame.
+        parts.push(`${slot}:${Math.round(intensity * 50)}`);
+    });
+
+    return parts.join("|");
+}
+
+/*
+    Apply continuous multi-hotspot gradient mode to one mesh.
+
+    Unlike the old local gradient, each vertex is evaluated against every sensor
+    hotspot in the same pad. Since all distances are calculated in world space,
+    adjacent CAD bodies blend together instead of each body having its own hard
+    centred gradient.
+*/
+function setMeshMultiHotspotGradientIntensity(mesh, padKey, slots, slotIntensityMap, modeKey)
+{
+    if (!mesh || !mesh.isMesh || !mesh.material || !mesh.geometry)
+    {
+        return;
+    }
+
+    const activeModeKey = `multi:${modeKey}`;
+
+    if (mesh.userData.lastMultiHotspotModeKey === activeModeKey)
+    {
+        return;
+    }
+
+    const padInfo = getPadMultiHotspotInfo(padKey);
+    const meshInfo = padInfo?.meshInfo?.get(mesh.uuid);
+
+    if (!meshInfo)
+    {
+        return;
+    }
+
+    mesh.userData.lastMultiHotspotModeKey = activeModeKey;
+    mesh.userData.lastGradientIntensity = undefined;
+    mesh.userData.lastGradientModeKey = undefined;
+    mesh.userData.lastRedIntensity = undefined;
+
+    const materials = makeMeshMaterialsUnique(mesh);
+    const firstMaterial = Array.isArray(materials) ? materials[0] : materials;
+    const baseColour = getMaterialBaseColour(firstMaterial);
+    const colours = ensureMeshColourAttribute(mesh);
+    const colourArray = colours.array;
+
+    const activeHotspots = [];
+
+    for (let slotIndex = 0; slotIndex < slots.length; slotIndex++)
+    {
+        const slot = slots[slotIndex];
+        const intensity = slotIntensityMap.get(slot) || 0.0;
+
+        if (intensity <= 0.0001)
+        {
+            continue;
+        }
+
+        const distanceNorms = meshInfo.distanceNormsBySlot.get(slot);
+
+        if (!distanceNorms)
+        {
+            continue;
+        }
+
+        // Sensitivity converts the raw magnetic reading to a 0 to 1 value.
+        // This visual curve makes gradient mode show useful colour before the
+        // raw value is fully saturated.
+        const visualIntensity = clamp01(Math.pow(intensity, gradientVisualExponent) * gradientVisualGain);
+        const spread = GRADIENT_MIN_SPREAD + ((GRADIENT_MAX_SPREAD - GRADIENT_MIN_SPREAD) * visualIntensity);
+        const redCoreRadius = GRADIENT_MIN_RED_CORE + ((GRADIENT_MAX_RED_CORE - GRADIENT_MIN_RED_CORE) * visualIntensity);
+
+        activeHotspots.push(
+        {
+            distances: distanceNorms,
+            visualIntensity: visualIntensity,
+            inverseSpread: 1.0 / Math.max(spread, 1e-9),
+            redCoreRadius: redCoreRadius
+        });
+    }
+
+    if (activeHotspots.length === 0)
+    {
+        fillMeshColourArray(colourArray, baseColour.r, baseColour.g, baseColour.b);
+        colours.needsUpdate = true;
+        enableVertexColours(materials);
+        return;
+    }
+
+    for (let vertexIndex = 0; vertexIndex < meshInfo.vertexCount; vertexIndex++)
+    {
+        let combinedActivation = 0.0;
+        let weightedDistance = 0.0;
+        let totalWeight = 0.0;
+
+        for (let hotspotIndex = 0; hotspotIndex < activeHotspots.length; hotspotIndex++)
+        {
+            const hotspot = activeHotspots[hotspotIndex];
+            const distanceNorm = hotspot.distances[vertexIndex];
+            const localDistance = clamp01(distanceNorm * hotspot.inverseSpread);
+            const closeness = 1.0 - localDistance;
+
+            if (closeness <= 0.0)
+            {
+                continue;
+            }
+
+            // Broad, smooth falloff. This is intentionally wide so adjacent
+            // sectioned bodies blend together instead of showing hard gaps.
+            const spatialWeight = Math.pow(smooth01(closeness), 1.35);
+            const contribution = clamp01(hotspot.visualIntensity * spatialWeight);
+
+            if (contribution <= 0.0001)
+            {
+                continue;
+            }
+
+            combinedActivation = 1.0 - ((1.0 - combinedActivation) * (1.0 - contribution));
+            weightedDistance += localDistance * contribution;
+            totalWeight += contribution;
+        }
+
+        const arrayIndex = vertexIndex * 3;
+
+        if (totalWeight <= 0.0001)
+        {
+            colourArray[arrayIndex + 0] = baseColour.r;
+            colourArray[arrayIndex + 1] = baseColour.g;
+            colourArray[arrayIndex + 2] = baseColour.b;
+            continue;
+        }
+
+        const blendedDistance = clamp01(weightedDistance / totalWeight);
+        const blendedCoreRadius = GRADIENT_MIN_RED_CORE + ((GRADIENT_MAX_RED_CORE - GRADIENT_MIN_RED_CORE) * combinedActivation);
+        const gradient = sampleGradientRgbNoAlloc(blendedDistance, blendedCoreRadius);
+        const mixAmount = clamp01(combinedActivation * 1.20);
+
+        colourArray[arrayIndex + 0] = baseColour.r + ((gradient[0] - baseColour.r) * mixAmount);
+        colourArray[arrayIndex + 1] = baseColour.g + ((gradient[1] - baseColour.g) * mixAmount);
+        colourArray[arrayIndex + 2] = baseColour.b + ((gradient[2] - baseColour.b) * mixAmount);
+    }
+
+    colours.needsUpdate = true;
+    enableVertexColours(materials);
+}
+
+/*
+    Build or return cached distance fields for continuous gradient mode.
+
+    Each sensor hotspot is placed at the centre of its mapped body. Offsets are
+    deliberately disabled in this version to keep the continuous gradient fast
+    and easy to debug.
+*/
+function getPadMultiHotspotInfo(padKey)
+{
+    if (padMultiHotspotInfoByKey.has(padKey))
+    {
+        return padMultiHotspotInfoByKey.get(padKey);
+    }
+
+    const group = padGroups.get(padKey);
+
+    if (!group)
+    {
+        return null;
+    }
+
+    const meshes = [];
+    const seenMeshIds = new Set();
+
+    group.bodyIds.forEach((bodyId) =>
+    {
+        const mesh = findMeshByBodyId(bodyId);
+
+        if (!mesh || seenMeshIds.has(mesh.uuid))
+        {
+            return;
+        }
+
+        seenMeshIds.add(mesh.uuid);
+        meshes.push(mesh);
+    });
+
+    if (meshes.length === 0)
+    {
+        return null;
+    }
+
+    if (model)
+    {
+        model.updateMatrixWorld(true);
+    }
+
+    const hotspotCentersBySlot = new Map();
+
+    group.slots.forEach((slot) =>
+    {
+        const mapping = slotBodyMap.get(slot);
+        const mesh = findMeshByBodyId(mapping?.bodyId);
+
+        if (!mapping || !mesh)
+        {
+            return;
+        }
+
+        hotspotCentersBySlot.set(slot, getSensorHotspotWorldPosition(mapping, mesh));
+    });
+
+    if (hotspotCentersBySlot.size === 0)
+    {
+        return null;
+    }
+
+    const worldPoint = new THREE.Vector3();
+    const meshWorldPoints = new Map();
+
+    meshes.forEach((mesh) =>
+    {
+        const position = mesh.geometry.attributes.position;
+
+        if (!position)
+        {
+            return;
+        }
+
+        const worldPoints = new Float32Array(position.count * 3);
+
+        for (let index = 0; index < position.count; index++)
+        {
+            worldPoint.set(position.getX(index), position.getY(index), position.getZ(index));
+            worldPoint.applyMatrix4(mesh.matrixWorld);
+
+            const arrayIndex = index * 3;
+            worldPoints[arrayIndex + 0] = worldPoint.x;
+            worldPoints[arrayIndex + 1] = worldPoint.y;
+            worldPoints[arrayIndex + 2] = worldPoint.z;
+        }
+
+        meshWorldPoints.set(mesh.uuid,
+        {
+            vertexCount: position.count,
+            worldPoints: worldPoints
+        });
+    });
+
+    const distanceRangesBySlot = new Map();
+
+    hotspotCentersBySlot.forEach((hotspotCenter, slot) =>
+    {
+        distanceRangesBySlot.set(slot,
+        {
+            min: Number.POSITIVE_INFINITY,
+            max: 0.0
+        });
+
+        const range = distanceRangesBySlot.get(slot);
+
+        meshWorldPoints.forEach((meshData) =>
+        {
+            const worldPoints = meshData.worldPoints;
+
+            for (let index = 0; index < meshData.vertexCount; index++)
+            {
+                const arrayIndex = index * 3;
+                const dx = worldPoints[arrayIndex + 0] - hotspotCenter.x;
+                const dy = worldPoints[arrayIndex + 1] - hotspotCenter.y;
+                const dz = worldPoints[arrayIndex + 2] - hotspotCenter.z;
+                const distance = Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+
+                if (distance < range.min)
+                {
+                    range.min = distance;
+                }
+
+                if (distance > range.max)
+                {
+                    range.max = distance;
+                }
+            }
+        });
+
+        if (!Number.isFinite(range.min) || ((range.max - range.min) < 1e-9))
+        {
+            range.min = 0.0;
+            range.max = 1.0;
+        }
+    });
+
+    const meshInfo = new Map();
+
+    meshWorldPoints.forEach((meshData, meshUuid) =>
+    {
+        const distanceNormsBySlot = new Map();
+
+        hotspotCentersBySlot.forEach((hotspotCenter, slot) =>
+        {
+            const range = distanceRangesBySlot.get(slot);
+            const rangeSize = Math.max(range.max - range.min, 1e-9);
+            const distances = new Float32Array(meshData.vertexCount);
+            const worldPoints = meshData.worldPoints;
+
+            for (let index = 0; index < meshData.vertexCount; index++)
+            {
+                const arrayIndex = index * 3;
+                const dx = worldPoints[arrayIndex + 0] - hotspotCenter.x;
+                const dy = worldPoints[arrayIndex + 1] - hotspotCenter.y;
+                const dz = worldPoints[arrayIndex + 2] - hotspotCenter.z;
+                const distance = Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+
+                // Normalise so the closest visible vertices to a hotspot become 0.
+                // This fixes solid/rounded bodies where the mathematical centre is
+                // inside the mesh and no actual vertex sits at the centre.
+                distances[index] = clamp01((distance - range.min) / rangeSize);
+            }
+
+            distanceNormsBySlot.set(slot, distances);
+        });
+
+        meshInfo.set(meshUuid,
+        {
+            vertexCount: meshData.vertexCount,
+            distanceNormsBySlot: distanceNormsBySlot
+        });
+    });
+
+    const padInfo =
+    {
+        hotspotCentersBySlot: hotspotCentersBySlot,
+        meshInfo: meshInfo,
+        distanceRangesBySlot: distanceRangesBySlot
+    };
+
+    padMultiHotspotInfoByKey.set(padKey, padInfo);
+
+    return padInfo;
+}
+
+/*
+    Return the world-space hotspot position for a sensor entry.
+
+    This version uses the centre of the mapped sensor body. Per-slot offsets are
+    intentionally not used until the continuous field is stable and performant.
+*/
+function getSensorHotspotWorldPosition(mapping, mesh)
+{
+    if (mapping?.gradientHotspotWorld)
+    {
+        return new THREE.Vector3(
+            mapping.gradientHotspotWorld.x,
+            mapping.gradientHotspotWorld.y,
+            mapping.gradientHotspotWorld.z
+        );
+    }
+
+    const geometry = mesh.geometry;
+
+    if (!geometry.boundingBox)
+    {
+        geometry.computeBoundingBox();
+    }
+
+    const box = geometry.boundingBox;
+    const center = new THREE.Vector3();
+
+    box.getCenter(center);
+
+    return center.applyMatrix4(mesh.matrixWorld);
 }
 
 /*
@@ -1571,7 +2059,33 @@ function getPadGradientInfo(padKey)
     });
 
     const padCenter = new THREE.Vector3();
-    combinedBox.getCenter(padCenter);
+    const hybridHotspots = [];
+
+    group.slots.forEach((slot) =>
+    {
+        const mapping = slotBodyMap.get(slot);
+
+        if (mapping?.hybridHotspotWorld)
+        {
+            hybridHotspots.push(mapping.hybridHotspotWorld);
+        }
+    });
+
+    if (hybridHotspots.length > 0)
+    {
+        hybridHotspots.forEach((hotspot) =>
+        {
+            padCenter.x += hotspot.x;
+            padCenter.y += hotspot.y;
+            padCenter.z += hotspot.z;
+        });
+
+        padCenter.multiplyScalar(1.0 / hybridHotspots.length);
+    }
+    else
+    {
+        combinedBox.getCenter(padCenter);
+    }
 
     const worldPoint = new THREE.Vector3();
     let maxRadius = 0.001;
@@ -1660,6 +2174,7 @@ function setMeshRedIntensity(mesh, intensity)
     mesh.userData.lastRedIntensity = clampedIntensity;
     mesh.userData.lastGradientIntensity = undefined;
     mesh.userData.lastGradientModeKey = undefined;
+    mesh.userData.lastMultiHotspotModeKey = undefined;
 
     const materials = makeMeshMaterialsUnique(mesh);
 
@@ -1707,6 +2222,7 @@ function setMeshGradientIntensity(mesh, intensity, gradientInfo = null, gradient
     mesh.userData.lastGradientIntensity = clampedIntensity;
     mesh.userData.lastGradientModeKey = activeGradientModeKey;
     mesh.userData.lastRedIntensity = undefined;
+    mesh.userData.lastMultiHotspotModeKey = undefined;
 
     const materials = makeMeshMaterialsUnique(mesh);
     const geometry = mesh.geometry;
@@ -1864,6 +2380,51 @@ function fillMeshColourArray(array, r, g, b)
         array[index + 1] = g;
         array[index + 2] = b;
     }
+}
+
+/*
+    Smoothly interpolate a 0 to 1 value.
+*/
+function smooth01(value)
+{
+    const t = clamp01(value);
+    return t * t * (3.0 - (2.0 * t));
+}
+
+/*
+    Sample heat-map colour by activation rather than by radial distance.
+
+    0 is blue/low and 1 is red/hot. Values in between move through yellow
+    and orange.
+*/
+function sampleHeatRgbFromActivationNoAlloc(activation)
+{
+    const value = clamp01(activation);
+
+    if (value < 0.33)
+    {
+        const t = value / 0.33;
+        reusableGradientRgb[0] = 0.0823529412 + ((1.0 - 0.0823529412) * t);
+        reusableGradientRgb[1] = 0.3960784314 + ((0.9019607843 - 0.3960784314) * t);
+        reusableGradientRgb[2] = 1.0 + ((0.0 - 1.0) * t);
+        return reusableGradientRgb;
+    }
+
+    if (value < 0.66)
+    {
+        const t = (value - 0.33) / 0.33;
+        reusableGradientRgb[0] = 1.0;
+        reusableGradientRgb[1] = 0.9019607843 + ((0.4784313725 - 0.9019607843) * t);
+        reusableGradientRgb[2] = 0.0;
+        return reusableGradientRgb;
+    }
+
+    const t = (value - 0.66) / 0.34;
+    reusableGradientRgb[0] = 1.0;
+    reusableGradientRgb[1] = 0.4784313725 + ((0.0 - 0.4784313725) * t);
+    reusableGradientRgb[2] = 0.0;
+
+    return reusableGradientRgb;
 }
 
 /*

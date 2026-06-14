@@ -23,7 +23,17 @@
                     "body_id": "Body12:3",
                     "red_sensitivity": 1000.0,
                     "gradient_sensitivity": 1000.0,
-                    "hybrid_sensitivity": 1000.0
+                    "hybrid_sensitivity": 1000.0,
+                    "gradient_hotspot_world": {
+                        "x": 63.18139301756544,
+                        "y": 40.27027522289838,
+                        "z": -79.45552581344671
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 1,
@@ -35,7 +45,17 @@
                     "body_id": "Body11:2",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": 65.11254691368899,
+                        "y": 39.19668805187257,
+                        "z": -83.47302692834181
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 2,
@@ -47,7 +67,17 @@
                     "body_id": "Body8:1",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 3,
@@ -59,7 +89,17 @@
                     "body_id": "Body10:1",
                     "red_sensitivity": 1000.0,
                     "gradient_sensitivity": 1000.0,
-                    "hybrid_sensitivity": 1000.0
+                    "hybrid_sensitivity": 1000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 4,
@@ -71,7 +111,17 @@
                     "body_id": "Body12:2",
                     "red_sensitivity": 2000.0,
                     "gradient_sensitivity": 2000.0,
-                    "hybrid_sensitivity": 2000.0
+                    "hybrid_sensitivity": 2000.0,
+                    "gradient_hotspot_world": {
+                        "x": 46.52701666667734,
+                        "y": 34.98373342765653,
+                        "z": -58.791909184779584
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 5,
@@ -83,7 +133,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 6,
@@ -95,7 +155,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 7,
@@ -107,7 +177,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 8,
@@ -119,7 +199,17 @@
                     "body_id": "Body10:2",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 9,
@@ -131,7 +221,17 @@
                     "body_id": "Body8:3",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 10,
@@ -143,7 +243,17 @@
                     "body_id": "Body11:3",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 11,
@@ -155,7 +265,17 @@
                     "body_id": "Body12:4",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 12,
@@ -167,7 +287,17 @@
                     "body_id": "Body5:2",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": 14.03803705035816,
+                        "y": 19.605678867438343,
+                        "z": -152.78141985290083
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 13,
@@ -179,7 +309,17 @@
                     "body_id": "Body7:1",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 14,
@@ -191,7 +331,17 @@
                     "body_id": "Body8:2",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 15,
@@ -203,7 +353,17 @@
                     "body_id": "Body2:8",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 16,
@@ -215,7 +375,17 @@
                     "body_id": "Body2:8",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 17,
@@ -227,7 +397,17 @@
                     "body_id": "Body2:8",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 18,
@@ -239,7 +419,17 @@
                     "body_id": "Body2:8",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 19,
@@ -251,7 +441,17 @@
                     "body_id": "Body1:51",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 20,
@@ -263,7 +463,17 @@
                     "body_id": "Body2:7",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 21,
@@ -275,7 +485,17 @@
                     "body_id": "Body2:7",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 22,
@@ -287,7 +507,17 @@
                     "body_id": "Body2:10",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 23,
@@ -299,7 +529,17 @@
                     "body_id": "Body2:10",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 24,
@@ -311,7 +551,17 @@
                     "body_id": "Body2:10",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 25,
@@ -323,7 +573,17 @@
                     "body_id": "Body2:10",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 26,
@@ -335,7 +595,17 @@
                     "body_id": "Body1:51",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 27,
@@ -347,7 +617,17 @@
                     "body_id": "Body2:9",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 28,
@@ -359,7 +639,17 @@
                     "body_id": "Body2:9",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 29,
@@ -371,7 +661,17 @@
                     "body_id": "Body2:12",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 30,
@@ -383,7 +683,17 @@
                     "body_id": "Body2:12",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 31,
@@ -395,7 +705,17 @@
                     "body_id": "Body2:12",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 32,
@@ -407,7 +727,17 @@
                     "body_id": "Body2:12",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 33,
@@ -419,7 +749,17 @@
                     "body_id": "Body1:103",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 34,
@@ -431,7 +771,17 @@
                     "body_id": "Body2:11",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 35,
@@ -443,7 +793,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 36,
@@ -455,7 +815,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 37,
@@ -467,7 +837,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 38,
@@ -479,7 +859,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 39,
@@ -491,7 +881,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 40,
@@ -503,7 +903,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 41,
@@ -515,7 +925,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 42,
@@ -527,7 +947,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 43,
@@ -539,7 +969,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 44,
@@ -551,7 +991,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 45,
@@ -563,7 +1013,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 46,
@@ -575,7 +1035,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 47,
@@ -587,7 +1057,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 48,
@@ -599,7 +1079,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 49,
@@ -611,7 +1101,17 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 },
                 {
                     "slot": 50,
@@ -623,10 +1123,20 @@
                     "body_id": "",
                     "red_sensitivity": 4000.0,
                     "gradient_sensitivity": 4000.0,
-                    "hybrid_sensitivity": 4000.0
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
                 }
             ],
-            "colour_mode": "red",
+            "colour_mode": "gradient",
             "red_sensitivity": 4000.0,
             "gradient_sensitivity": 4000.0,
             "hybrid_sensitivity": 4000.0
@@ -638,7 +1148,1130 @@
                 "mtl_path": "./models/alternate_hand.mtl",
                 "scale": 1.0
             },
-            "slot_body_map": [],
+            "slot_body_map": [
+                {
+                    "slot": 0,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 1000.0,
+                    "gradient_sensitivity": 1000.0,
+                    "hybrid_sensitivity": 1000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 1,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 2,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 3,
+                    "component": "Thumb",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 1000.0,
+                    "gradient_sensitivity": 1000.0,
+                    "hybrid_sensitivity": 1000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 4,
+                    "component": "Thumb",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 2000.0,
+                    "gradient_sensitivity": 2000.0,
+                    "hybrid_sensitivity": 2000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 5,
+                    "component": "Palm",
+                    "pad": "Pad 18",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 6,
+                    "component": "Palm",
+                    "pad": "Pad 18",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 7,
+                    "component": "Palm",
+                    "pad": "Pad 18",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x13",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 8,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 9,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 10,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 11,
+                    "component": "Index Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 12,
+                    "component": "Index Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 13,
+                    "component": "Index Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 14,
+                    "component": "Index Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 15,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 16,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 17,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 18,
+                    "component": "Middle Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 19,
+                    "component": "Middle Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 20,
+                    "component": "Middle Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 21,
+                    "component": "Middle Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 22,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 23,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 24,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 25,
+                    "component": "Ring Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 26,
+                    "component": "Ring Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 27,
+                    "component": "Ring Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 28,
+                    "component": "Ring Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x70",
+                    "i2c_channel": 3,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 29,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 30,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 31,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 32,
+                    "component": "Pinky Finger",
+                    "pad": "Tip",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 33,
+                    "component": "Pinky Finger",
+                    "pad": "Mid",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 34,
+                    "component": "Pinky Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 35,
+                    "component": "Pinky Finger",
+                    "pad": "Prox",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 0,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 36,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 37,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 38,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 39,
+                    "component": "Palm",
+                    "pad": "Pad 17",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 40,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 41,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 42,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 43,
+                    "component": "Palm",
+                    "pad": "Pad 16",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 1,
+                    "i2c_address": "0x13",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 44,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0C",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 45,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0D",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 46,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0E",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 47,
+                    "component": "Palm",
+                    "pad": "Pad 15",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x0F",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 48,
+                    "component": "Palm",
+                    "pad": "Pad 14",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x10",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 49,
+                    "component": "Palm",
+                    "pad": "Pad 14",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x11",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                },
+                {
+                    "slot": 50,
+                    "component": "Palm",
+                    "pad": "Pad 14",
+                    "i2c_mux": "0x71",
+                    "i2c_channel": 2,
+                    "i2c_address": "0x12",
+                    "body_id": "",
+                    "red_sensitivity": 4000.0,
+                    "gradient_sensitivity": 4000.0,
+                    "hybrid_sensitivity": 4000.0,
+                    "gradient_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    },
+                    "hybrid_hotspot_world": {
+                        "x": null,
+                        "y": null,
+                        "z": null
+                    }
+                }
+            ],
             "colour_mode": "red",
             "red_sensitivity": 4000.0,
             "gradient_sensitivity": 4000.0,

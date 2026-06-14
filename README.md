@@ -268,3 +268,39 @@ Old `z_full_scale` configs are still accepted as a fallback, but the new config 
 
 
 Hybrid mode note: the hybrid gradient now uses a much wider red core than the individual gradient mode. When the pad intensity reaches 1.0 the combined pad should become fully red, instead of staying mostly yellow/orange at the edges.
+
+
+## Continuous gradient mode and hotspot offsets
+
+Gradient mode now treats all bodies with the same `component` and `pad` as one continuous field with multiple sensor hotspots. Each sensor still has its own reading and `gradient_sensitivity`, but every vertex in the pad is evaluated against every hotspot in that pad. This avoids hard colour breaks between sectioned CAD bodies.
+
+Each slot can optionally move its hotspot centre using `gradient_offset`:
+
+```json
+"gradient_offset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+}
+```
+
+The offset is relative to the mapped body's local bounding box half-size. `x: 1.0` moves to the positive local X edge, `x: -1.0` moves to the negative local X edge, and `0.0` stays at the centre. The same applies to Y and Z. For flat pad sections, X and Y will usually be enough, but Z is available if the hotspot needs moving through the thickness or along the model's local depth axis.
+
+
+## Continuous gradient performance fix
+
+The continuous gradient mode now keeps one cached distance field per pad/body and no longer parses or applies per-slot hotspot offsets. Hotspots are currently placed at the centre of their mapped sensor body. The previous multi-hotspot cache was also fixed so unchanged quantised sensor values do not repaint every vertex every frame.
+
+Offsets can be added back later once the continuous field is stable.
+
+
+## Optional world hotspot overrides
+
+Each slot entry in `config/ui_config.json` now includes two optional world-space hotspot fields:
+
+- `gradient_hotspot_world`
+- `hybrid_hotspot_world`
+
+Leave them as empty objects (`{}`) when unused. The viewer will then fall back to the calculated geometric centre.
+
+In hybrid mode, if one or more slots in the same pad define `hybrid_hotspot_world`, the viewer averages the provided world points and uses that average as the shared hybrid hotspot centre for the whole pad. If none are provided, the viewer uses the mathematical centre of the combined pad geometry.
