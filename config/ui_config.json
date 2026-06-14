@@ -3,7 +3,7 @@
     "frame_topic": "/srl_magnetic_hand/frame",
     "metadata_topic": "/srl_magnetic_hand/metadata",
     "frame_throttle_ms": 16,
-    "active_profile": "alternate_hand",
+    "active_profile": "main_hand",
     "profiles": {
         "main_hand": {
             "display_name": "Main hand CAD model",
@@ -33,7 +33,12 @@
                         "x": 65.6966049164282,
                         "y": 42.34676591181278,
                         "z": -80.13914781099862
-                    }
+                    },
+                    "tangential_dot_index": 31,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 1,
@@ -55,7 +60,12 @@
                         "x": 65.6966049164282,
                         "y": 42.34676591181278,
                         "z": -80.13914781099862
-                    }
+                    },
+                    "tangential_dot_index": 29,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 2,
@@ -77,7 +87,12 @@
                         "x": 65.6966049164282,
                         "y": 42.34676591181278,
                         "z": -80.13914781099862
-                    }
+                    },
+                    "tangential_dot_index": 28,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 3,
@@ -99,7 +114,12 @@
                         "x": 65.6966049164282,
                         "y": 42.34676591181278,
                         "z": -80.13914781099862
-                    }
+                    },
+                    "tangential_dot_index": 30,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 4,
@@ -121,7 +141,12 @@
                         "x": 46.729491050328434,
                         "y": 35.47196761246191,
                         "z": -58.17055283224575
-                    }
+                    },
+                    "tangential_dot_index": 32,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 5,
@@ -143,7 +168,12 @@
                         "x": 22.23916716315602,
                         "y": 31.66667673763189,
                         "z": -18.417447656329568
-                    }
+                    },
+                    "tangential_dot_index": 50,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 6,
@@ -165,7 +195,12 @@
                         "x": 22.23916716315602,
                         "y": 31.66667673763189,
                         "z": -18.417447656329568
-                    }
+                    },
+                    "tangential_dot_index": 49,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 7,
@@ -187,7 +222,12 @@
                         "x": 22.23916716315602,
                         "y": 31.66667673763189,
                         "z": -18.417447656329568
-                    }
+                    },
+                    "tangential_dot_index": 48,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 8,
@@ -209,7 +249,12 @@
                         "x": 13.740585289065622,
                         "y": 19.587863802255413,
                         "z": -181.63163269922083
-                    }
+                    },
+                    "tangential_dot_index": 3,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 9,
@@ -231,7 +276,12 @@
                         "x": 13.740585289065622,
                         "y": 19.587863802255413,
                         "z": -181.63163269922083
-                    }
+                    },
+                    "tangential_dot_index": 1,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 10,
@@ -253,7 +303,12 @@
                         "x": 13.740585289065622,
                         "y": 19.587863802255413,
                         "z": -181.63163269922083
-                    }
+                    },
+                    "tangential_dot_index": 0,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 11,
@@ -275,7 +330,12 @@
                         "x": 13.740585289065622,
                         "y": 19.587863802255413,
                         "z": -181.63163269922083
-                    }
+                    },
+                    "tangential_dot_index": 2,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 12,
@@ -297,7 +357,12 @@
                         "x": 13.82865066354331,
                         "y": 19.601472253839333,
                         "z": -153.0262519346351
-                    }
+                    },
+                    "tangential_dot_index": 4,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 13,
@@ -319,7 +384,12 @@
                         "x": 13.653589430472767,
                         "y": 19.5979594141739,
                         "z": -118.0121406513082
-                    }
+                    },
+                    "tangential_dot_index": 5,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 14,
@@ -341,7 +411,12 @@
                         "x": 13.653589430472767,
                         "y": 19.5979594141739,
                         "z": -118.0121406513082
-                    }
+                    },
+                    "tangential_dot_index": 6,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 15,
@@ -363,7 +438,12 @@
                         "x": -16.44023742423601,
                         "y": 19.59315533944563,
                         "z": -178.95786476424013
-                    }
+                    },
+                    "tangential_dot_index": 9,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 16,
@@ -385,7 +465,12 @@
                         "x": -16.44023742423601,
                         "y": 19.59315533944563,
                         "z": -178.95786476424013
-                    }
+                    },
+                    "tangential_dot_index": 7,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 17,
@@ -407,7 +492,12 @@
                         "x": -16.44023742423601,
                         "y": 19.59315533944563,
                         "z": -178.95786476424013
-                    }
+                    },
+                    "tangential_dot_index": 8,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 18,
@@ -429,7 +519,12 @@
                         "x": -16.44023742423601,
                         "y": 19.59315533944563,
                         "z": -178.95786476424013
-                    }
+                    },
+                    "tangential_dot_index": 10,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 19,
@@ -451,7 +546,12 @@
                         "x": -13.309527919114696,
                         "y": 19.60318420822854,
                         "z": -150.71807876600633
-                    }
+                    },
+                    "tangential_dot_index": 11,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 20,
@@ -473,7 +573,12 @@
                         "x": -9.465782472732334,
                         "y": 19.60602371570066,
                         "z": -115.70299403407405
-                    }
+                    },
+                    "tangential_dot_index": 12,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 21,
@@ -495,7 +600,12 @@
                         "x": -9.465782472732334,
                         "y": 19.60602371570066,
                         "z": -115.70299403407405
-                    }
+                    },
+                    "tangential_dot_index": 13,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 22,
@@ -517,7 +627,12 @@
                         "x": -45.06290650916077,
                         "y": 19.592989162231135,
                         "z": -167.4150028903674
-                    }
+                    },
+                    "tangential_dot_index": 17,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 23,
@@ -539,7 +654,12 @@
                         "x": -45.06290650916077,
                         "y": 19.592989162231135,
                         "z": -167.4150028903674
-                    }
+                    },
+                    "tangential_dot_index": 15,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 24,
@@ -561,7 +681,12 @@
                         "x": -45.06290650916077,
                         "y": 19.592989162231135,
                         "z": -167.4150028903674
-                    }
+                    },
+                    "tangential_dot_index": 14,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 25,
@@ -583,7 +708,12 @@
                         "x": -45.06290650916077,
                         "y": 19.592989162231135,
                         "z": -167.4150028903674
-                    }
+                    },
+                    "tangential_dot_index": 16,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 26,
@@ -605,7 +735,12 @@
                         "x": -39.13855266613843,
                         "y": 19.603515346913525,
                         "z": -139.84382596176505
-                    }
+                    },
+                    "tangential_dot_index": 18,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 27,
@@ -627,7 +762,12 @@
                         "x": -32.909986776938396,
                         "y": 19.59913402361647,
                         "z": -105.24498833747296
-                    }
+                    },
+                    "tangential_dot_index": 19,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 28,
@@ -649,7 +789,12 @@
                         "x": -32.909986776938396,
                         "y": 19.59913402361647,
                         "z": -105.24498833747296
-                    }
+                    },
+                    "tangential_dot_index": 20,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 29,
@@ -671,7 +816,12 @@
                         "x": -80.88202857268016,
                         "y": 19.54483566377357,
                         "z": -153.32461134801036
-                    }
+                    },
+                    "tangential_dot_index": 23,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 30,
@@ -693,7 +843,12 @@
                         "x": -80.88202857268016,
                         "y": 19.54483566377357,
                         "z": -153.32461134801036
-                    }
+                    },
+                    "tangential_dot_index": 21,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 31,
@@ -715,7 +870,12 @@
                         "x": -80.88202857268016,
                         "y": 19.54483566377357,
                         "z": -153.32461134801036
-                    }
+                    },
+                    "tangential_dot_index": 22,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 32,
@@ -737,7 +897,12 @@
                         "x": -80.88202857268016,
                         "y": 19.54483566377357,
                         "z": -153.32461134801036
-                    }
+                    },
+                    "tangential_dot_index": 24,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 33,
@@ -759,7 +924,12 @@
                         "x": -70.39897385160411,
                         "y": 19.60149991408028,
                         "z": -126.87030207985616
-                    }
+                    },
+                    "tangential_dot_index": 25,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 34,
@@ -781,7 +951,12 @@
                         "x": -58.17878527939705,
                         "y": 19.598135115343197,
                         "z": -92.81099617616694
-                    }
+                    },
+                    "tangential_dot_index": 27,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 35,
@@ -803,7 +978,12 @@
                         "x": -58.17878527939705,
                         "y": 19.598135115343197,
                         "z": -92.81099617616694
-                    }
+                    },
+                    "tangential_dot_index": 26,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 36,
@@ -825,7 +1005,12 @@
                         "x": 14.13260960143538,
                         "y": 22.414916074523873,
                         "z": -72.1672371484867
-                    }
+                    },
+                    "tangential_dot_index": 44,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 37,
@@ -847,7 +1032,12 @@
                         "x": 14.13260960143538,
                         "y": 22.414916074523873,
                         "z": -72.1672371484867
-                    }
+                    },
+                    "tangential_dot_index": 45,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 38,
@@ -869,7 +1059,12 @@
                         "x": 14.13260960143538,
                         "y": 22.414916074523873,
                         "z": -72.1672371484867
-                    }
+                    },
+                    "tangential_dot_index": 47,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 39,
@@ -891,7 +1086,12 @@
                         "x": 14.13260960143538,
                         "y": 22.414916074523873,
                         "z": -72.1672371484867
-                    }
+                    },
+                    "tangential_dot_index": 46,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 40,
@@ -913,7 +1113,12 @@
                         "x": -15.944066933816227,
                         "y": 22.420000076293945,
                         "z": -54.96641466128986
-                    }
+                    },
+                    "tangential_dot_index": 42,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 41,
@@ -935,7 +1140,12 @@
                         "x": -15.944066933816227,
                         "y": 22.420000076293945,
                         "z": -54.96641466128986
-                    }
+                    },
+                    "tangential_dot_index": 40,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 42,
@@ -957,7 +1167,12 @@
                         "x": -15.944066933816227,
                         "y": 22.420000076293945,
                         "z": -54.96641466128986
-                    }
+                    },
+                    "tangential_dot_index": 41,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 43,
@@ -979,7 +1194,12 @@
                         "x": -15.944066933816227,
                         "y": 22.420000076293945,
                         "z": -54.96641466128986
-                    }
+                    },
+                    "tangential_dot_index": 43,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 44,
@@ -1001,7 +1221,12 @@
                         "x": -42.514500594245575,
                         "y": 22.41639072600698,
                         "z": -43.209416797929634
-                    }
+                    },
+                    "tangential_dot_index": 34,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 45,
@@ -1023,7 +1248,12 @@
                         "x": -42.514500594245575,
                         "y": 22.41639072600698,
                         "z": -43.209416797929634
-                    }
+                    },
+                    "tangential_dot_index": 35,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 46,
@@ -1045,7 +1275,12 @@
                         "x": -42.514500594245575,
                         "y": 22.41639072600698,
                         "z": -43.209416797929634
-                    }
+                    },
+                    "tangential_dot_index": 36,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 47,
@@ -1067,7 +1302,12 @@
                         "x": -42.514500594245575,
                         "y": 22.41639072600698,
                         "z": -43.209416797929634
-                    }
+                    },
+                    "tangential_dot_index": 33,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 48,
@@ -1089,7 +1329,12 @@
                         "x": -31.513595626393528,
                         "y": 22.413118082767653,
                         "z": -14.994380185443422
-                    }
+                    },
+                    "tangential_dot_index": 37,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 49,
@@ -1111,7 +1356,12 @@
                         "x": -31.513595626393528,
                         "y": 22.413118082767653,
                         "z": -14.994380185443422
-                    }
+                    },
+                    "tangential_dot_index": 39,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 50,
@@ -1133,7 +1383,12 @@
                         "x": -31.513595626393528,
                         "y": 22.413118082767653,
                         "z": -14.994380185443422
-                    }
+                    },
+                    "tangential_dot_index": 38,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 }
             ],
             "colour_mode": "gradient",
@@ -1141,12 +1396,12 @@
             "gradient_sensitivity": 4000,
             "hybrid_sensitivity": 4000,
             "camera_start_view": {
-                "camera_x": 8.53,
-                "camera_y": 270.46,
-                "camera_z": -84.08,
-                "target_x": 8.53,
-                "target_y": 0.0,
-                "target_z": -84.08
+                "camera_x": 25.458760978531622,
+                "camera_y": 262.9407001789204,
+                "camera_z": -92.05759245396588,
+                "target_x": 82.08505192663235,
+                "target_y": -1.5249398831312913,
+                "target_z": -92.0575924535175
             }
         },
         "alternate_hand": {
@@ -1177,7 +1432,12 @@
                         "x": 75.37730564411285,
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 1,
@@ -1199,7 +1459,12 @@
                         "x": 75.37730564411285,
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 2,
@@ -1221,7 +1486,12 @@
                         "x": 75.37730564411285,
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 3,
@@ -1243,7 +1513,12 @@
                         "x": 75.37730564411285,
                         "y": 28.20979972092141,
                         "z": -69.86076824339247
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 4,
@@ -1265,7 +1540,12 @@
                         "x": 56.608223634139065,
                         "y": 27.683362572256783,
                         "z": -48.68338117623536
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 5,
@@ -1287,7 +1567,12 @@
                         "x": 28.000390914067083,
                         "y": 37.21394069926697,
                         "z": -9.31780977413517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 6,
@@ -1309,7 +1594,12 @@
                         "x": 28.000390914067083,
                         "y": 37.21394069926697,
                         "z": -9.31780977413517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 7,
@@ -1331,7 +1621,12 @@
                         "x": 28.000390914067083,
                         "y": 37.21394069926697,
                         "z": -9.31780977413517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 8,
@@ -1353,7 +1648,12 @@
                         "x": 18.771838096288224,
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 9,
@@ -1375,7 +1675,12 @@
                         "x": 18.771838096288224,
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 10,
@@ -1397,7 +1702,12 @@
                         "x": 18.771838096288224,
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 11,
@@ -1419,7 +1729,12 @@
                         "x": 18.771838096288224,
                         "y": 31.11836814880371,
                         "z": -137.5311106020832
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 12,
@@ -1441,7 +1756,12 @@
                         "x": 18.692101592774417,
                         "y": 31.11836814880371,
                         "z": -164.76210603065846
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 13,
@@ -1463,7 +1783,12 @@
                         "x": 19.338714310060645,
                         "y": 31.11836814880371,
                         "z": -105.24385339671207
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 14,
@@ -1485,7 +1810,12 @@
                         "x": 19.338714310060645,
                         "y": 31.11836814880371,
                         "z": -105.24385339671207
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 15,
@@ -1507,7 +1837,12 @@
                         "x": -10.537977757134781,
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 16,
@@ -1529,7 +1864,12 @@
                         "x": -10.537977757134781,
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 17,
@@ -1551,7 +1891,12 @@
                         "x": -10.537977757134781,
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 18,
@@ -1573,7 +1918,12 @@
                         "x": -10.537977757134781,
                         "y": 31.11836814880371,
                         "z": -162.1859075398427
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 19,
@@ -1595,7 +1945,12 @@
                         "x": -8.08394846282841,
                         "y": 31.118368148803683,
                         "z": -135.9363992106641
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 20,
@@ -1617,7 +1972,12 @@
                         "x": -4.586205968925359,
                         "y": 31.118368148803683,
                         "z": -102.5187273196735
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 21,
@@ -1639,7 +1999,12 @@
                         "x": -4.586205968925359,
                         "y": 31.118368148803683,
                         "z": -102.5187273196735
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 22,
@@ -1661,7 +2026,12 @@
                         "x": -38.64582863149467,
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 23,
@@ -1683,7 +2053,12 @@
                         "x": -38.64582863149467,
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 24,
@@ -1705,7 +2080,12 @@
                         "x": -38.64582863149467,
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 25,
@@ -1727,7 +2107,12 @@
                         "x": -38.64582863149467,
                         "y": 31.11836814880371,
                         "z": -150.82704569041627
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 26,
@@ -1749,7 +2134,12 @@
                         "x": -33.28630014977431,
                         "y": 31.11836814880371,
                         "z": -124.58498879266416
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 27,
@@ -1771,7 +2161,12 @@
                         "x": -27.010005020405565,
                         "y": 31.11836814880371,
                         "z": -92.49135577961545
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 28,
@@ -1793,7 +2188,12 @@
                         "x": -27.010005020405565,
                         "y": 31.11836814880371,
                         "z": -92.49135577961545
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 29,
@@ -1815,7 +2215,12 @@
                         "x": -73.20289084444373,
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 30,
@@ -1837,7 +2242,12 @@
                         "x": -73.20289084444373,
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 31,
@@ -1859,7 +2269,12 @@
                         "x": -73.20289084444373,
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 32,
@@ -1881,7 +2296,12 @@
                         "x": -73.20289084444373,
                         "y": 31.11836814880371,
                         "z": -136.94272663430846
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": -90.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 33,
@@ -1903,7 +2323,12 @@
                         "x": -63.459738232409755,
                         "y": 31.11836814880371,
                         "z": -112.37079803505074
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 34,
@@ -1925,7 +2350,12 @@
                         "x": -52.4708454208766,
                         "y": 31.11836814880371,
                         "z": -81.01024531609696
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": -1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 35,
@@ -1947,7 +2377,12 @@
                         "x": -52.4708454208766,
                         "y": 31.11836814880371,
                         "z": -81.01024531609696
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": -1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 36,
@@ -1969,7 +2404,12 @@
                         "x": 18.50336049465833,
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 37,
@@ -1991,7 +2431,12 @@
                         "x": 18.50336049465833,
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 38,
@@ -2013,7 +2458,12 @@
                         "x": 18.50336049465833,
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 39,
@@ -2035,7 +2485,12 @@
                         "x": 18.50336049465833,
                         "y": 37.21760990512233,
                         "z": -61.2139558267028
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 40,
@@ -2057,7 +2512,12 @@
                         "x": -11.571833035425405,
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 41,
@@ -2079,7 +2539,12 @@
                         "x": -11.571833035425405,
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 42,
@@ -2101,7 +2566,12 @@
                         "x": -11.571833035425405,
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 43,
@@ -2123,7 +2593,12 @@
                         "x": -11.571833035425405,
                         "y": 37.21836853027342,
                         "z": -45.968116418862486
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 44,
@@ -2145,7 +2620,12 @@
                         "x": -37.1982477193895,
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 45,
@@ -2167,7 +2647,12 @@
                         "x": -37.1982477193895,
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 46,
@@ -2189,7 +2674,12 @@
                         "x": -37.1982477193895,
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 47,
@@ -2211,7 +2701,12 @@
                         "x": -37.1982477193895,
                         "y": 37.2163282449562,
                         "z": -33.11170310073517
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 48,
@@ -2233,7 +2728,12 @@
                         "x": -25.605647927134402,
                         "y": 37.21349036949893,
                         "z": -3.4727208636982505
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 49,
@@ -2255,7 +2755,12 @@
                         "x": -25.605647927134402,
                         "y": 37.21349036949893,
                         "z": -3.4727208636982505
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 },
                 {
                     "slot": 50,
@@ -2277,7 +2782,12 @@
                         "x": -25.605647927134402,
                         "y": 37.21349036949893,
                         "z": -3.4727208636982505
-                    }
+                    },
+                    "tangential_dot_index": null,
+                    "tangential_x_sign": 1,
+                    "tangential_y_sign": 1,
+                    "tangential_heading_offset_deg": 0.0,
+                    "tangential_sensitivity": 1200.0
                 }
             ],
             "colour_mode": "gradient",
@@ -2285,14 +2795,32 @@
             "gradient_sensitivity": 4000,
             "hybrid_sensitivity": 4000,
             "camera_start_view": {
-                "camera_x": 29.312739023198816,
-                "camera_y": 278.66350088658436,
-                "camera_z": -68.68884920159573,
-                "target_x": -4.0591093243572445,
-                "target_y": -18.997378564141744,
-                "target_z": -78.26099896173369
+                "camera_x": 53.76904259110024,
+                "camera_y": 282.1725172482831,
+                "camera_z": -80.33488296795825,
+                "target_x": 101.03897979589638,
+                "target_y": -29.71039586083013,
+                "target_z": -78.31466251636145
             }
         }
     },
-    "debug_mode": false
+    "debug_mode": false,
+    "tangential_display": {
+        "enabled": true,
+        "svg_path": "./assets/tangent_nb.svg",
+        "max_dot_offset": 22.0,
+        "influence_radius": 24.0,
+        "influence_strength": 0.85,
+        "response": 0.32,
+        "deadband": 0.03,
+        "default_sensitivity": 1200.0,
+        "show_dot_ids": true,
+        "sensor_dot_radius": 7.4,
+        "passive_dot_radius": 7.4,
+        "passive_dot_spacing": 5.0,
+        "passive_dot_grid_radius": 2,
+        "render_hz": 30.0,
+        "minimum_pad_influence": 0.12,
+        "spring_falloff_power": 2.0
+    }
 }

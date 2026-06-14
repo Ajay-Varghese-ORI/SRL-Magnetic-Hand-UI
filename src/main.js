@@ -1,9 +1,15 @@
 import { connectRosBridge } from "./rosbridge.js";
 import {
+    initTangentialDisplay,
+    loadTangentialDisplay,
+    updateTangentialDisplay
+} from "./tangential_display.js";
+import {
     applyMagneticHandFrame,
     captureCalibrationFromFrame,
     flashMappedBody,
     flashMappedPoint,
+    getCalibrationBaseline,
     getCalibrationSummary,
     getColourMode,
     initViewer,
@@ -33,6 +39,9 @@ const mappingStatusElement = document.getElementById("mappingStatus");
 const mappingPromptElement = document.getElementById("mappingPrompt");
 const mappingSectionElement = document.getElementById("mappingSection");
 const sidebarToggleButton = document.getElementById("sidebarToggleButton");
+const forcePanelElement = document.getElementById("forcePanel");
+const forceSvgContainerElement = document.getElementById("forceSvgContainer");
+const forceStatusElement = document.getElementById("forceStatus");
 
 const EMPTY_HOTSPOT = {x: null, y: null, z: null};
 
@@ -44,6 +53,12 @@ let mappingState = null;
 let debugMode = false;
 
 initViewer(viewerElement);
+initTangentialDisplay(
+{
+    panelElement: forcePanelElement,
+    svgContainerElement: forceSvgContainerElement,
+    statusElement: forceStatusElement
+});
 initialiseApp();
 
 /**
@@ -59,6 +74,7 @@ async function initialiseApp()
         configureDebugMode();
 
         loadUiConfig(appConfig);
+        await loadTangentialDisplay(appConfig);
         populateProfileSelect();
 
         rosbridgeUrlInput.value = appConfig.rosbridge_url || "ws://localhost:9090";
@@ -170,6 +186,7 @@ function handleRosFrame(msg)
     framesSinceRateUpdate++;
 
     applyMagneticHandFrame(msg);
+    updateTangentialDisplay(msg, getCalibrationBaseline);
     updateFrameRateReadout(msg);
 
     if ((receivedFrameCount % 25) === 0)
@@ -292,6 +309,7 @@ function startMappingRoutine()
 
     appConfig.active_profile = profileName;
     loadUiConfig(appConfig);
+    loadTangentialDisplay(appConfig);
     colourModeSelect.value = getColourMode();
 
     mappingState = buildMappingState(profileName, profile.slot_body_map);
@@ -518,6 +536,7 @@ function handleMappingRightClick()
             mappingState = null;
             setMappingText("Complete", `Mapping complete for '${finishedProfile}'.\nClick Download Mapped Config to save the updated ui_config.json.`);
             loadUiConfig(appConfig);
+            loadTangentialDisplay(appConfig);
             colourModeSelect.value = getColourMode();
             return;
         }
@@ -664,6 +683,28 @@ function normaliseConfigInPlace(config)
         config.debug_mode = true;
     }
 
+    if (!config.tangential_display || typeof config.tangential_display !== "object")
+    {
+        config.tangential_display = {};
+    }
+
+    config.tangential_display =
+    {
+        enabled: config.tangential_display.enabled ?? true,
+        svg_path: config.tangential_display.svg_path || "./assets/Dots_handFDM.svg",
+        max_dot_offset: config.tangential_display.max_dot_offset ?? 22.0,
+        influence_radius: config.tangential_display.influence_radius ?? 24.0,
+        influence_strength: config.tangential_display.influence_strength ?? 0.85,
+        response: config.tangential_display.response ?? 0.32,
+        deadband: config.tangential_display.deadband ?? 0.03,
+        default_sensitivity: config.tangential_display.default_sensitivity ?? 1200.0,
+        show_dot_ids: config.tangential_display.show_dot_ids ?? true,
+        sensor_dot_radius: config.tangential_display.sensor_dot_radius ?? 3.0,
+        passive_dot_radius: config.tangential_display.passive_dot_radius ?? 2.0,
+        passive_dot_spacing: config.tangential_display.passive_dot_spacing ?? 5.0,
+        passive_dot_grid_radius: config.tangential_display.passive_dot_grid_radius ?? 2
+    };
+
     const mainProfile = config.profiles.main_hand || Object.values(config.profiles)[0];
     const alternateProfile = config.profiles.alternate_hand;
 
@@ -691,6 +732,11 @@ function normaliseConfigInPlace(config)
         {
             entry.gradient_hotspot_world = normaliseHotspot(entry.gradient_hotspot_world || entry.gradientHotspotWorld);
             entry.hybrid_hotspot_world = normaliseHotspot(entry.hybrid_hotspot_world || entry.hybridHotspotWorld);
+            entry.tangential_dot_index = normaliseIntegerOrNull(entry.tangential_dot_index ?? entry.tangentialDotIndex ?? entry.force_dot_index ?? entry.forceDotIndex);
+            entry.tangential_x_sign = normaliseSign(entry.tangential_x_sign ?? entry.tangentialXSign ?? 1);
+            entry.tangential_y_sign = normaliseSign(entry.tangential_y_sign ?? entry.tangentialYSign ?? 1);
+            entry.tangential_heading_offset_deg = normaliseNumberOrDefault(entry.tangential_heading_offset_deg ?? entry.tangentialHeadingOffsetDeg, 0.0);
+            entry.tangential_sensitivity = normalisePositiveNumberOrDefault(entry.tangential_sensitivity ?? entry.tangentialSensitivity, config.tangential_display.default_sensitivity);
         });
     });
 }
@@ -779,7 +825,12 @@ function cloneSlotForAlternateProfile(entry)
         gradient_sensitivity: entry.gradient_sensitivity,
         hybrid_sensitivity: entry.hybrid_sensitivity,
         gradient_hotspot_world: makeEmptyHotspot(),
-        hybrid_hotspot_world: makeEmptyHotspot()
+        hybrid_hotspot_world: makeEmptyHotspot(),
+        tangential_dot_index: null,
+        tangential_x_sign: 1,
+        tangential_y_sign: 1,
+        tangential_heading_offset_deg: 0.0,
+        tangential_sensitivity: entry.tangential_sensitivity || 1200.0
     };
 }
 
@@ -845,6 +896,62 @@ function normaliseNumberOrNull(value)
 
     const number = Number(value);
     return Number.isFinite(number) ? number : null;
+}
+
+/**
+ * Convert a value to an integer or null.
+ *
+ * @param {number|string|null} value Input value.
+ * @returns {number|null} Integer or null.
+*/
+function normaliseIntegerOrNull(value)
+{
+    if (value === null || value === undefined || value === "")
+    {
+        return null;
+    }
+
+    const number = Number(value);
+
+    return Number.isInteger(number) ? number : null;
+}
+
+/**
+ * Convert a value to +1 or -1.
+ *
+ * @param {number|string|null} value Input value.
+ * @returns {number} Direction sign.
+*/
+function normaliseSign(value)
+{
+    const number = Number(value);
+    return number < 0 ? -1 : 1;
+}
+
+/**
+ * Convert a value to a number or a default.
+ *
+ * @param {number|string|null} value Input value.
+ * @param {number} fallback Default value.
+ * @returns {number} Number.
+*/
+function normaliseNumberOrDefault(value, fallback)
+{
+    const number = Number(value);
+    return Number.isFinite(number) ? number : fallback;
+}
+
+/**
+ * Convert a value to a positive number or a default.
+ *
+ * @param {number|string|null} value Input value.
+ * @param {number} fallback Default value.
+ * @returns {number} Positive number.
+*/
+function normalisePositiveNumberOrDefault(value, fallback)
+{
+    const number = Number(value);
+    return Number.isFinite(number) && number > 0 ? number : fallback;
 }
 
 /**

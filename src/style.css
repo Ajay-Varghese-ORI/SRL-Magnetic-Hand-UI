@@ -182,3 +182,106 @@ pre
 {
     display: none !important;
 }
+
+.force-panel
+{
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    width: clamp(620px, 42vw, 900px);
+    height: 100vh;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 0;
+    background: rgba(18, 18, 18, 0.86);
+    box-shadow: -14px 0 38px rgba(0, 0, 0, 0.46);
+    backdrop-filter: blur(6px);
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.force-panel-header
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #ffffff;
+}
+
+.force-panel-header span
+{
+    color: #bbbbbb;
+    font-size: 12px;
+    text-align: right;
+}
+
+.force-svg-container
+{
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.force-svg-container svg
+{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.force-svg-container #Polygons rect,
+.force-svg-container #Polygons polygon
+{
+    stroke: rgba(255, 255, 255, 0.68) !important;
+    stroke-width: 0.95px !important;
+    fill: rgba(255, 255, 255, 0.055) !important;
+}
+
+.force-svg-container .tangential-dot
+{
+    vector-effect: non-scaling-stroke;
+}
+
+.force-svg-container .sensor-candidate-dot
+{
+    filter: drop-shadow(0 0 1.4px rgba(255, 50, 50, 0.7));
+}
+
+.force-svg-container .passive-tangential-dot
+{
+    opacity: 0.94;
+}
+
+.force-svg-container .mapped-tangential-dot
+{
+    filter: drop-shadow(0 0 2.4px rgba(255, 60, 60, 0.95));
+}
+
+.force-svg-container .tangential-dot-label
+{
+    user-select: none;
+}
+
+
+.force-svg-container canvas
+{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+body:not(.debug-mode) .force-panel-header span
+{
+    display: none;
+}

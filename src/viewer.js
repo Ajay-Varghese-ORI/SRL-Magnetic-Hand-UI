@@ -214,7 +214,7 @@ function setupFpsCounter(container)
     fpsCounterElement.style.fontSize = "13px";
     fpsCounterElement.style.borderRadius = "4px";
     fpsCounterElement.style.pointerEvents = "none";
-    fpsCounterElement.style.zIndex = "10";
+    fpsCounterElement.style.zIndex = "1000";
 
     container.appendChild(fpsCounterElement);
 }
@@ -1364,6 +1364,8 @@ export function captureCalibrationFromFrame()
     latestFrame.samples.forEach((sample) =>
     {
         const slot = Number(sample.slot);
+        const rawX = Number(sample.raw_x);
+        const rawY = Number(sample.raw_y);
         const rawZ = Number(sample.raw_z);
 
         if (!Number.isInteger(slot) || !Number.isFinite(rawZ))
@@ -1371,7 +1373,12 @@ export function captureCalibrationFromFrame()
             return;
         }
 
-        calibrationBySlot.set(slot, rawZ);
+        calibrationBySlot.set(slot,
+        {
+            x: Number.isFinite(rawX) ? rawX : 0.0,
+            y: Number.isFinite(rawY) ? rawY : 0.0,
+            z: rawZ
+        });
     });
 
     const calibration = {
@@ -1405,6 +1412,41 @@ export function getCalibrationSummary()
 }
 
 /*
+    Return the calibrated X/Y/Z baseline for one slot.
+
+    Older stored calibrations only contained a Z value. In that case X and Y
+    default to zero while Z remains backwards compatible.
+*/
+export function getCalibrationBaseline(slot)
+{
+    loadStoredCalibration();
+
+    const slotNumber = Number(slot);
+
+    if (!Number.isInteger(slotNumber) || !calibrationBySlot.has(slotNumber))
+    {
+        return {x: 0.0, y: 0.0, z: 0.0};
+    }
+
+    const baseline = calibrationBySlot.get(slotNumber);
+
+    return normaliseCalibrationBaseline(baseline);
+}
+
+/*
+    Return a plain object copy of all calibration baselines.
+*/
+export function getCalibrationSnapshot()
+{
+    loadStoredCalibration();
+
+    return {
+        timestamp: calibrationTimestamp,
+        baselines: Object.fromEntries(calibrationBySlot)
+    };
+}
+
+/*
     Colour one named model part from its base material colour towards red.
 
     @param partName Mesh/material/body name to colour.
@@ -1420,6 +1462,49 @@ export function colourPart(partName, value)
     }
 
     setMeshRedIntensity(mesh, value);
+}
+
+/*
+    Coerce a stored calibration entry into {x, y, z}.
+
+    Backwards compatibility: older projects stored only the Z baseline as a
+    number, so that value is treated as z with x/y equal to zero.
+*/
+function normaliseCalibrationBaseline(value)
+{
+    if (value && typeof value === "object")
+    {
+        const x = Number(value.x);
+        const y = Number(value.y);
+        const z = Number(value.z);
+
+        return {
+            x: Number.isFinite(x) ? x : 0.0,
+            y: Number.isFinite(y) ? y : 0.0,
+            z: Number.isFinite(z) ? z : 0.0
+        };
+    }
+
+    const zOnly = Number(value);
+
+    return {
+        x: 0.0,
+        y: 0.0,
+        z: Number.isFinite(zOnly) ? zOnly : 0.0
+    };
+}
+
+/*
+    Return one calibrated axis value for a slot.
+*/
+function getCalibrationAxis(slot, axis)
+{
+    if (!calibrationBySlot.has(slot))
+    {
+        return 0.0;
+    }
+
+    return normaliseCalibrationBaseline(calibrationBySlot.get(slot))[axis] || 0.0;
 }
 
 /*
@@ -1446,15 +1531,16 @@ function loadStoredCalibration()
 
         calibrationBySlot = new Map();
 
-        Object.entries(baselines).forEach(([slotText, rawZ]) =>
+        Object.entries(baselines).forEach(([slotText, rawBaseline]) =>
         {
             const slot = Number(slotText);
-            const value = Number(rawZ);
 
-            if (Number.isInteger(slot) && Number.isFinite(value))
+            if (!Number.isInteger(slot))
             {
-                calibrationBySlot.set(slot, value);
+                return;
             }
+
+            calibrationBySlot.set(slot, normaliseCalibrationBaseline(rawBaseline));
         });
 
         calibrationTimestamp = stored.timestamp || null;
@@ -1927,7 +2013,7 @@ function buildPadIntensityMap(mode)
             return;
         }
 
-        const calibratedZ = calibrationBySlot.has(slot) ? calibrationBySlot.get(slot) : 0.0;
+        const calibratedZ = getCalibrationAxis(slot, "z");
         const zMagnitude = Math.abs(rawZ - calibratedZ);
 
         if (!padValues.has(mapping.padKey))
@@ -2056,7 +2142,7 @@ function applyGradientModeFrame()
             return;
         }
 
-        const calibratedZ = calibrationBySlot.has(slot) ? calibrationBySlot.get(slot) : 0.0;
+        const calibratedZ = getCalibrationAxis(slot, "z");
         const zMagnitude = Math.abs(rawZ - calibratedZ);
         const rawSlotIntensity = clamp01(zMagnitude / Math.max(getMappingSensitivity(mapping, "gradient"), 1e-9));
         const slotIntensity = applyNormalisedDeadband(rawSlotIntensity, gradientDeadband);
