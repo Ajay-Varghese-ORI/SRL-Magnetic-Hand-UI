@@ -17,13 +17,16 @@
   "build": {
         "appId": "com.srl.magnetic.hand.ui",
         "productName": "SRL Magnetic Hand UI",
+        "asar": false,
         "files": [
             "src/**/*",
             "assets/**/*",
             "models/**/*",
             "config/**/*",
             "index.html",
-            "package.json"
+            "package.json",
+            "electron-main.cjs",
+            "node_modules/three/**/*"
         ],
         "linux": {
             "target": [
