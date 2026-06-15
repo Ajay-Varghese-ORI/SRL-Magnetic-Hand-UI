@@ -2807,7 +2807,7 @@
     "debug_mode": false,
     "tangential_display": {
         "enabled": true,
-        "svg_path": "./assets/tangent_nb.svg",
+        "svg_path": "./assets/tangent_small.svg",
         "max_dot_offset": 50.0,
         "influence_radius": 24.0,
         "influence_strength": 0.85,
