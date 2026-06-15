@@ -3,7 +3,7 @@
     "frame_topic": "/srl_magnetic_hand/frame",
     "metadata_topic": "/srl_magnetic_hand/metadata",
     "frame_throttle_ms": 16,
-    "active_profile": "main_hand",
+    "active_profile": "alternate_hand",
     "profiles": {
         "main_hand": {
             "display_name": "Main hand CAD model",
@@ -1396,12 +1396,12 @@
             "gradient_sensitivity": 4000,
             "hybrid_sensitivity": 4000,
             "camera_start_view": {
-                "camera_x": 25.458760978531622,
-                "camera_y": 262.9407001789204,
-                "camera_z": -92.05759245396588,
-                "target_x": 82.08505192663235,
-                "target_y": -1.5249398831312913,
-                "target_z": -92.0575924535175
+                "camera_x": -12.6108635618926,
+                "camera_y": 266.6327926766203,
+                "camera_z": -97.28446607019097,
+                "target_x": 5.568055759239002,
+                "target_y": -17.387715790018653,
+                "target_z": -90.00635861139901
             }
         },
         "alternate_hand": {
@@ -2795,19 +2795,19 @@
             "gradient_sensitivity": 4000,
             "hybrid_sensitivity": 4000,
             "camera_start_view": {
-                "camera_x": 53.76904259110024,
-                "camera_y": 282.1725172482831,
-                "camera_z": -80.33488296795825,
-                "target_x": 101.03897979589638,
-                "target_y": -29.71039586083013,
-                "target_z": -78.31466251636145
+                "camera_x": -32.444678745597,
+                "camera_y": 269.1074214525831,
+                "camera_z": -80.06904219106386,
+                "target_x": 14.825258459198732,
+                "target_y": -42.77549165650104,
+                "target_z": -78.04882173946729
             }
         }
     },
-    "debug_mode": false,
+    "debug_mode": true,
     "tangential_display": {
         "enabled": true,
-        "svg_path": "./assets/tangent_small.svg",
+        "svg_path": "./assets/less_dense.svg",
         "max_dot_offset": 50.0,
         "influence_radius": 24.0,
         "influence_strength": 0.85,
