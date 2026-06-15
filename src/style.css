@@ -185,19 +185,14 @@ pre
 {
     position: fixed;
     right: 0;
-    top: 0;
     bottom: 0;
     z-index: 20;
-    width: clamp(620px, 42vw, 900px);
-    height: 100vh;
+    width: clamp(320px, 30vw, 900px);
+    height: 50vh;
     padding: 12px;
     box-sizing: border-box;
     border: 0;
-    border-left: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 0;
-    background: rgba(18, 18, 18, 0.86);
-    box-shadow: -14px 0 38px rgba(0, 0, 0, 0.46);
-    backdrop-filter: blur(6px);
     pointer-events: auto;
     display: flex;
     flex-direction: column;
